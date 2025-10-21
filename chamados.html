@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Suporte Técnico — Meus Chamados</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-50">
+  <header class="bg-white border-b">
+    <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+      <h1 class="text-xl font-semibold">Meus Chamados</h1>
+      <a href="index.html"
+         class="inline-flex items-center gap-2 rounded-xl bg-slate-900 text-white px-3 py-2 text-sm hover:bg-slate-800">
+        Novo chamado
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 py-8">
+    <div id="emptyState" class="hidden">
+      <div class="bg-white border rounded-2xl p-8 text-center">
+        <h2 class="text-lg font-semibold">Você ainda não tem chamados</h2>
+        <p class="text-slate-500 mt-2">Abra um chamado e ele aparecerá aqui.</p>
+        <a href="index.html"
+           class="mt-5 inline-flex rounded-xl bg-slate-900 text-white px-4 py-2 font-medium hover:bg-slate-800">
+          Abrir chamado
+        </a>
+      </div>
+    </div>
+
+    <div id="tableWrap" class="bg-white shadow-sm rounded-2xl border overflow-hidden">
+      <div class="px-6 py-4 border-b flex items-center justify-between">
+        <div>
+          <h2 class="text-lg font-semibold">Chamados em aberto</h2>
+          <p class="text-slate-500 text-sm">Status editável: Em aberto, Em andamento, Resolvido.</p>
+        </div>
+        <button id="limpar"
+                class="rounded-xl border px-3 py-2 text-sm hover:bg-slate-100">
+          Limpar todos (local)
+        </button>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead class="bg-slate-50">
+            <tr class="text-left">
+              <th class="px-6 py-3 font-medium text-slate-600">ID</th>
+              <th class="px-6 py-3 font-medium text-slate-600">Categoria</th>
+              <th class="px-6 py-3 font-medium text-slate-600">Descrição</th>
+              <th class="px-6 py-3 font-medium text-slate-600">Criado em</th>
+              <th class="px-6 py-3 font-medium text-slate-600">Status</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function loadChamados() {
+      try { return JSON.parse(localStorage.getItem('chamados') || '[]'); }
+      catch (_) { return []; }
+    }
+    function saveChamados(lista) {
+      localStorage.setItem('chamados', JSON.stringify(lista));
+    }
+
+    function formatDate(iso) {
+      const d = new Date(iso);
+      return d.toLocaleString('pt-BR');
+    }
+
+    function badgeClass(status) {
+      switch (status) {
+        case 'Em andamento': return 'bg-amber-100 text-amber-800 ring-1 ring-amber-200';
+        case 'Resolvido':    return 'bg-emerald-100 text-emerald-800 ring-1 ring-emerald-200';
+        default:             return 'bg-sky-100 text-sky-800 ring-1 ring-sky-200';
+      }
+    }
+
+    function render() {
+      const tbody = document.getElementById('tbody');
+      const empty = document.getElementById('emptyState');
+      const tableWrap = document.getElementById('tableWrap');
+
+      const chamados = loadChamados();
+
+      if (!chamados.length) {
+        empty.classList.remove('hidden');
+        tableWrap.classList.add('hidden');
+        return;
+      } else {
+        empty.classList.add('hidden');
+        tableWrap.classList.remove('hidden');
+      }
+
+      tbody.innerHTML = '';
+      chamados.forEach((c, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = idx % 2 ? 'bg-white' : 'bg-slate-50/40';
+
+        const tdId = `<td class="px-6 py-3 font-mono text-xs">${c.id}</td>`;
+        const tdCat = `<td class="px-6 py-3">${c.categoria}</td>`;
+        const tdDesc = `<td class="px-6 py-3 max-w-[28rem]"><div class="line-clamp-3">${c.descricao}</div></td>`;
+        const tdCriado = `<td class="px-6 py-3 whitespace-nowrap">${formatDate(c.criadoEm)}</td>`;
+
+        const tdStatus = document.createElement('td');
+        tdStatus.className = 'px-6 py-3';
+
+        const wrap = document.createElement('div');
+        wrap.className = 'flex items-center gap-3';
+
+        const badge = document.createElement('span');
+        badge.className = `inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${badgeClass(c.status)}`;
+        badge.textContent = c.status;
+
+        const select = document.createElement('select');
+        select.className = 'rounded-lg border px-2 py-1 text-xs bg-white';
+        ['Em aberto','Em andamento','Resolvido'].forEach(opt => {
+          const o = document.createElement('option');
+          o.value = opt; o.textContent = opt;
+          if (opt === c.status) o.selected = true;
+          select.appendChild(o);
+        });
+
+        select.addEventListener('change', (e) => {
+          const lista = loadChamados();
+          const i = lista.findIndex(x => x.id === c.id);
+          if (i >= 0) {
+            lista[i].status = e.target.value;
+            saveChamados(lista);
+            render(); // re-render para atualizar o "badge"
+          }
+        });
+
+        wrap.appendChild(badge);
+        wrap.appendChild(select);
+        tdStatus.appendChild(wrap);
+
+        tr.innerHTML = tdId + tdCat + tdDesc + tdCriado;
+        tr.appendChild(tdStatus);
+        tbody.appendChild(tr);
+      });
+    }
+
+    document.getElementById('limpar').addEventListener('click', () => {
+      if (confirm('Tem certeza que deseja limpar todos os chamados salvos localmente?')) {
+        localStorage.removeItem('chamados');
+        render();
+      }
+    });
+
+    render();
+  </script>
+</body>
+</html>
