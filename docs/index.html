@@ -11,51 +11,26 @@
     }
   </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-slate-50 flex items-center justify-center px-4">
+<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-slate-50 flex flex-col">
 
-  <main class="w-full max-w-5xl mx-auto grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] gap-8 items-center">
-    <!-- LADO ESQUERDO - BRAND / TEXTO -->
-    <section class="hidden lg:flex flex-col gap-6">
-      <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-slate-900/60 px-3 py-1 text-xs text-slate-200">
-        <span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-300 text-[11px]">●</span>
-        Plataforma de Suporte Técnico HelpTech
-      </div>
+  <!-- MAIN CENTRALIZADO -->
+ <main class="flex-1 flex items-center justify-center px-4 pt-12">
 
-      <!-- Logo + título -->
-      <div class="flex items-center gap-3">
-        <div class="flex items-center">
-          <img
-            src="logo-helptech.png"
-            alt="Logo HelpTech"
-            class="h-12 w-auto rounded-2xl shadow-xl shadow-black/40"
-          />
-        </div>
-        <div>
-          <h1 class="text-2xl font-semibold text-slate-50">Central de Chamados</h1>
-          <p class="text-sm text-slate-300 mt-1">
-            Acompanhe chamados, atualize status e acesse informações da sua conta em um único painel.
-          </p>
-        </div>
-      </div>
-
-      <ul class="space-y-2 text-sm text-slate-200">
-        <li>• Autenticação via e-mail e senha.</li>
-        <li>• Chamados armazenados localmente para testes (localStorage).</li>
-        <li>• Visual integrado com Chamados e Perfil.</li>
-      </ul>
-
-      <div class="mt-4 rounded-3xl border border-indigo-400/30 bg-indigo-900/20 px-4 py-3 text-xs text-indigo-100">
-        Em produção, o login se conectaria a uma API segura da HelpTech, com autenticação, tokens e controle de acesso.
-      </div>
-    </section>
-
-    <!-- LADO DIREITO - CARD LOGIN -->
+    <!-- CARD LOGIN -->
     <section class="bg-white/5 border border-white/10 rounded-3xl shadow-2xl shadow-black/60 backdrop-blur p-6 sm:p-8 w-full max-w-md mx-auto">
-      <div class="flex items-center justify-between mb-4">
-        <div>
-          <h2 class="text-xl font-semibold text-slate-50">Entrar</h2>
-          <p class="text-sm text-slate-300 mt-1">
-            Use seu e-mail e senha cadastrados para acessar o sistema.
+      <!-- LOGO CENTRALIZADA + BEM-VINDO -->
+      <div class="flex flex-col items-center gap-3 mb-4">
+        <img
+          src="logo-helptech.png"
+          alt="Logo HelpTech"
+          class="h-20 w-auto rounded-3xl shadow-xl shadow-black/60"
+        />
+        <div class="text-center">
+          <h1 class="text-2xl font-semibold text-slate-50">
+            Bem-vindo à HelpTech
+          </h1>
+          <p class="text-xs text-slate-300 mt-1">
+            Acesse sua conta para gerenciar chamados, acompanhar atendimentos e consultar suas informações.
           </p>
         </div>
       </div>
@@ -102,6 +77,17 @@
           </button>
         </div>
 
+        <!-- Linha: esqueci senha -->
+        <div class="flex items-center justify-end text-xs text-slate-300 mt-2">
+          <button
+            type="button"
+            id="btnEsqueciSenha"
+            class="text-indigo-300 hover:text-indigo-100 underline underline-offset-2"
+          >
+            Esqueci minha senha
+          </button>
+        </div>
+
         <!-- Lembrar e link extra -->
         <div class="flex items-center justify-between text-xs text-slate-300">
           <label class="inline-flex items-center gap-2 cursor-pointer select-none">
@@ -145,12 +131,102 @@
             href="cadastro.html"
             class="inline-flex items-center gap-2 rounded-2xl border border-white/15 bg-white/5 px-3 py-2 font-medium text-[11px] text-slate-50 hover:bg-white/10 transition"
           >
-            ✨ Criar conta
+             Criar conta
           </a>
         </div>
       </div>
     </section>
   </main>
+
+  <!-- RODAPÉ COM FAQ -->
+  <footer class="mt-8 border-t border-white/10 bg-slate-950/80">
+    <div class="w-full max-w-6xl mx-auto px-4 py-6">
+      <section class="w-full max-w-4xl mx-auto mb-4">
+        <h2 class="text-lg font-semibold text-slate-50 mb-3">
+          FAQ – Dúvidas frequentes
+        </h2>
+        <p class="text-xs text-slate-300 mb-4">
+          Clique nas perguntas abaixo para ver as respostas.
+        </p>
+
+        <div class="space-y-3">
+          <!-- Pergunta 1 -->
+          <details class="group rounded-2xl border border-white/10 bg-slate-900/60 px-4 py-3">
+            <summary class="flex items-center justify-between cursor-pointer text-sm text-slate-100">
+              <span>O que é o sistema HelpTech?</span>
+              <span class="ml-3 text-xs text-slate-400 group-open:hidden">+</span>
+              <span class="ml-3 text-xs text-slate-400 hidden group-open:inline">−</span>
+            </summary>
+            <p class="mt-2 text-xs text-slate-300">
+              O HelpTech é um <span class="font-semibold">Sistema Integrado de Gestão de Chamados</span> desenvolvido para
+              centralizar o registro, acompanhamento e solução de chamados de suporte técnico, com foco em instituições
+              financeiras e empresas de médio porte.
+            </p>
+          </details>
+
+          <!-- Pergunta 2 -->
+          <details class="group rounded-2xl border border-white/10 bg-slate-900/60 px-4 py-3">
+            <summary class="flex items-center justify-between cursor-pointer text-sm text-slate-100">
+              <span>Quem pode utilizar o sistema?</span>
+              <span class="ml-3 text-xs text-slate-400 group-open:hidden">+</span>
+              <span class="ml-3 text-xs text-slate-400 hidden group-open:inline">−</span>
+            </summary>
+            <p class="mt-2 text-xs text-slate-300">
+              O sistema foi pensado para três perfis principais:
+              <span class="font-semibold">usuário solicitante</span> (abre e acompanha chamados),
+              <span class="font-semibold">analista de suporte</span> (atua nos atendimentos) e
+              <span class="font-semibold">administrador</span> (configura regras, usuários e relatórios).
+            </p>
+          </details>
+
+          <!-- Pergunta 3 -->
+          <details class="group rounded-2xl border border-white/10 bg-slate-900/60 px-4 py-3">
+            <summary class="flex items-center justify-between cursor-pointer text-sm text-slate-100">
+              <span>Como faço para recuperar minha senha?</span>
+              <span class="ml-3 text-xs text-slate-400 group-open:hidden">+</span>
+              <span class="ml-3 text-xs text-slate-400 hidden group-open:inline">−</span>
+            </summary>
+            <p class="mt-2 text-xs text-slate-300">
+              Na tela de login clique em <span class="font-semibold">“Esqueci minha senha”</span>. Em seguida, informe
+              seu e-mail, telefone e a forma de envio do código de verificação. No ambiente real, você receberia um código
+              para redefinir a senha com segurança.
+            </p>
+          </details>
+
+          <!-- Pergunta 4 -->
+          <details class="group rounded-2xl border border-white/10 bg-slate-900/60 px-4 py-3">
+            <summary class="flex items-center justify-between cursor-pointer text-sm text-slate-100">
+              <span>Os dados dos chamados são protegidos?</span>
+              <span class="ml-3 text-xs text-slate-400 group-open:hidden">+</span>
+              <span class="ml-3 text-xs text-slate-400 hidden group-open:inline">−</span>
+            </summary>
+            <p class="mt-2 text-xs text-slate-300">
+              O projeto foi pensado considerando boas práticas de segurança e adequação à
+              <span class="font-semibold">LGPD</span>. Em produção, os dados ficariam em um banco seguro, com controle de
+              acesso, logs e camadas de autenticação/autorização.
+            </p>
+          </details>
+
+          <!-- Pergunta 5 -->
+          <details class="group rounded-2xl border border-white/10 bg-slate-900/60 px-4 py-3">
+            <summary class="flex items-center justify-between cursor-pointer text-sm text-slate-100">
+              <span>Este sistema pode ser usado em ambiente real?</span>
+              <span class="ml-3 text-xs text-slate-400 group-open:hidden">+</span>
+              <span class="ml-3 text-xs text-slate-400 hidden group-open:inline">−</span>
+            </summary>
+            <p class="mt-2 text-xs text-slate-300">
+              A versão atual tem foco acadêmico (PIM III), servindo para demonstrar conceito, telas e fluxo de uso.
+              Para uso em produção, seriam necessários mais testes, ajustes de segurança, infraestrutura e homologação.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <p class="text-[11px] text-slate-500 text-center sm:text-left">
+        HelpTech — Sistema Integrado de Gestão de Chamados • Ambiente de demonstração acadêmica (PIM III).
+      </p>
+    </div>
+  </footer>
 
   <script>
     // ===================== CONFIG ADMIN FIXO =====================
@@ -158,6 +234,7 @@
     const ADMIN_SENHA = 'Admin@123'; // pode alterar se quiser
 
     // ===================== UTILITÁRIOS =====================
+
     function getSessionUser() {
       try {
         return JSON.parse(localStorage.getItem('sessionUser') || 'null');
@@ -280,13 +357,22 @@
       }, 600);
     });
 
-    // ===================== MOSTRAR / OCULTAR SENHAAA =====================
+    // ===================== MOSTRAR / OCULTAR SENHA =====================
     const toggleSenha = document.getElementById('toggleSenha');
     toggleSenha.addEventListener('click', () => {
       const isText = senhaInput.type === 'text';
       senhaInput.type = isText ? 'password' : 'text';
       toggleSenha.textContent = isText ? '👁️' : '🙈';
     });
+
+    // ===================== ESQUECI MINHA SENHA =====================
+    const btnEsqueciSenha = document.getElementById('btnEsqueciSenha');
+    if (btnEsqueciSenha) {
+      btnEsqueciSenha.addEventListener('click', () => {
+        // Redireciona para a tela de recuperação de senha
+        window.location.href = 'esqueci_senha.html';
+      });
+    }
   </script>
 </body>
 </html>

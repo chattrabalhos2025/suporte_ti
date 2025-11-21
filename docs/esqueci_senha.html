@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Suporte Técnico — Esqueci minha senha</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-slate-50 flex items-center justify-center px-4">
+
+  <main class="w-full max-w-5xl mx-auto grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] gap-8 items-center">
+    <!-- LADO ESQUERDO - INFO -->
+    <section class="hidden lg:flex flex-col gap-6">
+      <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-slate-900/60 px-3 py-1 text-xs text-slate-200">
+        <span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-amber-500/20 text-amber-300 text-[11px]">!</span>
+        Recuperação de acesso à plataforma HelpTech
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="flex items-center">
+          <!-- Ajuste o src do logo se usar outro nome/arquivo -->
+          <img
+            src="logo-helptech.png"
+            alt="Logo HelpTech"
+            class="h-12 w-auto rounded-2xl shadow-xl shadow-black/40"
+          />
+        </div>
+        <div>
+          <h1 class="text-2xl font-semibold text-slate-50">Esqueci minha senha</h1>
+          <p class="text-sm text-slate-300 mt-1">
+            Informe seus dados de contato para enviarmos um código de verificação por e-mail e/ou SMS.
+          </p>
+        </div>
+      </div>
+
+      <ul class="space-y-2 text-sm text-slate-200">
+        <li>• Envio de código de verificação para redefinição de senha.</li>
+        <li>• Todos os campos desta tela são obrigatórios.</li>
+        <li>• Ambiente de testes — não há envio real de e-mail/SMS.</li>
+      </ul>
+
+      <div class="mt-4 rounded-3xl border border-indigo-400/30 bg-indigo-900/20 px-4 py-3 text-xs text-indigo-100">
+        Em produção, este fluxo se integraria a um serviço seguro de envio de e-mails e SMS, com token de validação e expiração.
+      </div>
+    </section>
+
+    <!-- LADO DIREITO - CARD ESQUECI SENHA -->
+    <section class="bg-white/5 border border-white/10 rounded-3xl shadow-2xl shadow-black/60 backdrop-blur p-6 sm:p-8 w-full max-w-md mx-auto">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-xl font-semibold text-slate-50">Recuperar acesso</h2>
+          <p class="text-sm text-slate-300 mt-1">
+            Preencha os campos abaixo. Todos são obrigatórios.
+          </p>
+        </div>
+      </div>
+
+      <form id="formEsqueciSenha" class="space-y-4 text-sm mt-4">
+        <!-- E-mail -->
+        <div>
+          <label for="emailRec" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
+            E-mail cadastrado
+          </label>
+          <input
+            id="emailRec"
+            type="email"
+            required
+            autocomplete="email"
+            class="w-full rounded-2xl border border-white/15 bg-slate-900/70 px-3 py-2 text-sm text-slate-50 placeholder:text-slate-500 outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400"
+            placeholder="seu.email@empresa.com"
+          />
+        </div>
+
+        <!-- Telefone -->
+        <div>
+          <label for="telRec" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
+            Telefone para SMS
+          </label>
+          <input
+            id="telRec"
+            type="tel"
+            required
+            autocomplete="tel"
+            class="w-full rounded-2xl border border-white/15 bg-slate-900/70 px-3 py-2 text-sm text-slate-50 placeholder:text-slate-500 outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400"
+            placeholder="(00) 00000-0000"
+          />
+        </div>
+
+        <!-- Tipo de envio -->
+        <div>
+          <span class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
+            Como deseja receber o código?
+          </span>
+          <div class="flex flex-col sm:flex-row gap-2 text-xs text-slate-200">
+            <label class="inline-flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="tipoEnvio"
+                value="email"
+                class="h-3.5 w-3.5 rounded border-white/20 bg-slate-900/80 text-indigo-500 focus:ring-indigo-400"
+                required
+              />
+              <span>Somente por e-mail</span>
+            </label>
+
+            <label class="inline-flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="tipoEnvio"
+                value="sms"
+                class="h-3.5 w-3.5 rounded border-white/20 bg-slate-900/80 text-indigo-500 focus:ring-indigo-400"
+              />
+              <span>Somente por SMS</span>
+            </label>
+
+            <label class="inline-flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="tipoEnvio"
+                value="ambos"
+                class="h-3.5 w-3.5 rounded border-white/20 bg-slate-900/80 text-indigo-500 focus:ring-indigo-400"
+              />
+              <span>E-mail e SMS</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Aviso -->
+        <p class="text-[11px] text-amber-200 bg-amber-500/10 border border-amber-400/40 rounded-2xl px-3 py-2">
+          Todos os campos são obrigatórios. Em um ambiente real, o código teria tempo de expiração e seria necessário
+          informá-lo na próxima etapa para redefinir a senha.
+        </p>
+
+        <!-- Mensagem -->
+        <p id="msgEsqueci" class="text-xs mt-1"></p>
+
+        <!-- Botão enviar -->
+        <button
+          type="submit"
+          id="btnEnviarCodigo"
+          class="w-full inline-flex justify-center items-center gap-2 rounded-2xl bg-indigo-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/40 hover:bg-indigo-400 transition disabled:opacity-60 disabled:cursor-not-allowed mt-2"
+        >
+          Enviar código de verificação
+        </button>
+      </form>
+
+      <!-- Rodapé do card -->
+      <div class="mt-6 border-t border-white/10 pt-4 text-[11px] text-slate-400 space-y-3">
+        <p>
+          Este é um ambiente de <span class="font-semibold text-slate-200">simulação</span>. Nenhum e-mail ou SMS
+          real será enviado — o objetivo é demonstrar o fluxo de recuperação de acesso.
+        </p>
+
+        <div class="flex items-center justify-between gap-2 text-xs">
+          <span class="text-slate-300">Lembrou a senha?</span>
+          <a
+            href="index.html"
+            class="inline-flex items-center gap-1 rounded-2xl border border-white/20 px-3 py-1.5 text-[11px] font-medium text-slate-50 hover:bg-white/10 transition"
+          >
+            Voltar para o login
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+
+  <script>
+    const formEsqueci = document.getElementById('formEsqueciSenha');
+    const emailRec   = document.getElementById('emailRec');
+    const telRec     = document.getElementById('telRec');
+    const msgEsqueci = document.getElementById('msgEsqueci');
+    const btnEnviar  = document.getElementById('btnEnviarCodigo');
+
+    function setMsgEsqueci(texto, tipo = 'info') {
+      msgEsqueci.textContent = texto;
+      msgEsqueci.className = 'text-xs mt-2';
+
+      if (tipo === 'erro' || tipo === 'error') {
+        msgEsqueci.classList.add('text-red-300');
+      } else if (tipo === 'sucesso' || tipo === 'success') {
+        msgEsqueci.classList.add('text-emerald-300');
+      } else {
+        msgEsqueci.classList.add('text-slate-200');
+      }
+    }
+
+    formEsqueci.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const email = emailRec.value.trim();
+      const tel   = telRec.value.trim();
+      const tipoEnvioEl = formEsqueci.querySelector('input[name="tipoEnvio"]:checked');
+      const tipoEnvio   = tipoEnvioEl ? tipoEnvioEl.value : '';
+
+      if (!email || !tel || !tipoEnvio) {
+        setMsgEsqueci('Todos os campos são obrigatórios. Preencha e-mail, telefone e escolha o tipo de envio.', 'erro');
+        return;
+      }
+
+      btnEnviar.disabled = true;
+      setMsgEsqueci('Simulando envio do código de verificação...', 'info');
+
+      setTimeout(() => {
+        setMsgEsqueci(
+          'Código de verificação enviado com sucesso (simulação). Verifique o ' +
+          (tipoEnvio === 'email' ? 'seu e-mail.' :
+           tipoEnvio === 'sms'   ? 'seu SMS.' :
+                                   'seu e-mail e SMS.'),
+          'sucesso'
+        );
+
+        // Em um sistema real, aqui você redirecionaria para a tela de validação do código.
+        // window.location.href = 'validar_codigo.html';
+
+        btnEnviar.disabled = false;
+      }, 900);
+    });
+  </script>
+</body>
+</html>
