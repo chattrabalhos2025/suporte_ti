@@ -4,6 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Suporte Técnico — Login</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
@@ -11,11 +13,17 @@
     }
   </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-slate-50 flex flex-col">
+<body class="min-h-screen bg-[#020617] text-slate-50 flex flex-col relative">
+
+
+  <!-- FUNDO ANIMADO VANTA.NET -->
+  <div
+    id="vanta-bg"
+    class="fixed inset-0 -z-10"
+  ></div>
 
   <!-- MAIN CENTRALIZADO -->
- <main class="flex-1 flex items-center justify-center px-4 pt-12">
-
+  <main class="flex-1 flex items-center justify-center px-4 pt-12">
     <!-- CARD LOGIN -->
     <section class="bg-white/5 border border-white/10 rounded-3xl shadow-2xl shadow-black/60 backdrop-blur p-6 sm:p-8 w-full max-w-md mx-auto">
       <!-- LOGO CENTRALIZADA + BEM-VINDO -->
@@ -229,6 +237,29 @@
   </footer>
 
   <script>
+    // ===================== INICIALIZA VANTA.NET =====================
+    let vantaEffect = null;
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.VANTA && window.VANTA.NET) {
+        vantaEffect = VANTA.NET({
+          el: "#vanta-bg",
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          color: 0x4f46e5,          // linhas em indigo (combina com os botões)
+          backgroundColor: 0x020617 // fundo #020617 (equivalente ao slate-950)
+          // você pode ajustar points / maxDistance / spacing se quiser:
+          // points: 12.0,
+          // maxDistance: 22.0,
+          // spacing: 18.0
+        });
+      }
+    });
+
     // ===================== CONFIG ADMIN FIXO =====================
     const ADMIN_EMAIL = 'admin@helptech.com';
     const ADMIN_SENHA = 'Admin@123'; // pode alterar se quiser
