@@ -5,153 +5,762 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Suporte Técnico — Meus Chamados</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { scroll-behavior: smooth; }
+  </style>
 </head>
-<body class="min-h-screen bg-slate-50">
-  <header class="bg-white border-b">
-    <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-      <h1 class="text-xl font-semibold">Meus Chamados</h1>
-      <a href="index.html"
-         class="inline-flex items-center gap-2 rounded-xl bg-slate-900 text-white px-3 py-2 text-sm hover:bg-slate-800">
-        Novo chamado
-      </a>
+<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-slate-50">
+
+  <!-- TOP NAV -->
+  <header class="border-b border-white/10 bg-slate-900/60 backdrop-blur">
+    <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <img
+          src="logo-helptech.png"
+          alt="Logo HelpTech"
+          class="h-8 w-auto rounded-xl shadow"
+        />
+        <div class="flex flex-col leading-tight">
+          <span class="text-xs uppercase tracking-[0.18em] text-slate-400">
+            Painel do Usuário
+          </span>
+          <h1 class="text-lg font-semibold text-slate-50" id="tituloPagina">
+            Meus Chamados
+          </h1>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- Só faz sentido para usuário comum -->
+        <a href="dashboard.html"
+           class="hidden sm:inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-xs font-medium text-slate-200 hover:bg-white/10 transition"
+           id="btnNovoChamado">
+          ➕ Abrir novo chamado
+        </a>
+
+        <!-- Atalho mobile para novo chamado (só usuário) -->
+        <a href="dashboard.html"
+           id="btnNovoChamadoMobile"
+           class="sm:hidden inline-flex items-center justify-center rounded-xl border border-white/10 px-2.5 py-1.5 text-xs text-slate-100 hover:bg-white/10 transition">
+          ➕
+        </a>
+
+        <!-- Botão para perfil (iniciais) -->
+        <a id="btnProfileCircle"
+           href="profile.html"
+           class="w-9 h-9 rounded-full bg-slate-800 border border-white/15 text-xs font-semibold text-slate-50 flex items-center justify-center hover:bg-slate-700 transition"
+           title="Minha conta">
+          ??
+        </a>
+
+        <!-- Logout -->
+        <button id="logoutTop"
+                class="hidden sm:inline-flex items-center gap-2 rounded-xl bg-red-500/90 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500 shadow-sm transition">
+          Sair
+        </button>
+      </div>
     </div>
   </header>
 
-  <main class="max-w-5xl mx-auto px-4 py-8">
-    <div id="emptyState" class="hidden">
-      <div class="bg-white border rounded-2xl p-8 text-center">
-        <h2 class="text-lg font-semibold">Você ainda não tem chamados</h2>
-        <p class="text-slate-500 mt-2">Abra um chamado e ele aparecerá aqui.</p>
-        <a href="index.html"
-           class="mt-5 inline-flex rounded-xl bg-slate-900 text-white px-4 py-2 font-medium hover:bg-slate-800">
-          Abrir chamado
+  <!-- MAIN -->
+  <main class="max-w-5xl mx-auto px-4 py-8 space-y-6">
+
+    <!-- EMPTY STATE -->
+    <section id="emptyState" class="hidden">
+      <div class="bg-white/5 border border-dashed border-white/20 rounded-3xl p-8 text-center shadow-xl shadow-black/40 backdrop-blur">
+        <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-slate-900/80 border border-white/10 text-xl mb-3">
+          📭
+        </div>
+        <h2 class="text-lg font-semibold text-slate-50">Nenhum chamado encontrado</h2>
+        <p class="text-slate-300 text-sm mt-2 max-w-md mx-auto" id="emptyText">
+          Assim que você abrir um chamado, ele aparecerá aqui.
+        </p>
+        <a href="dashboard.html"
+           id="linkAbrirChamadoEmpty"
+           class="mt-5 inline-flex rounded-2xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-medium text-slate-50 hover:bg-white/10 transition">
+          ➕ Abrir chamado
         </a>
       </div>
-    </div>
+    </section>
 
-    <div id="tableWrap" class="bg-white shadow-sm rounded-2xl border overflow-hidden">
-      <div class="px-6 py-4 border-b flex items-center justify-between">
+    <!-- CARD PRINCIPAL: LISTA DE CHAMADOS -->
+    <section id="tableWrap" class="bg-white/5 border border-white/10 rounded-3xl shadow-xl shadow-black/40 backdrop-blur overflow-hidden">
+      <div class="px-6 py-4 border-b border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
-          <h2 class="text-lg font-semibold">Chamados em aberto</h2>
-          <p class="text-slate-500 text-sm">Status editável: Em aberto, Em andamento, Resolvido.</p>
+          <h2 class="text-base font-semibold text-slate-50" id="tituloListaChamados">Chamados</h2>
+          <p class="text-xs text-slate-300 mt-1" id="subTituloLista">
+            Status disponíveis: <span class="font-medium text-slate-100">Em aberto</span>, <span class="font-medium text-slate-100">Em andamento</span>, <span class="font-medium text-slate-100">Resolvido</span>.
+          </p>
         </div>
-        <button id="limpar"
-                class="rounded-xl border px-3 py-2 text-sm hover:bg-slate-100">
-          Limpar todos (local)
-        </button>
+
+        <div class="flex items-center gap-2">
+          <span id="totalChamadosBadge"
+                class="inline-flex items-center rounded-full bg-slate-900/80 border border-white/10 px-3 py-1 text-[11px] font-semibold text-slate-100">
+            0 chamados
+          </span>
+          <button id="limpar"
+                  class="inline-flex items-center gap-1 rounded-2xl border border-white/15 bg-white/5 px-3 py-2 text-xs font-medium text-slate-100 hover:bg-red-500/10 hover:border-red-400/40 hover:text-red-100 transition">
+            🧹 Limpar todos (local)
+          </button>
+        </div>
+      </div>
+
+      <!-- BARRA DE FILTROS (SOMENTE ADMIN) -->
+      <div id="adminFilters" class="hidden px-6 py-3 border-b border-white/10 text-xs text-slate-200 bg-slate-950/40">
+        <div class="flex flex-col lg:flex-row gap-3 lg:items-end lg:justify-between">
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 w-full lg:max-w-4xl">
+            <!-- Status -->
+            <div class="flex flex-col gap-1">
+              <label for="filtroStatusAdmin" class="text-[11px] uppercase tracking-[0.16em] text-slate-400">
+                Status
+              </label>
+              <select
+                id="filtroStatusAdmin"
+                class="w-full rounded-2xl border border-white/15 bg-slate-950/70 px-3 py-2 text-xs text-slate-50 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-400 outline-none"
+              >
+                <option value="todos">Todos</option>
+                <option value="Em aberto">Em aberto</option>
+                <option value="Em andamento">Em andamento</option>
+                <option value="Resolvido">Resolvido</option>
+              </select>
+            </div>
+
+            <!-- Período -->
+            <div class="flex flex-col gap-1">
+              <label for="filtroPeriodoAdmin" class="text-[11px] uppercase tracking-[0.16em] text-slate-400">
+                Período
+              </label>
+              <select
+                id="filtroPeriodoAdmin"
+                class="w-full rounded-2xl border border-white/15 bg-slate-950/70 px-3 py-2 text-xs text-slate-50 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-400 outline-none"
+              >
+                <option value="todos">Todos os períodos</option>
+                <option value="hoje">Hoje</option>
+                <option value="7">Últimos 7 dias</option>
+                <option value="30">Últimos 30 dias</option>
+              </select>
+            </div>
+
+            <!-- Data específica -->
+            <div class="flex flex-col gap-1">
+              <label for="filtroDataAdmin" class="text-[11px] uppercase tracking-[0.16em] text-slate-400">
+                Data específica
+              </label>
+              <input
+                type="date"
+                id="filtroDataAdmin"
+                class="w-full rounded-2xl border border-white/15 bg-slate-950/70 px-3 py-2 text-xs text-slate-50 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-400 outline-none"
+              />
+              <span class="text-[10px] text-slate-400 mt-0.5">
+                Se preencher a data, o período é ignorado.
+              </span>
+            </div>
+
+            <!-- Busca por ID com lupa -->
+            <div class="flex flex-col gap-1">
+              <label for="filtroBuscaIdAdmin" class="text-[11px] uppercase tracking-[0.16em] text-slate-400">
+                Buscar por ID
+              </label>
+              <div class="relative">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 text-xs">
+                  🔍
+                </span>
+                <input
+                  type="text"
+                  id="filtroBuscaIdAdmin"
+                  placeholder="Ex: 123, CHAM-001"
+                  class="w-full rounded-2xl border border-white/15 bg-slate-950/70 px-3 pl-7 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-400 outline-none"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <button
+              id="btnLimparFiltros"
+              class="inline-flex items-center justify-center rounded-2xl border border-white/15 bg-white/5 px-3 py-2 text-[11px] font-medium text-slate-100 hover:bg-white/10 transition w-full sm:w-auto"
+            >
+              Limpar filtros
+            </button>
+            <button
+              id="btnIrParaChamados"
+              class="inline-flex items-center justify-center rounded-2xl border border-white/15 bg-white/5 px-3 py-2 text-[11px] font-medium text-slate-100 hover:bg-white/10 transition w-full sm:w-auto"
+            >
+              📋 Abrir tela de chamados (admin)
+            </button>
+          </div>
+        </div>
       </div>
 
       <div class="overflow-x-auto">
-        <table class="min-w-full text-sm">
-          <thead class="bg-slate-50">
-            <tr class="text-left">
-              <th class="px-6 py-3 font-medium text-slate-600">ID</th>
-              <th class="px-6 py-3 font-medium text-slate-600">Categoria</th>
-              <th class="px-6 py-3 font-medium text-slate-600">Descrição</th>
-              <th class="px-6 py-3 font-medium text-slate-600">Criado em</th>
-              <th class="px-6 py-3 font-medium text-slate-600">Status</th>
+        <table class="min-w-full text-xs md:text-sm">
+          <thead class="bg-slate-900/70 border-b border-white/10">
+            <tr class="text-left text-slate-200">
+              <th class="px-6 py-3 font-medium">ID</th>
+              <th class="px-6 py-3 font-medium">Categoria</th>
+              <th class="px-6 py-3 font-medium">Descrição</th>
+              <th class="px-6 py-3 font-medium whitespace-nowrap">Criado em</th>
+              <th class="px-6 py-3 font-medium">Status / Ações</th>
             </tr>
           </thead>
-          <tbody id="tbody"></tbody>
+          <tbody id="tbody" class="divide-y divide-white/5"></tbody>
         </table>
       </div>
-    </div>
+    </section>
   </main>
 
+  <!-- MODAL DETALHES DO CHAMADO -->
+  <div
+    id="detalheModal"
+    class="fixed inset-0 z-40 hidden items-center justify-center bg-black/60 backdrop-blur-sm"
+  >
+    <div class="relative w-full max-w-lg mx-4">
+      <div class="bg-slate-950/95 border border-white/10 rounded-3xl shadow-2xl shadow-black/60 p-6 space-y-4">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <h2 class="text-base font-semibold text-slate-50 flex items-center gap-2">
+              Detalhes do chamado
+              <span id="detStatusBadge" class="inline-flex items-center rounded-full px-2 py-[2px] text-[10px] font-semibold"></span>
+            </h2>
+            <p class="text-xs text-slate-300 mt-1">
+              Visualize as informações completas do chamado selecionado.
+            </p>
+          </div>
+          <button
+            id="btnFecharDetalhe"
+            class="inline-flex items-center justify-center rounded-xl border border-white/10 w-8 h-8 text-slate-200 hover:bg-white/10 transition text-sm"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div class="space-y-3 text-sm">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <p class="text-[11px] uppercase tracking-[0.16em] text-slate-400">ID do chamado</p>
+              <p class="font-mono text-slate-50 text-xs sm:text-sm" id="detId">—</p>
+            </div>
+            <div>
+              <p class="text-[11px] uppercase tracking-[0.16em] text-slate-400">Categoria</p>
+              <p class="text-slate-50" id="detCategoria">—</p>
+            </div>
+          </div>
+
+          <div>
+            <p class="text-[11px] uppercase tracking-[0.16em] text-slate-400">E-mail do usuário</p>
+            <p class="text-slate-50 break-all text-xs sm:text-sm" id="detUsuarioEmail">—</p>
+          </div>
+
+          <div>
+            <p class="text-[11px] uppercase tracking-[0.16em] text-slate-400 mb-1">Descrição completa</p>
+            <div class="rounded-2xl border border-white/10 bg-slate-900/60 px-3 py-2.5 text-sm text-slate-100 max-h-52 overflow-auto whitespace-pre-wrap" id="detDescricao">
+              —
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <p class="text-[11px] uppercase tracking-[0.16em] text-slate-400">Status</p>
+              <p class="text-slate-50 text-sm" id="detStatusTexto">—</p>
+            </div>
+            <div>
+              <p class="text-[11px] uppercase tracking-[0.16em] text-slate-400">Prioridade</p>
+              <p class="text-slate-50 text-sm" id="detPrioridade">—</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <p class="text-[11px] uppercase tracking-[0.16em] text-slate-400">Criado em</p>
+              <p class="text-slate-50 text-sm" id="detCriadoEm">—</p>
+            </div>
+            <div>
+              <p class="text-[11px] uppercase tracking-[0.16em] text-slate-400">Última alteração de status</p>
+              <p class="text-slate-50 text-xs sm:text-sm" id="detUltimaStatusPor">Por: —</p>
+              <p class="text-slate-50 text-xs sm:text-sm" id="detUltimaStatusEm">Em: —</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-end gap-3 pt-2">
+          <button
+            id="btnFecharDetalhe2"
+            class="inline-flex items-center justify-center rounded-2xl border border-white/10 px-4 py-2.5 text-sm font-medium text-slate-100 hover:bg-white/10 transition w-full sm:w-auto"
+          >
+            Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    function loadChamados() {
-      try { return JSON.parse(localStorage.getItem('chamados') || '[]'); }
-      catch (_) { return []; }
+    // ===================== SESSÃO & PERFIL HEADER =====================
+    function getSessionUser() {
+      try {
+        return JSON.parse(localStorage.getItem('sessionUser') || 'null');
+      } catch {
+        return null;
+      }
     }
+
+    function initials(nome) {
+      return (nome || '')
+        .split(' ')
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(s => s[0].toUpperCase())
+        .join('') || '??';
+    }
+
+    const sess = getSessionUser();
+    if (!sess) {
+      window.location.href = 'index.html';
+    }
+
+    const isAdmin = sess?.perfil === 'admin';
+
+    const btnProfileCircle = document.getElementById('btnProfileCircle');
+    btnProfileCircle.textContent = initials(sess?.nome);
+
+    const tituloPagina = document.getElementById('tituloPagina');
+    const tituloListaChamados = document.getElementById('tituloListaChamados');
+    const subTituloLista = document.getElementById('subTituloLista');
+    const btnNovoChamado = document.getElementById('btnNovoChamado');
+    const btnNovoChamadoMobile = document.getElementById('btnNovoChamadoMobile');
+    const emptyText = document.getElementById('emptyText');
+    const linkAbrirChamadoEmpty = document.getElementById('linkAbrirChamadoEmpty');
+    const adminFilters = document.getElementById('adminFilters');
+
+    if (isAdmin) {
+      // Admin vê todos os chamados, filtros e não precisa abrir novo chamado
+      tituloPagina.textContent = 'Listagem de Chamados (Admin)';
+      tituloListaChamados.textContent = 'Todos os Chamados';
+      subTituloLista.textContent = 'Somente administradores podem alterar o status, prioridade, filtrar e visualizar detalhes dos chamados.';
+      if (btnNovoChamado) btnNovoChamado.classList.add('hidden');
+      if (btnNovoChamadoMobile) btnNovoChamadoMobile.classList.add('hidden');
+      emptyText.textContent = 'Ainda não há chamados registrados. Assim que os usuários abrirem chamados, eles aparecerão aqui.';
+      linkAbrirChamadoEmpty.classList.add('hidden');
+
+      adminFilters.classList.remove('hidden');
+    } else {
+      tituloPagina.textContent = 'Meus Chamados';
+      tituloListaChamados.textContent = 'Meus Chamados';
+    }
+
+    function doLogout() {
+      localStorage.removeItem('sessionUser');
+      window.location.href = 'index.html';
+    }
+    document.getElementById('logoutTop').addEventListener('click', doLogout);
+
+    // ===================== CHAMADOS (LOCALSTORAGE) =====================
+    function loadChamados() {
+      try {
+        return JSON.parse(localStorage.getItem('chamados') || '[]');
+      } catch {
+        return [];
+      }
+    }
+
     function saveChamados(lista) {
       localStorage.setItem('chamados', JSON.stringify(lista));
     }
 
     function formatDate(iso) {
       const d = new Date(iso);
+      if (Number.isNaN(d.getTime())) return '—';
       return d.toLocaleString('pt-BR');
     }
 
     function badgeClass(status) {
       switch (status) {
-        case 'Em andamento': return 'bg-amber-100 text-amber-800 ring-1 ring-amber-200';
-        case 'Resolvido':    return 'bg-emerald-100 text-emerald-800 ring-1 ring-emerald-200';
-        default:             return 'bg-sky-100 text-sky-800 ring-1 ring-sky-200';
+        case 'Em andamento':
+          return 'bg-amber-100 text-amber-900 ring-1 ring-amber-300';
+        case 'Resolvido':
+          return 'bg-emerald-100 text-emerald-900 ring-1 ring-emerald-300';
+        default:
+          return 'bg-sky-100 text-sky-900 ring-1 ring-sky-300';
       }
     }
 
+    function prioridadeClass(prioridade) {
+      switch (prioridade) {
+        case 'Baixa':
+          return 'bg-emerald-100 text-emerald-900 ring-1 ring-emerald-300';
+        case 'Alta':
+          return 'bg-orange-100 text-orange-900 ring-1 ring-orange-300';
+        case 'Crítica':
+          return 'bg-red-100 text-red-900 ring-1 ring-red-300';
+        default: // Média ou qualquer outro
+          return 'bg-indigo-100 text-indigo-900 ring-1 ring-indigo-300';
+      }
+    }
+
+    function updateTotalBadge(total) {
+      const badge = document.getElementById('totalChamadosBadge');
+      if (!badge) return;
+      if (total === 0) {
+        badge.textContent = '0 chamados';
+        return;
+      }
+      badge.textContent = total === 1 ? '1 chamado' : `${total} chamados`;
+    }
+
+    // ====== Funções de filtro (admin) ======
+    const filtroStatusAdmin   = document.getElementById('filtroStatusAdmin');
+    const filtroPeriodoAdmin  = document.getElementById('filtroPeriodoAdmin');
+    const filtroDataAdmin     = document.getElementById('filtroDataAdmin');
+    const filtroBuscaIdAdmin  = document.getElementById('filtroBuscaIdAdmin');
+    const btnLimparFiltros    = document.getElementById('btnLimparFiltros');
+    const btnIrParaChamados   = document.getElementById('btnIrParaChamados');
+
+    function normalizarDataLocal(dateObj) {
+      const offsetMs = dateObj.getTimezoneOffset() * 60000;
+      const local = new Date(dateObj.getTime() - offsetMs);
+      return local.toISOString().slice(0, 10); // YYYY-MM-DD
+    }
+
+    function aplicarFiltrosAdmin(lista) {
+      let filtrada = lista.slice();
+
+      if (!isAdmin) return filtrada;
+
+      const status   = filtroStatusAdmin?.value || 'todos';
+      const periodo  = filtroPeriodoAdmin?.value || 'todos';
+      const dataStr  = filtroDataAdmin?.value || '';
+      const buscaId  = (filtroBuscaIdAdmin?.value || '').trim().toLowerCase();
+
+      // Filtro por ID (lupa)
+      if (buscaId) {
+        filtrada = filtrada.filter(c =>
+          String(c.id || '').toLowerCase().includes(buscaId)
+        );
+      }
+
+      // Filtro por status
+      if (status !== 'todos') {
+        filtrada = filtrada.filter(c => (c.status || 'Em aberto') === status);
+      }
+
+      // Se houver data específica, ignora "período"
+      if (dataStr) {
+        filtrada = filtrada.filter(c => {
+          const d = new Date(c.criadoEm);
+          if (Number.isNaN(d.getTime())) return false;
+          return normalizarDataLocal(d) === dataStr;
+        });
+        return filtrada;
+      }
+
+      // Filtro por período relativo
+      if (periodo !== 'todos') {
+        const hoje = new Date();
+        let dias = 0;
+
+        if (periodo === 'hoje') {
+          dias = 1;
+        } else {
+          dias = parseInt(periodo, 10) || 0;
+        }
+
+        if (dias > 0) {
+          const limiteMs = hoje.getTime() - dias * 24 * 60 * 60 * 1000;
+          filtrada = filtrada.filter(c => {
+            const d = new Date(c.criadoEm);
+            if (Number.isNaN(d.getTime())) return false;
+            return d.getTime() >= limiteMs;
+          });
+        }
+      }
+
+      return filtrada;
+    }
+
+    // ===================== MODAL DETALHES =====================
+    const detalheModal      = document.getElementById('detalheModal');
+    const btnFecharDetalhe  = document.getElementById('btnFecharDetalhe');
+    const btnFecharDetalhe2 = document.getElementById('btnFecharDetalhe2');
+    const detId             = document.getElementById('detId');
+    const detCategoria      = document.getElementById('detCategoria');
+    const detDescricao      = document.getElementById('detDescricao');
+    const detStatusTexto    = document.getElementById('detStatusTexto');
+    const detStatusBadge    = document.getElementById('detStatusBadge');
+    const detCriadoEm       = document.getElementById('detCriadoEm');
+    const detUsuarioEmail   = document.getElementById('detUsuarioEmail');
+    const detPrioridade     = document.getElementById('detPrioridade');
+    const detUltimaStatusPor= document.getElementById('detUltimaStatusPor');
+    const detUltimaStatusEm = document.getElementById('detUltimaStatusEm');
+
+    function abrirModalDetalhe(chamado) {
+      const prioridade = chamado.prioridade || 'Média';
+
+      detId.textContent           = chamado.id || '—';
+      detCategoria.textContent    = chamado.categoria || '—';
+      detDescricao.textContent    = chamado.descricao || '—';
+      detStatusTexto.textContent  = chamado.status || 'Em aberto';
+      detCriadoEm.textContent     = formatDate(chamado.criadoEm);
+      detUsuarioEmail.textContent = chamado.usuarioEmail || '—';
+      detPrioridade.textContent   = prioridade;
+
+      detStatusBadge.className =
+        'inline-flex items-center rounded-full px-2 py-[2px] text-[10px] font-semibold ' +
+        badgeClass(chamado.status || 'Em aberto');
+      detStatusBadge.textContent = chamado.status || 'Em aberto';
+
+      const por = chamado.ultimaAlteracaoStatusPor || '—';
+      const em  = chamado.ultimaAlteracaoStatusEm
+        ? formatDate(chamado.ultimaAlteracaoStatusEm)
+        : '—';
+
+      detUltimaStatusPor.textContent = 'Por: ' + por;
+      detUltimaStatusEm.textContent  = 'Em: ' + em;
+
+      detalheModal.classList.remove('hidden');
+      detalheModal.classList.add('flex');
+    }
+
+    function fecharModalDetalhe() {
+      detalheModal.classList.add('hidden');
+      detalheModal.classList.remove('flex');
+    }
+
+    btnFecharDetalhe.addEventListener('click', fecharModalDetalhe);
+    btnFecharDetalhe2.addEventListener('click', fecharModalDetalhe);
+
+    // Fechar clicando no fundo
+    detalheModal.addEventListener('click', (e) => {
+      if (e.target === detalheModal) {
+        fecharModalDetalhe();
+      }
+    });
+
+    // Fechar com ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !detalheModal.classList.contains('hidden')) {
+        fecharModalDetalhe();
+      }
+    });
+
+    // ===================== RENDER TABELA =====================
     function render() {
       const tbody = document.getElementById('tbody');
       const empty = document.getElementById('emptyState');
       const tableWrap = document.getElementById('tableWrap');
 
-      const chamados = loadChamados();
+      const todosChamados = loadChamados();
+      let lista;
 
-      if (!chamados.length) {
-        empty.classList.remove('hidden');
-        tableWrap.classList.add('hidden');
-        return;
+      if (isAdmin) {
+        lista = todosChamados.slice();
+        // aplica filtros de admin
+        lista = aplicarFiltrosAdmin(lista);
       } else {
-        empty.classList.add('hidden');
-        tableWrap.classList.remove('hidden');
+        lista = todosChamados.filter(c =>
+          (c.usuarioEmail || '').toLowerCase() === (sess.email || '').toLowerCase()
+        );
       }
 
-      tbody.innerHTML = '';
-      chamados.forEach((c, idx) => {
-        const tr = document.createElement('tr');
-        tr.className = idx % 2 ? 'bg-white' : 'bg-slate-50/40';
+      // Ordena por data desc
+      lista.sort((a, b) => {
+        const da = new Date(a.criadoEm);
+        const db = new Date(b.criadoEm);
+        return db - da;
+      });
 
-        const tdId = `<td class="px-6 py-3 font-mono text-xs">${c.id}</td>`;
-        const tdCat = `<td class="px-6 py-3">${c.categoria}</td>`;
-        const tdDesc = `<td class="px-6 py-3 max-w-[28rem]"><div class="line-clamp-3">${c.descricao}</div></td>`;
-        const tdCriado = `<td class="px-6 py-3 whitespace-nowrap">${formatDate(c.criadoEm)}</td>`;
+      updateTotalBadge(lista.length);
+
+      if (!lista.length) {
+        empty.classList.remove('hidden');
+        tableWrap.classList.add('hidden');
+        tbody.innerHTML = '';
+        return;
+      }
+
+      empty.classList.add('hidden');
+      tableWrap.classList.remove('hidden');
+
+      tbody.innerHTML = '';
+
+      lista.forEach((c, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = idx % 2 === 0 ? 'bg-slate-900/40' : 'bg-slate-900/20';
+
+        const prioridade = c.prioridade || 'Média';
+
+        const tdId = document.createElement('td');
+        tdId.className = 'px-6 py-3 font-mono text-[11px] text-slate-200';
+        tdId.textContent = c.id;
+
+        const tdCat = document.createElement('td');
+        tdCat.className = 'px-6 py-3 text-slate-50';
+        tdCat.textContent = c.categoria || '—';
+
+        const tdDesc = document.createElement('td');
+        tdDesc.className = 'px-6 py-3 max-w-[26rem] text-slate-100 align-top';
+        tdDesc.innerHTML = `<p class="line-clamp-3 text-xs md:text-sm text-slate-100/90">${c.descricao || '—'}</p>`;
+
+        const tdCriado = document.createElement('td');
+        tdCriado.className = 'px-6 py-3 whitespace-nowrap text-slate-200 align-top';
+        tdCriado.textContent = formatDate(c.criadoEm);
 
         const tdStatus = document.createElement('td');
-        tdStatus.className = 'px-6 py-3';
+        tdStatus.className = 'px-6 py-3 align-top';
 
         const wrap = document.createElement('div');
-        wrap.className = 'flex items-center gap-3';
+        wrap.className = 'flex flex-col gap-2';
+
+        const linhaStatus = document.createElement('div');
+        linhaStatus.className = 'flex flex-col sm:flex-row sm:items-center gap-2';
 
         const badge = document.createElement('span');
-        badge.className = `inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${badgeClass(c.status)}`;
-        badge.textContent = c.status;
+        badge.className =
+          'inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold ' +
+          badgeClass(c.status);
+        badge.textContent = c.status || 'Em aberto';
+        linhaStatus.appendChild(badge);
 
-        const select = document.createElement('select');
-        select.className = 'rounded-lg border px-2 py-1 text-xs bg-white';
-        ['Em aberto','Em andamento','Resolvido'].forEach(opt => {
-          const o = document.createElement('option');
-          o.value = opt; o.textContent = opt;
-          if (opt === c.status) o.selected = true;
-          select.appendChild(o);
-        });
+        // Badge de prioridade
+        const badgePri = document.createElement('span');
+        badgePri.className =
+          'inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold ' +
+          prioridadeClass(prioridade);
+        badgePri.textContent = 'Prioridade: ' + prioridade;
+        linhaStatus.appendChild(badgePri);
 
-        select.addEventListener('change', (e) => {
-          const lista = loadChamados();
-          const i = lista.findIndex(x => x.id === c.id);
-          if (i >= 0) {
-            lista[i].status = e.target.value;
-            saveChamados(lista);
-            render(); // re-render para atualizar o "badge":
-          }
-        });
+        // ======= SÓ ADMIN pode mudar o status e prioridade =======
+        if (isAdmin) {
+          const selectStatus = document.createElement('select');
+          selectStatus.className =
+            'rounded-xl border border-white/15 bg-slate-950/60 px-2 py-1 text-[11px] text-slate-50 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-400 outline-none';
 
-        wrap.appendChild(badge);
-        wrap.appendChild(select);
+          ['Em aberto', 'Em andamento', 'Resolvido'].forEach(opt => {
+            const o = document.createElement('option');
+            o.value = opt;
+            o.textContent = opt;
+            if (opt === (c.status || 'Em aberto')) o.selected = true;
+            selectStatus.appendChild(o);
+          });
+
+          selectStatus.addEventListener('change', e => {
+            const listaAtual = loadChamados();
+            const i = listaAtual.findIndex(x => x.id === c.id);
+            if (i >= 0) {
+              listaAtual[i].status = e.target.value;
+              listaAtual[i].ultimaAlteracaoStatusPor = sess.email || sess.nome || 'admin';
+              listaAtual[i].ultimaAlteracaoStatusEm  = new Date().toISOString();
+              saveChamados(listaAtual);
+              render(); // re-render para atualizar com filtros
+            }
+          });
+
+          // Select de prioridade
+          const selectPri = document.createElement('select');
+          selectPri.className =
+            'rounded-xl border border-white/15 bg-slate-950/60 px-2 py-1 text-[11px] text-slate-50 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-400 outline-none';
+
+          ['Baixa', 'Média', 'Alta', 'Crítica'].forEach(opt => {
+            const o = document.createElement('option');
+            o.value = opt;
+            o.textContent = opt;
+            if (opt === prioridade) o.selected = true;
+            selectPri.appendChild(o);
+          });
+
+          selectPri.addEventListener('change', e => {
+            const listaAtual = loadChamados();
+            const i = listaAtual.findIndex(x => x.id === c.id);
+            if (i >= 0) {
+              listaAtual[i].prioridade = e.target.value;
+              saveChamados(listaAtual);
+              render();
+            }
+          });
+
+          const linhaEdicao = document.createElement('div');
+          linhaEdicao.className = 'flex flex-wrap gap-2';
+          linhaEdicao.appendChild(selectStatus);
+          linhaEdicao.appendChild(selectPri);
+
+          wrap.appendChild(linhaStatus);
+          wrap.appendChild(linhaEdicao);
+        } else {
+          wrap.appendChild(linhaStatus);
+        }
+        // ============================================
+
+        // Botão "Ver detalhes"
+        const btnDetalhes = document.createElement('button');
+        btnDetalhes.textContent = 'Ver detalhes';
+        btnDetalhes.className =
+          'inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] font-medium text-slate-100 hover:bg-white/10 transition self-start';
+        btnDetalhes.addEventListener('click', () => abrirModalDetalhe(c));
+
+        wrap.appendChild(btnDetalhes);
+
         tdStatus.appendChild(wrap);
 
-        tr.innerHTML = tdId + tdCat + tdDesc + tdCriado;
+        tr.appendChild(tdId);
+        tr.appendChild(tdCat);
+        tr.appendChild(tdDesc);
+        tr.appendChild(tdCriado);
         tr.appendChild(tdStatus);
+
         tbody.appendChild(tr);
       });
     }
 
-    document.getElementById('limpar').addEventListener('click', () => {
-      if (confirm('Tem certeza que deseja limpar todos os chamados salvos localmente?')) {
+    // Botão limpar com comportamento diferente para admin x usuário
+    const btnLimpar = document.getElementById('limpar');
+
+    if (!isAdmin) {
+      btnLimpar.textContent = '🧹 Limpar meus chamados (local)';
+    }
+
+    btnLimpar.addEventListener('click', () => {
+      const msg = isAdmin
+        ? 'Tem certeza que deseja limpar TODOS os chamados salvos localmente?'
+        : 'Tem certeza que deseja limpar APENAS os seus chamados?';
+
+      if (!confirm(msg)) return;
+
+      const todos = loadChamados();
+
+      if (isAdmin) {
         localStorage.removeItem('chamados');
-        render();
+      } else {
+        const restantes = todos.filter(c =>
+          (c.usuarioEmail || '').toLowerCase() !== (sess.email || '').toLowerCase()
+        );
+        saveChamados(restantes);
       }
+
+      render();
     });
 
+    // ===== Eventos de filtro (admin) =====
+    if (isAdmin) {
+      filtroStatusAdmin.addEventListener('change', render);
+      filtroPeriodoAdmin.addEventListener('change', render);
+      filtroDataAdmin.addEventListener('change', render);
+      filtroBuscaIdAdmin.addEventListener('input', render);
+
+      btnLimparFiltros.addEventListener('click', () => {
+        filtroStatusAdmin.value  = 'todos';
+        filtroPeriodoAdmin.value = 'todos';
+        filtroDataAdmin.value    = '';
+        filtroBuscaIdAdmin.value = '';
+        render();
+      });
+
+      // "📋 Abrir tela de chamados (admin)" -> recarrega lista e foca na tabela
+      btnIrParaChamados.addEventListener('click', () => {
+        render();
+        document.getElementById('tableWrap').scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+
+    // Render inicial
     render();
   </script>
 </body>

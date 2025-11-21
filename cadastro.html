@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Suporte Técnico — Cadastro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-slate-50 flex items-center justify-center px-4">
+
+  <main class="w-full max-w-5xl mx-auto grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] gap-8 items-center">
+    <!-- LADO ESQUERDO - BRAND / TEXTO -->
+    <section class="hidden lg:flex flex-col gap-6">
+      <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-slate-900/60 px-3 py-1 text-xs text-slate-200">
+        <span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-300 text-[11px]">●</span>
+        Crie sua conta na HelpTech
+      </div>
+
+      <div class="flex items-center gap-3">
+        <img
+          src="logo-helptech.png"
+          alt="Logo HelpTech"
+          class="h-12 w-auto rounded-2xl shadow-xl shadow-black/40"
+        />
+        <div>
+          <h1 class="text-2xl font-semibold text-slate-50">Cadastro de usuário</h1>
+          <p class="text-sm text-slate-300 mt-1">
+            Informe seus dados para acessar o painel de chamados e acompanhar o suporte técnico.
+          </p>
+        </div>
+      </div>
+
+      <ul class="space-y-2 text-sm text-slate-200">
+        <li>• Nome, e-mail e CPF identificam sua conta.</li>
+        <li>• Telefone ajuda o suporte a contatar você.</li>
+        <li>• Senha com no mínimo 6 caracteres.</li>
+      </ul>
+
+      <div class="mt-4 rounded-3xl border border-indigo-400/30 bg-indigo-900/20 px-4 py-3 text-xs text-indigo-100">
+        Em um ambiente real, esses dados seriam enviados para o servidor da HelpTech com criptografia e armazenamento seguro.
+      </div>
+    </section>
+
+    <!-- LADO DIREITO - CARD CADASTRO -->
+    <section class="bg-white/5 border border-white/10 rounded-3xl shadow-2xl shadow-black/60 backdrop-blur p-6 sm:p-8 w-full max-w-md mx-auto">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-xl font-semibold text-slate-50">Criar nova conta</h2>
+          <p class="text-sm text-slate-300 mt-1">
+            Preencha seus dados abaixo. Campos com * são obrigatórios.
+          </p>
+        </div>
+        <a
+          href="index.html"
+          class="inline-flex items-center gap-1 rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-[11px] font-medium text-slate-100 hover:bg-white/10 transition"
+        >
+          ⬅ Voltar ao login
+        </a>
+      </div>
+
+      <form id="formCadastro" class="space-y-4 text-sm mt-4">
+        <!-- Nome -->
+        <div>
+          <label for="nome" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
+            Nome completo *
+          </label>
+          <input
+            id="nome"
+            type="text"
+            required
+            maxlength="80"
+            class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
+            placeholder="Digite seu nome completo"
+          />
+        </div>
+
+        <!-- E-mail -->
+        <div>
+          <label for="email" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
+            E-mail *
+          </label>
+          <input
+            id="email"
+            type="email"
+            required
+            maxlength="120"
+            autocomplete="email"
+            class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
+            placeholder="seuemail@empresa.com"
+          />
+        </div>
+
+        <!-- Telefone + CPF -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="telefone" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
+              Telefone
+            </label>
+            <input
+              id="telefone"
+              type="tel"
+              maxlength="15"
+              class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
+              placeholder="(00) 00000-0000"
+            />
+          </div>
+
+          <div>
+            <label for="cpf" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
+              CPF *
+            </label>
+            <input
+              id="cpf"
+              type="text"
+              required
+              maxlength="14"
+              class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
+              placeholder="000.000.000-00"
+            />
+          </div>
+        </div>
+
+        <!-- Senha + Confirmar -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="relative">
+            <label for="senha" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
+              Senha *
+            </label>
+            <input
+              id="senha"
+              type="password"
+              required
+              minlength="6"
+              maxlength="32"
+              autocomplete="new-password"
+              class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 pr-10 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
+              placeholder="Mínimo 6 caracteres"
+            />
+            <button
+              type="button"
+              id="toggleSenhaCad"
+              class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-100 text-xs mt-6"
+              aria-label="Mostrar ou ocultar senha"
+            >
+              👁️
+            </button>
+          </div>
+
+          <div class="relative">
+            <label for="confirmarSenha" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
+              Confirmar senha *
+            </label>
+            <input
+              id="confirmarSenha"
+              type="password"
+              required
+              minlength="6"
+              maxlength="32"
+              autocomplete="new-password"
+              class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 pr-10 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
+              placeholder="Repita a senha"
+            />
+            <button
+              type="button"
+              id="toggleConfirmarSenhaCad"
+              class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-100 text-xs mt-6"
+              aria-label="Mostrar ou ocultar confirmação de senha"
+            >
+              👁️
+            </button>
+          </div>
+        </div>
+
+        <!-- Termos -->
+        <div class="flex items-start gap-2 text-xs text-slate-300 mt-1">
+          <input
+            id="aceite"
+            type="checkbox"
+            class="mt-0.5 h-3.5 w-3.5 rounded border-white/20 bg-slate-900/80 text-indigo-500 focus:ring-indigo-400"
+            required
+          />
+          <label for="aceite">
+            Confirmo que este é um ambiente de testes e que os dados são armazenados apenas no meu navegador (localStorage).
+          </label>
+        </div>
+
+        <!-- Mensagem -->
+        <p id="cadMsg" class="text-xs mt-1"></p>
+
+        <!-- Botões -->
+        <div class="flex flex-col sm:flex-row gap-3 pt-2">
+          <button
+            type="submit"
+            id="btnSubmitCadastro"
+            class="w-full sm:w-auto inline-flex justify-center items-center gap-2 rounded-2xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-400 shadow shadow-emerald-500/40 transition disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            ✨ Criar conta
+          </button>
+          <a
+            href="index.html"
+            class="w-full sm:w-auto inline-flex justify-center items-center rounded-2xl border border-white/10 px-4 py-2.5 text-sm font-medium text-slate-100 hover:bg-white/10 transition"
+          >
+            Já tenho conta
+          </a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    // ===== UTILITÁRIOS =====
+    function getUsuariosCadastrados() {
+      try {
+        const raw = localStorage.getItem('usuarios') || localStorage.getItem('users');
+        return raw ? JSON.parse(raw) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveUsuarios(lista) {
+      localStorage.setItem('usuarios', JSON.stringify(lista));
+    }
+
+    function saveSessionUser(user) {
+      localStorage.setItem('sessionUser', JSON.stringify(user));
+    }
+
+    function setCadMsg(text, type) {
+      const el = document.getElementById('cadMsg');
+      el.textContent = text || '';
+      el.className = 'text-xs mt-1';
+      if (type === 'error') el.classList.add('text-red-400');
+      if (type === 'success') el.classList.add('text-green-400');
+      if (type === 'info') el.classList.add('text-slate-300');
+    }
+
+    function limparMascara(str) {
+      return (str || '').replace(/\D/g, '');
+    }
+
+    function formatPhoneBR(tel) {
+      const digits = limparMascara(tel);
+      if (digits.length === 11) {
+        return digits.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+      }
+      if (digits.length === 10) {
+        return digits.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+      }
+      return tel;
+    }
+
+    function formatCPF(cpf) {
+      const digits = limparMascara(cpf);
+      if (digits.length !== 11) return cpf;
+      return digits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    }
+
+    // ===== ELEMENTOS =====
+    const formCadastro = document.getElementById('formCadastro');
+    const btnSubmitCadastro = document.getElementById('btnSubmitCadastro');
+    const inputTelefone = document.getElementById('telefone');
+    const inputCPF = document.getElementById('cpf');
+    const inputSenha = document.getElementById('senha');
+    const inputConfirmarSenha = document.getElementById('confirmarSenha');
+
+    // Máscaras simples ao sair do campo
+    inputTelefone.addEventListener('blur', () => {
+      if (inputTelefone.value.trim()) {
+        inputTelefone.value = formatPhoneBR(inputTelefone.value);
+      }
+    });
+
+    inputCPF.addEventListener('blur', () => {
+      if (inputCPF.value.trim()) {
+        inputCPF.value = formatCPF(inputCPF.value);
+      }
+    });
+
+    // Mostrar / ocultar senhas
+    function togglePassword(btnId, input) {
+      const btn = document.getElementById(btnId);
+      btn.addEventListener('click', () => {
+        const isText = input.type === 'text';
+        input.type = isText ? 'password' : 'text';
+        btn.textContent = isText ? '👁️' : '🙈';
+      });
+    }
+
+    togglePassword('toggleSenhaCad', inputSenha);
+    togglePassword('toggleConfirmarSenhaCad', inputConfirmarSenha);
+
+    // ===== SUBMIT CADASTRO =====
+    formCadastro.addEventListener('submit', (e) => {
+      e.preventDefault();
+      setCadMsg('', null);
+
+      const nome = document.getElementById('nome').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const telefone = document.getElementById('telefone').value.trim();
+      const cpf = document.getElementById('cpf').value.trim();
+      const senha = inputSenha.value.trim();
+      const confirmarSenha = inputConfirmarSenha.value.trim();
+      const aceite = document.getElementById('aceite').checked;
+
+      if (!nome || !email || !cpf || !senha || !confirmarSenha) {
+        setCadMsg('Preencha todos os campos obrigatórios (*).', 'error');
+        return;
+      }
+
+      if (nome.length > 80) {
+        setCadMsg('O nome excede o limite de 80 caracteres.', 'error');
+        return;
+      }
+
+      if (email.length > 120) {
+        setCadMsg('O e-mail excede o limite de 120 caracteres.', 'error');
+        return;
+      }
+
+      const telDigits = limparMascara(telefone);
+      if (telefone && telDigits.length !== 10 && telDigits.length !== 11) {
+        setCadMsg('Telefone inválido. Use um número com DDD (10 ou 11 dígitos).', 'error');
+        return;
+      }
+
+      const cpfDigits = limparMascara(cpf);
+      if (cpfDigits.length !== 11) {
+        setCadMsg('CPF inválido. Informe 11 dígitos.', 'error');
+        return;
+      }
+
+      if (senha.length < 6 || senha.length > 32) {
+        setCadMsg('A senha deve ter entre 6 e 32 caracteres.', 'error');
+        return;
+      }
+
+      if (senha !== confirmarSenha) {
+        setCadMsg('As senhas não coincidem.', 'error');
+        return;
+      }
+
+      if (!aceite) {
+        setCadMsg('Você precisa aceitar o aviso de ambiente de testes.', 'error');
+        return;
+      }
+
+      const usuarios = getUsuariosCadastrados();
+
+      const emailJaExiste = usuarios.some(u => (u.email || '').toLowerCase() === email.toLowerCase());
+      if (emailJaExiste) {
+        setCadMsg('Já existe um usuário cadastrado com esse e-mail.', 'error');
+        return;
+      }
+
+      const cpfJaExiste = usuarios.some(u => limparMascara(u.cpf || '') === cpfDigits);
+      if (cpfJaExiste) {
+        setCadMsg('Já existe um usuário cadastrado com esse CPF.', 'error');
+        return;
+      }
+
+      btnSubmitCadastro.disabled = true;
+
+      const novoUsuario = {
+        nome,
+        email,
+        tel: telDigits,
+        cpf: cpfDigits,
+        senha,
+        avatar: null,
+        perfil: 'usuario' // PERFIL PADRÃO
+      };
+
+      usuarios.push(novoUsuario);
+      saveUsuarios(usuarios);
+
+      const sessionUser = {
+        nome,
+        email,
+        tel: telDigits,
+        cpf: cpfDigits,
+        senha,
+        avatar: null,
+        perfil: 'usuario'
+      };
+      saveSessionUser(sessionUser);
+
+      setCadMsg('Cadastro realizado com sucesso! Redirecionando para o painel...', 'success');
+
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 800);
+    });
+  </script>
+</body>
+</html>

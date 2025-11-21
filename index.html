@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Suporte Técnico — Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-slate-50 flex items-center justify-center px-4">
+
+  <main class="w-full max-w-5xl mx-auto grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] gap-8 items-center">
+    <!-- LADO ESQUERDO - BRAND / TEXTO -->
+    <section class="hidden lg:flex flex-col gap-6">
+      <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-slate-900/60 px-3 py-1 text-xs text-slate-200">
+        <span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-300 text-[11px]">●</span>
+        Plataforma de Suporte Técnico HelpTech
+      </div>
+
+      <!-- Logo + título -->
+      <div class="flex items-center gap-3">
+        <div class="flex items-center">
+          <img
+            src="logo-helptech.png"
+            alt="Logo HelpTech"
+            class="h-12 w-auto rounded-2xl shadow-xl shadow-black/40"
+          />
+        </div>
+        <div>
+          <h1 class="text-2xl font-semibold text-slate-50">Central de Chamados</h1>
+          <p class="text-sm text-slate-300 mt-1">
+            Acompanhe chamados, atualize status e acesse informações da sua conta em um único painel.
+          </p>
+        </div>
+      </div>
+
+      <ul class="space-y-2 text-sm text-slate-200">
+        <li>• Autenticação via e-mail e senha.</li>
+        <li>• Chamados armazenados localmente para testes (localStorage).</li>
+        <li>• Visual integrado com Chamados e Perfil.</li>
+      </ul>
+
+      <div class="mt-4 rounded-3xl border border-indigo-400/30 bg-indigo-900/20 px-4 py-3 text-xs text-indigo-100">
+        Em produção, o login se conectaria a uma API segura da HelpTech, com autenticação, tokens e controle de acesso.
+      </div>
+    </section>
+
+    <!-- LADO DIREITO - CARD LOGIN -->
+    <section class="bg-white/5 border border-white/10 rounded-3xl shadow-2xl shadow-black/60 backdrop-blur p-6 sm:p-8 w-full max-w-md mx-auto">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-xl font-semibold text-slate-50">Entrar</h2>
+          <p class="text-sm text-slate-300 mt-1">
+            Use seu e-mail e senha cadastrados para acessar o sistema.
+          </p>
+        </div>
+      </div>
+
+      <form id="formLogin" class="space-y-4 text-sm mt-4">
+        <!-- E-mail -->
+        <div>
+          <label for="email" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
+            E-mail
+          </label>
+          <input
+            id="email"
+            type="email"
+            required
+            autocomplete="email"
+            maxlength="120"
+            class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
+            placeholder="seuemail@empresa.com"
+          />
+        </div>
+
+        <!-- Senha -->
+        <div class="relative">
+          <label for="senha" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
+            Senha
+          </label>
+          <input
+            id="senha"
+            type="password"
+            required
+            autocomplete="current-password"
+            minlength="6"
+            maxlength="32"
+            class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 pr-10 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
+            placeholder="Digite sua senha"
+          />
+          <button
+            type="button"
+            id="toggleSenha"
+            class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-100 text-xs mt-6"
+            aria-label="Mostrar ou ocultar senha"
+          >
+            👁️
+          </button>
+        </div>
+
+        <!-- Lembrar e link extra -->
+        <div class="flex items-center justify-between text-xs text-slate-300">
+          <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+            <input
+              id="lembrarEmail"
+              type="checkbox"
+              class="h-3.5 w-3.5 rounded border-white/20 bg-slate-900/80 text-indigo-500 focus:ring-indigo-400"
+            />
+            <span>Lembrar meu e-mail</span>
+          </label>
+
+          <span class="text-slate-500 italic">
+            Ambiente de testes
+          </span>
+        </div>
+
+        <!-- Mensagem -->
+        <p id="loginMsg" class="text-xs mt-1"></p>
+
+        <!-- Botão login -->
+        <button
+          type="submit"
+          id="btnSubmitLogin"
+          class="w-full inline-flex justify-center items-center gap-2 rounded-2xl bg-indigo-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-400 shadow shadow-indigo-500/40 transition disabled:opacity-60 disabled:cursor-not-allowed mt-2"
+        >
+          Entrar no sistema
+        </button>
+      </form>
+
+      <!-- Rodapé do card -->
+      <div class="mt-6 border-t border-white/10 pt-4 text-[11px] text-slate-400 space-y-3">
+        <p>
+          Os dados de sessão são armazenados apenas neste dispositivo, usando <span class="font-semibold text-slate-200">localStorage</span>,
+          para simular um fluxo real de login da HelpTech.
+        </p>
+
+        <!-- BOTÃO DE CADASTRO -->
+        <div class="flex items-center justify-between gap-2 text-xs">
+          <span class="text-slate-300">Ainda não tem uma conta?</span>
+          <a
+            href="cadastro.html"
+            class="inline-flex items-center gap-2 rounded-2xl border border-white/15 bg-white/5 px-3 py-2 font-medium text-[11px] text-slate-50 hover:bg-white/10 transition"
+          >
+            ✨ Criar conta
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // ===================== CONFIG ADMIN FIXO =====================
+    const ADMIN_EMAIL = 'admin@helptech.com';
+    const ADMIN_SENHA = 'Admin@123'; // pode alterar se quiser
+
+    // ===================== UTILITÁRIOS =====================
+    function getSessionUser() {
+      try {
+        return JSON.parse(localStorage.getItem('sessionUser') || 'null');
+      } catch {
+        return null;
+      }
+    }
+
+    function saveSessionUser(user) {
+      localStorage.setItem('sessionUser', JSON.stringify(user));
+    }
+
+    function getUsuariosCadastrados() {
+      try {
+        const rawUsuarios = localStorage.getItem('usuarios');
+        const rawUsers = localStorage.getItem('users');
+        const data = rawUsuarios || rawUsers;
+        return data ? JSON.parse(data) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function setLoginMsg(text, type) {
+      const el = document.getElementById('loginMsg');
+      el.textContent = text || '';
+      el.className = 'text-xs mt-1';
+      if (type === 'error') el.classList.add('text-red-400');
+      if (type === 'success') el.classList.add('text-green-400');
+      if (type === 'info') el.classList.add('text-slate-300');
+    }
+
+    // ===================== REDIRECIONA SE JÁ ESTIVER LOGADO =====================
+    const sess = getSessionUser();
+    if (sess) {
+      window.location.href = 'dashboard.html';
+    }
+
+    // ===================== LOGIN =====================
+    const formLogin = document.getElementById('formLogin');
+    const btnSubmitLogin = document.getElementById('btnSubmitLogin');
+    const emailInput = document.getElementById('email');
+    const senhaInput = document.getElementById('senha');
+    const lembrarEmail = document.getElementById('lembrarEmail');
+
+    // Pré-carregar último e-mail salvo (se houver)
+    (function preloadEmail() {
+      const savedEmail = localStorage.getItem('lastLoginEmail');
+      if (savedEmail) {
+        emailInput.value = savedEmail;
+        lembrarEmail.checked = true;
+      }
+    })();
+
+    formLogin.addEventListener('submit', (e) => {
+      e.preventDefault();
+      setLoginMsg('', null);
+
+      const email = emailInput.value.trim();
+      const senha = senhaInput.value.trim();
+
+      if (!email || !senha) {
+        setLoginMsg('Preencha e-mail e senha para continuar.', 'error');
+        return;
+      }
+
+      btnSubmitLogin.disabled = true;
+
+      const usuarios = getUsuariosCadastrados();
+
+      // 1) tenta achar nos usuários cadastrados
+      let user = usuarios.find((u) => {
+        const uEmail = (u.email || '').toLowerCase();
+        return uEmail === email.toLowerCase() && u.senha === senha;
+      });
+
+      // 2) se não achou e for admin fixo, cria admin na hora
+      if (!user && email.toLowerCase() === ADMIN_EMAIL.toLowerCase() && senha === ADMIN_SENHA) {
+        user = {
+          nome: 'Administrador HelpTech',
+          email: ADMIN_EMAIL,
+          cpf: '',
+          tel: '',
+          senha: ADMIN_SENHA,
+          avatar: null,
+          perfil: 'admin'
+        };
+      }
+
+      // 3) se ainda não encontrou, login inválido
+      if (!user) {
+        setLoginMsg('Usuário ou senha inválidos. Verifique seus dados.', 'error');
+        btnSubmitLogin.disabled = false;
+        return;
+      }
+
+      // 4) monta sessionUser com perfil
+      const sessionUser = {
+        nome: user.nome || 'Usuário',
+        email: user.email || email,
+        cpf: user.cpf || '',
+        tel: user.tel || user.telefone || '',
+        senha: user.senha || senha,
+        avatar: user.avatar || null,
+        perfil: user.perfil || 'usuario'
+      };
+
+      saveSessionUser(sessionUser);
+
+      if (lembrarEmail.checked) {
+        localStorage.setItem('lastLoginEmail', email);
+      } else {
+        localStorage.removeItem('lastLoginEmail');
+      }
+
+      setLoginMsg('Login realizado com sucesso! Redirecionando...', 'success');
+
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 600);
+    });
+
+    // ===================== MOSTRAR / OCULTAR SENHA =====================
+    const toggleSenha = document.getElementById('toggleSenha');
+    toggleSenha.addEventListener('click', () => {
+      const isText = senhaInput.type === 'text';
+      senhaInput.type = isText ? 'password' : 'text';
+      toggleSenha.textContent = isText ? '👁️' : '🙈';
+    });
+  </script>
+</body>
+</html>

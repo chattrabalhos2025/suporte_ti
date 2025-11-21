@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Suporte Técnico — Dashboard Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-slate-50">
+
+  <!-- TOP NAV -->
+  <header class="border-b border-white/10 bg-slate-900/60 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <img
+          src="logo-helptech.png"
+          alt="Logo HelpTech"
+          class="h-8 w-auto rounded-xl shadow"
+        />
+        <div class="flex flex-col leading-tight">
+          <span class="text-xs uppercase tracking-[0.18em] text-slate-400">
+            Área Administrativa
+          </span>
+          <h1 class="text-lg font-semibold text-slate-50">
+            Dashboard de Chamados
+          </h1>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- Admin não precisa do "abrir chamado" -->
+        <a href="chamados.html"
+           class="hidden sm:inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-xs font-medium text-slate-200 hover:bg-white/10 transition">
+          📋 Listagem de chamados
+        </a>
+
+        <a id="btnProfileCircle"
+           href="profile.html"
+           class="w-9 h-9 rounded-full bg-slate-800 border border-white/15 text-xs font-semibold text-slate-50 flex items-center justify-center hover:bg-slate-700 transition"
+           title="Minha conta">
+          ??
+        </a>
+
+        <button id="logoutTop"
+                class="inline-flex items-center gap-2 rounded-xl bg-red-500/90 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500 shadow-sm transition">
+          Sair
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="max-w-6xl mx-auto px-4 py-8 space-y-6">
+
+    <!-- TÍTULO / SUB -->
+    <section class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+      <div>
+        <h2 class="text-base font-semibold text-slate-50 flex items-center gap-2">
+          Visão geral dos chamados
+          <span class="inline-flex items-center rounded-full bg-emerald-500/15 border border-emerald-400/40 px-2 py-[2px] text-[10px] font-semibold text-emerald-200">
+            Admin
+          </span>
+        </h2>
+        <p class="text-sm text-slate-300 mt-1 max-w-xl">
+          Acompanhe o volume de chamados por status e prioridade. Esses dados são lidos diretamente do armazenamento local do navegador (localStorage).
+        </p>
+      </div>
+      <p class="text-xs text-slate-400" id="ultimaAtualizacao">Última atualização: —</p>
+    </section>
+
+    <!-- RESUMO PRINCIPAL -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="rounded-3xl border border-white/15 bg-slate-900/60 p-4 shadow-xl shadow-black/40">
+        <p class="text-[11px] uppercase tracking-[0.16em] text-slate-400 mb-1">Total de chamados</p>
+        <p id="cardTotalChamados" class="text-2xl font-semibold text-slate-50">0</p>
+        <p class="text-xs text-slate-400 mt-1">Todos os chamados registrados.</p>
+      </div>
+
+      <div class="rounded-3xl border border-sky-400/40 bg-sky-900/25 p-4 shadow-xl shadow-black/40">
+        <p class="text-[11px] uppercase tracking-[0.16em] text-sky-200 mb-1">Em aberto</p>
+        <p id="cardAbertos" class="text-2xl font-semibold text-slate-50">0</p>
+        <p class="text-xs text-sky-100/80 mt-1">Ainda aguardando atendimento inicial.</p>
+      </div>
+
+      <div class="rounded-3xl border border-amber-400/40 bg-amber-900/25 p-4 shadow-xl shadow-black/40">
+        <p class="text-[11px] uppercase tracking-[0.16em] text-amber-200 mb-1">Em andamento</p>
+        <p id="cardAndamento" class="text-2xl font-semibold text-slate-50">0</p>
+        <p class="text-xs text-amber-100/80 mt-1">Sendo tratados pela equipe.</p>
+      </div>
+
+      <div class="rounded-3xl border border-emerald-400/40 bg-emerald-900/25 p-4 shadow-xl shadow-black/40">
+        <p class="text-[11px] uppercase tracking-[0.16em] text-emerald-200 mb-1">Resolvidos</p>
+        <p id="cardResolvidos" class="text-2xl font-semibold text-slate-50">0</p>
+        <p class="text-xs text-emerald-100/80 mt-1">Chamados encerrados com solução.</p>
+      </div>
+    </section>
+
+    <!-- RESUMO POR PRIORIDADE -->
+    <section class="grid grid-cols-1 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.1fr)] gap-6">
+      <div class="bg-white/5 border border-white/10 rounded-3xl p-5 shadow-xl shadow-black/40 backdrop-blur space-y-3">
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <h3 class="text-sm font-semibold text-slate-50">Chamados por prioridade</h3>
+            <p class="text-xs text-slate-300 mt-1">Distribuição de chamados considerando o nível de criticidade.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm mt-3">
+          <div class="rounded-2xl border border-slate-500/40 bg-slate-900/40 px-3 py-3">
+            <p class="text-[11px] uppercase tracking-[0.16em] text-slate-300 mb-1">Baixa</p>
+            <p id="prioBaixa" class="text-xl font-semibold text-slate-50">0</p>
+          </div>
+          <div class="rounded-2xl border border-slate-500/40 bg-slate-900/40 px-3 py-3">
+            <p class="text-[11px] uppercase tracking-[0.16em] text-slate-300 mb-1">Média</p>
+            <p id="prioMedia" class="text-xl font-semibold text-slate-50">0</p>
+          </div>
+          <div class="rounded-2xl border border-slate-500/40 bg-slate-900/40 px-3 py-3">
+            <p class="text-[11px] uppercase tracking-[0.16em] text-slate-300 mb-1">Alta / Crítica</p>
+            <p id="prioAltaCritica" class="text-xl font-semibold text-slate-50">0</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILTRO STATUS + RESUMO -->
+      <div class="bg-white/5 border border-white/10 rounded-3xl p-5 shadow-xl shadow-black/40 backdrop-blur space-y-3">
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <h3 class="text-sm font-semibold text-slate-50">Filtrar últimos chamados</h3>
+            <p class="text-xs text-slate-300 mt-1">Selecione um status para visualizar os últimos registros.</p>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 mt-3 text-xs">
+          <select
+            id="filtroStatus"
+            class="w-full sm:max-w-xs rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
+          >
+            <option value="todos">Todos os status</option>
+            <option value="Em aberto">Em aberto</option>
+            <option value="Em andamento">Em andamento</option>
+            <option value="Resolvido">Resolvido</option>
+          </select>
+
+          <button
+            id="btnIrParaChamados"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-slate-100 hover:bg-white/10 transition"
+          >
+            📋 Abrir tela de chamados
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- LISTA DE ÚLTIMOS CHAMADOS -->
+    <section class="bg-white/5 border border-white/10 rounded-3xl shadow-xl shadow-black/40 backdrop-blur overflow-hidden">
+      <div class="px-6 py-4 border-b border-white/10 flex items-center justify-between gap-3">
+        <div>
+          <h3 class="text-sm font-semibold text-slate-50">Últimos chamados registrados</h3>
+          <p class="text-xs text-slate-300 mt-1">
+            Visualização compacta dos chamados mais recentes. Para mudar status, use a tela de <span class="font-semibold text-slate-100">Listagem de chamados</span>.
+          </p>
+        </div>
+        <span id="badgeTotalLista"
+              class="inline-flex items-center rounded-full bg-slate-900/80 border border-white/15 px-3 py-1 text-[11px] font-semibold text-slate-100">
+          0 registros
+        </span>
+      </div>
+
+      <div id="emptyState" class="hidden px-6 py-8 text-center text-sm text-slate-300">
+        Nenhum chamado encontrado no momento. Assim que houver registros, eles aparecerão aqui.
+      </div>
+
+      <div class="overflow-x-auto" id="wrapTabelaChamados">
+        <table class="min-w-full text-xs md:text-sm">
+          <thead class="bg-slate-900/70 border-b border-white/10">
+            <tr class="text-left text-slate-200">
+              <th class="px-6 py-3 font-medium whitespace-nowrap">ID</th>
+              <th class="px-6 py-3 font-medium">Título / Descrição</th>
+              <th class="px-6 py-3 font-medium whitespace-nowrap">Status</th>
+              <th class="px-6 py-3 font-medium whitespace-nowrap">Prioridade</th>
+              <th class="px-6 py-3 font-medium whitespace-nowrap">Solicitante</th>
+              <th class="px-6 py-3 font-medium whitespace-nowrap">Criado em</th>
+              <th class="px-6 py-3 font-medium whitespace-nowrap">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyChamados" class="divide-y divide-white/5"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL DETALHES DO CHAMADO -->
+  <div
+    id="modalDetalhes"
+    class="fixed inset-0 z-40 hidden items-center justify-center bg-black/70 backdrop-blur-sm"
+  >
+    <div class="relative w-full max-w-2xl mx-4">
+      <div class="bg-slate-950/95 border border-white/15 rounded-3xl shadow-2xl shadow-black/70 p-6 space-y-4">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <p class="text-[11px] uppercase tracking-[0.16em] text-slate-400 mb-1">
+              Detalhes do chamado
+            </p>
+            <h2 class="text-base font-semibold text-slate-50" id="detTituloCabecalho">
+              Chamado
+            </h2>
+            <p class="text-xs text-slate-400 mt-1" id="detIdStatus">
+              ID — Status
+            </p>
+          </div>
+          <button
+            id="btnFecharModal"
+            class="inline-flex items-center justify-center rounded-xl border border-white/15 w-8 h-8 text-slate-200 hover:bg-white/10 transition text-sm"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <div class="rounded-2xl border border-white/10 bg-slate-900/60 px-3 py-2.5">
+            <p class="text-[10px] uppercase tracking-[0.16em] text-slate-400 mb-1">Categoria</p>
+            <p class="font-semibold text-slate-50" id="detCategoria">—</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-slate-900/60 px-3 py-2.5">
+            <p class="text-[10px] uppercase tracking-[0.16em] text-slate-400 mb-1">Prioridade</p>
+            <p class="font-semibold text-slate-50" id="detPrioridade">—</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-slate-900/60 px-3 py-2.5">
+            <p class="text-[10px] uppercase tracking-[0.16em] text-slate-400 mb-1">Solicitante</p>
+            <p class="font-semibold text-slate-50" id="detSolicitante">—</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-slate-900/60 px-3 py-2.5">
+            <p class="text-[10px] uppercase tracking-[0.16em] text-slate-400 mb-1">Criado em</p>
+            <p class="font-semibold text-slate-50" id="detCriadoEm">—</p>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <p class="text-[10px] uppercase tracking-[0.16em] text-slate-400">
+            Descrição completa
+          </p>
+          <div class="rounded-2xl border border-white/10 bg-slate-900/70 px-3 py-3 max-h-64 overflow-auto text-sm text-slate-100 whitespace-pre-wrap" id="detDescricao">
+            —
+          </div>
+        </div>
+
+        <div class="flex justify-end pt-2">
+          <button
+            id="btnFecharModalRodape"
+            class="inline-flex items-center justify-center rounded-2xl border border-white/15 px-4 py-2.5 text-sm font-medium text-slate-100 hover:bg-white/10 transition"
+          >
+            Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ============ UTILITÁRIOS DE SESSÃO ============
+    function getSessionUser() {
+      try {
+        return JSON.parse(localStorage.getItem('sessionUser') || 'null');
+      } catch {
+        return null;
+      }
+    }
+
+    function initials(nome) {
+      return (nome || '')
+        .split(' ')
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(s => s[0].toUpperCase())
+        .join('') || '??';
+    }
+
+    const sess = getSessionUser();
+    if (!sess) {
+      window.location.href = 'index.html';
+    } else if (sess.perfil !== 'admin') {
+      // Só admin acessa esse dashboard
+      window.location.href = 'dashboard.html';
+    }
+
+    const btnProfileCircle = document.getElementById('btnProfileCircle');
+    btnProfileCircle.textContent = initials(sess?.nome);
+
+    function doLogout() {
+      localStorage.removeItem('sessionUser');
+      window.location.href = 'index.html';
+    }
+    document.getElementById('logoutTop').addEventListener('click', doLogout);
+
+    // ============ CHAMADOS (LOCALSTORAGE) ============
+    function loadChamados() {
+      try {
+        return JSON.parse(localStorage.getItem('chamados') || '[]');
+      } catch {
+        return [];
+      }
+    }
+
+    function formatDate(iso) {
+      const d = new Date(iso);
+      if (Number.isNaN(d.getTime())) return '—';
+      return d.toLocaleString('pt-BR');
+    }
+
+    function badgeClass(status) {
+      switch (status) {
+        case 'Em andamento':
+          return 'bg-amber-100 text-amber-900 ring-1 ring-amber-300';
+        case 'Resolvido':
+          return 'bg-emerald-100 text-emerald-900 ring-1 ring-emerald-300';
+        case 'Em aberto':
+        default:
+          return 'bg-sky-100 text-sky-900 ring-1 ring-sky-300';
+      }
+    }
+
+    // ============ DASHBOARD ============
+    const cardTotalChamados   = document.getElementById('cardTotalChamados');
+    const cardAbertos         = document.getElementById('cardAbertos');
+    const cardAndamento       = document.getElementById('cardAndamento');
+    const cardResolvidos      = document.getElementById('cardResolvidos');
+    const prioBaixa           = document.getElementById('prioBaixa');
+    const prioMedia           = document.getElementById('prioMedia');
+    const prioAltaCritica     = document.getElementById('prioAltaCritica');
+    const ultimaAtualizacaoEl = document.getElementById('ultimaAtualizacao');
+    const filtroStatus        = document.getElementById('filtroStatus');
+    const tbodyChamados       = document.getElementById('tbodyChamados');
+    const emptyState          = document.getElementById('emptyState');
+    const wrapTabelaChamados  = document.getElementById('wrapTabelaChamados');
+    const badgeTotalLista     = document.getElementById('badgeTotalLista');
+
+    function atualizarResumo() {
+      const chamados = loadChamados();
+
+      const total = chamados.length;
+      const abertos = chamados.filter(c => c.status === 'Em aberto').length;
+      const andamento = chamados.filter(c => c.status === 'Em andamento').length;
+      const resolvidos = chamados.filter(c => c.status === 'Resolvido').length;
+
+      cardTotalChamados.textContent = total;
+      cardAbertos.textContent = abertos;
+      cardAndamento.textContent = andamento;
+      cardResolvidos.textContent = resolvidos;
+
+      const baixa = chamados.filter(c => (c.prioridade || '').toLowerCase() === 'baixa').length;
+      const media = chamados.filter(c => {
+        const p = (c.prioridade || '').toLowerCase();
+        return p === 'média' || p === 'media';
+      }).length;
+      const altaCritica = chamados.filter(c => {
+        const p = (c.prioridade || '').toLowerCase();
+        return p === 'alta' || p === 'crítica' || p === 'critica';
+      }).length;
+
+      prioBaixa.textContent = baixa;
+      prioMedia.textContent = media;
+      prioAltaCritica.textContent = altaCritica;
+
+      if (chamados.length) {
+        const maxData = chamados
+          .map(c => new Date(c.criadoEm))
+          .filter(d => !Number.isNaN(d.getTime()))
+          .sort((a, b) => b - a)[0];
+
+        if (maxData) {
+          ultimaAtualizacaoEl.textContent = 'Última atualização: ' + maxData.toLocaleString('pt-BR');
+        } else {
+          ultimaAtualizacaoEl.textContent = 'Última atualização: —';
+        }
+      } else {
+        ultimaAtualizacaoEl.textContent = 'Última atualização: —';
+      }
+    }
+
+    // ===== MODAL DETALHES =====
+    const modalDetalhes          = document.getElementById('modalDetalhes');
+    const btnFecharModal         = document.getElementById('btnFecharModal');
+    const btnFecharModalRodape   = document.getElementById('btnFecharModalRodape');
+    const detTituloCabecalho     = document.getElementById('detTituloCabecalho');
+    const detIdStatus            = document.getElementById('detIdStatus');
+    const detCategoria           = document.getElementById('detCategoria');
+    const detPrioridade          = document.getElementById('detPrioridade');
+    const detSolicitante         = document.getElementById('detSolicitante');
+    const detCriadoEm            = document.getElementById('detCriadoEm');
+    const detDescricao           = document.getElementById('detDescricao');
+
+    function abrirModalDetalhes(chamado) {
+      const titulo = chamado.titulo && chamado.titulo.trim().length
+        ? chamado.titulo
+        : '(Sem título)';
+
+      detTituloCabecalho.textContent = titulo;
+      detIdStatus.textContent = `${chamado.id || '—'} — ${chamado.status || 'Em aberto'}`;
+      detCategoria.textContent = chamado.categoria || '—';
+      detPrioridade.textContent = chamado.prioridade || '—';
+      detSolicitante.textContent = chamado.usuarioNome || chamado.usuarioEmail || '—';
+      detCriadoEm.textContent = formatDate(chamado.criadoEm);
+      detDescricao.textContent = chamado.descricao || '—';
+
+      modalDetalhes.classList.remove('hidden');
+      modalDetalhes.classList.add('flex');
+    }
+
+    function fecharModalDetalhes() {
+      modalDetalhes.classList.add('hidden');
+      modalDetalhes.classList.remove('flex');
+    }
+
+    btnFecharModal.addEventListener('click', fecharModalDetalhes);
+    btnFecharModalRodape.addEventListener('click', fecharModalDetalhes);
+
+    modalDetalhes.addEventListener('click', (e) => {
+      if (e.target === modalDetalhes) {
+        fecharModalDetalhes();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modalDetalhes.classList.contains('hidden')) {
+        fecharModalDetalhes();
+      }
+    });
+
+    // ===== TABELA =====
+    function renderTabela() {
+      const chamados = loadChamados();
+      const statusFiltro = filtroStatus.value;
+
+      let lista = chamados.slice();
+
+      // Ordena por data desc
+      lista.sort((a, b) => {
+        const da = new Date(a.criadoEm);
+        const db = new Date(b.criadoEm);
+        return db - da;
+      });
+
+      if (statusFiltro !== 'todos') {
+        lista = lista.filter(c => c.status === statusFiltro);
+      }
+
+      const totalLista = lista.length;
+      badgeTotalLista.textContent = totalLista === 1 ? '1 registro' : `${totalLista} registros`;
+
+      if (!lista.length) {
+        emptyState.classList.remove('hidden');
+        wrapTabelaChamados.classList.add('hidden');
+        tbodyChamados.innerHTML = '';
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      wrapTabelaChamados.classList.remove('hidden');
+      tbodyChamados.innerHTML = '';
+
+      lista.slice(0, 20).forEach((c, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = idx % 2 === 0 ? 'bg-slate-900/40' : 'bg-slate-900/20';
+
+        const tdId = document.createElement('td');
+        tdId.className = 'px-6 py-3 font-mono text-[11px] text-slate-200 whitespace-nowrap';
+        tdId.textContent = c.id || '—';
+
+        const tdTitulo = document.createElement('td');
+        tdTitulo.className = 'px-6 py-3 max-w-[22rem] text-slate-50 align-top';
+        const titulo = c.titulo && c.titulo.trim().length ? c.titulo : '(Sem título)';
+        const desc = c.descricao || '';
+        tdTitulo.innerHTML = `
+          <p class="font-semibold text-xs md:text-sm text-slate-50 line-clamp-1">${titulo}</p>
+          <p class="text-[11px] md:text-xs text-slate-300 line-clamp-2 mt-0.5">${desc}</p>
+        `;
+
+        const tdStatus = document.createElement('td');
+        tdStatus.className = 'px-6 py-3 align-top whitespace-nowrap';
+        const badge = document.createElement('span');
+        badge.className = 'inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold ' + badgeClass(c.status);
+        badge.textContent = c.status || 'Em aberto';
+        tdStatus.appendChild(badge);
+
+        const tdPrioridade = document.createElement('td');
+        tdPrioridade.className = 'px-6 py-3 align-top whitespace-nowrap text-slate-100';
+        tdPrioridade.textContent = c.prioridade || '—';
+
+        const tdSolicitante = document.createElement('td');
+        tdSolicitante.className = 'px-6 py-3 align-top whitespace-nowrap text-slate-100';
+        tdSolicitante.textContent = c.usuarioNome || c.usuarioEmail || '—';
+
+        const tdCriado = document.createElement('td');
+        tdCriado.className = 'px-6 py-3 align-top whitespace-nowrap text-slate-200';
+        tdCriado.textContent = formatDate(c.criadoEm);
+
+        // AÇÕES
+        const tdAcoes = document.createElement('td');
+        tdAcoes.className = 'px-6 py-3 align-top whitespace-nowrap';
+
+        const btnDetalhes = document.createElement('button');
+        btnDetalhes.type = 'button';
+        btnDetalhes.textContent = 'Ver detalhes';
+        btnDetalhes.className =
+          'inline-flex items-center justify-center rounded-2xl border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] font-medium text-slate-100 hover:bg-white/10 transition';
+        btnDetalhes.addEventListener('click', () => abrirModalDetalhes(c));
+
+        tdAcoes.appendChild(btnDetalhes);
+
+        tr.appendChild(tdId);
+        tr.appendChild(tdTitulo);
+        tr.appendChild(tdStatus);
+        tr.appendChild(tdPrioridade);
+        tr.appendChild(tdSolicitante);
+        tr.appendChild(tdCriado);
+        tr.appendChild(tdAcoes);
+
+        tbodyChamados.appendChild(tr);
+      });
+    }
+
+    // Filtro
+    filtroStatus.addEventListener('change', renderTabela);
+
+    // Botão "Ir para chamados"
+    document.getElementById('btnIrParaChamados').addEventListener('click', () => {
+      window.location.href = 'chamados.html';
+    });
+
+    // Render inicial
+    atualizarResumo();
+    renderTabela();
+  </script>
+</body>
+</html>

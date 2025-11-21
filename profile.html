@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Minha Conta | Suporte Técnico</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-slate-50">
+
+  <!-- TOP NAV -->
+  <header class="border-b border-white/10 bg-slate-900/60 backdrop-blur">
+    <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <img
+          src="logo-helptech.png"
+          alt="Logo HelpTech"
+          class="h-8 w-auto rounded-xl shadow"
+        />
+        <div class="flex flex-col leading-tight">
+          <span class="text-sm uppercase tracking-[0.18em] text-slate-400">Painel do Usuário</span>
+          <h1 class="text-lg font-semibold text-slate-50">Minha Conta</h1>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="dashboard.html"
+           class="hidden sm:inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-xs font-medium text-slate-200 hover:bg-white/10 transition">
+          ⬅ Voltar para o sistema
+        </a>
+        <button id="logoutTop"
+                class="inline-flex items-center gap-2 rounded-xl bg-red-500/90 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500 shadow-sm transition">
+          Sair
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN WRAPPER -->
+  <main class="max-w-5xl mx-auto px-4 py-8">
+    <div class="grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1.2fr)] gap-6">
+
+      <!-- COLUNA ESQUERDA - PERFIL / SIDEBAR -->
+      <aside class="bg-white/5 border border-white/10 rounded-3xl p-6 space-y-6 shadow-xl shadow-black/40 backdrop-blur">
+
+        <!-- AVATAR E NOME -->
+        <section class="flex items-center gap-4">
+          <div class="relative">
+            <div id="avatarWrapper"
+                 class="w-20 h-20 rounded-2xl bg-slate-800 border border-white/10 overflow-hidden flex items-center justify-center shadow-xl shadow-black/50">
+              <img id="avatarImg" alt="Foto do usuário" class="w-full h-full object-cover hidden">
+              <span id="avatarInitials" class="text-slate-100 font-semibold text-xl">??</span>
+            </div>
+            <button
+              type="button"
+              id="btnChangeAvatar"
+              class="absolute -bottom-1 -right-1 inline-flex items-center justify-center w-7 h-7 rounded-xl bg-slate-100 text-slate-900 text-xs shadow hover:bg-slate-200 transition"
+              title="Alterar foto"
+            >
+              📷
+            </button>
+            <input id="avatarInput" type="file" accept="image/*" class="hidden">
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <p class="text-xs uppercase tracking-[0.16em] text-slate-400">
+              Usuário autenticado
+            </p>
+            <h2 class="text-xl font-semibold" id="pNome">—</h2>
+            <p class="text-sm text-slate-300 flex items-center gap-1" id="pEmail">—</p>
+          </div>
+        </section>
+
+        <!-- STATUS / PERFIL / CHAMADOS -->
+        <section class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+          <div class="rounded-2xl border border-emerald-400/30 bg-emerald-900/20 px-3 py-2.5">
+            <p class="text-[11px] uppercase tracking-[0.16em] text-emerald-300 mb-1">Status</p>
+            <p class="font-semibold text-emerald-100 flex items-center gap-1">
+              ● Ativo
+            </p>
+          </div>
+          <div class="rounded-2xl border border-slate-500/40 bg-slate-900/40 px-3 py-2.5">
+            <p class="text-[11px] uppercase tracking-[0.16em] text-slate-400 mb-1">Perfil</p>
+            <p class="font-semibold text-slate-100" id="perfilTexto">Usuário Padrão</p>
+          </div>
+          <div class="rounded-2xl border border-indigo-400/30 bg-indigo-900/20 px-3 py-2.5">
+            <p class="text-[11px] uppercase tracking-[0.16em] text-indigo-300 mb-1">Chamados</p>
+            <!-- AQUI: adicionamos o id para preencher via JS -->
+            <p class="font-semibold text-indigo-100" id="userChamadosCount">—</p>
+          </div>
+        </section>
+
+        <!-- DADOS BÁSICOS -->
+        <section class="space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+              Dados cadastrais
+            </h3>
+            <button
+              id="btnOpenEditModal"
+              class="inline-flex items-center gap-1 rounded-xl border border-white/15 px-2.5 py-1.5 text-[11px] font-medium text-slate-100 hover:bg-white/10 transition"
+            >
+              ✏️ Editar
+            </button>
+          </div>
+          <div class="space-y-2 text-sm">
+            <div class="flex justify-between items-center gap-3">
+              <span class="text-slate-400">CPF</span>
+              <span class="font-medium text-slate-100" id="pCPF">—</span>
+            </div>
+            <div class="flex justify-between items-center gap-3">
+              <span class="text-slate-400">Telefone</span>
+              <span class="font-medium text-slate-100" id="pTel">—</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- NAVEGAÇÃO -->
+        <section class="space-y-3">
+          <h3 class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+            Navegação
+          </h3>
+          <div class="flex flex-col gap-2 text-sm">
+            <a href="profile.html"
+               class="inline-flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-3 py-2 hover:bg-white/10 transition">
+              <span>Resumo da conta</span>
+              <span class="text-xs text-slate-300">Atual</span>
+            </a>
+            <a href="dashboard.html"
+               class="inline-flex items-center justify-between rounded-2xl border border-white/5 px-3 py-2 hover:bg-white/10 transition">
+              <span>Ir para painel de chamados</span>
+              <span class="text-xs text-slate-300">Home</span>
+            </a>
+          </div>
+        </section>
+      </aside>
+
+      <!-- COLUNA DIREITA - SEGURANÇA / AÇÕES / CONFIG AVANÇADAS-->
+      <section class="space-y-6">
+
+        <!-- CARD SEGURANÇA DA CONTA -->
+        <div class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-xl shadow-black/40 backdrop-blur space-y-5">
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <h2 class="text-base font-semibold text-slate-50 flex items-center gap-2">
+                Segurança da Conta
+                <span class="inline-flex items-center rounded-full bg-emerald-500/15 border border-emerald-400/40 px-2 py-[2px] text-[10px] font-semibold text-emerald-200">
+                  Recomendado
+                </span>
+              </h2>
+              <p class="text-sm text-slate-300 mt-1">
+                Gerencie a sua senha, aumente a segurança da conta e mantenha as informações sempre atualizadas.
+              </p>
+            </div>
+            <button
+              id="btnChangePassword"
+              class="hidden sm:inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-xs font-medium text-slate-100 hover:bg-white/10 transition"
+            >
+              Alterar senha
+            </button>
+          </div>
+
+          <!-- Botão mobile -->
+          <button
+            id="btnChangePasswordMobile"
+            class="sm:hidden w-full inline-flex justify-center rounded-2xl border border-white/10 px-3 py-2.5 text-sm font-medium text-slate-50 hover:bg-white/10 transition"
+          >
+            Alterar senha
+          </button>
+
+          <!-- SEÇÃO ALTERAR SENHA -->
+          <div id="changePasswordSection" class="hidden pt-4 border-t border-white/10">
+            <form id="formChangePassword" class="grid gap-4 mt-2">
+              <!-- Senha atual -->
+              <div class="relative">
+                <label class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300" for="currentPassword">
+                  Senha atual
+                </label>
+                <input
+                  id="currentPassword"
+                  type="password"
+                  required
+                  class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 pr-10 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
+                  placeholder="Digite sua senha atual"
+                >
+                <button
+                  type="button"
+                  class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-100 text-sm mt-6"
+                  id="toggleCurrentPassword"
+                  aria-label="Mostrar ou ocultar senha atual"
+                >
+                  👁️
+                </button>
+              </div>
+
+              <!-- Nova senha -->
+              <div class="relative">
+                <label class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300" for="newPassword">
+                  Nova senha
+                </label>
+                <input
+                  id="newPassword"
+                  type="password"
+                  required
+                  minlength="6"
+                  class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 pr-10 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
+                  placeholder="Mínimo de 6 caracteres"
+                >
+                <button
+                  type="button"
+                  class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-100 text-sm mt-6"
+                  id="toggleNewPassword"
+                  aria-label="Mostrar ou ocultar nova senha"
+                >
+                  👁️
+                </button>
+              </div>
+
+              <!-- Confirmação nova senha -->
+              <div class="relative">
+                <label class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300" for="confirmPassword">
+                  Confirmar nova senha
+                </label>
+                <input
+                  id="confirmPassword"
+                  type="password"
+                  required
+                  minlength="6"
+                  class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 pr-10 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
+                  placeholder="Repita a nova senha"
+                >
+                <button
+                  type="button"
+                  class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-100 text-sm mt-6"
+                  id="toggleConfirmPassword"
+                  aria-label="Mostrar ou ocultar confirmação de senha"
+                >
+                  👁️
+                </button>
+              </div>
+
+              <!-- DICA DE SENHA -->
+              <div class="rounded-2xl border border-amber-400/30 bg-amber-900/20 px-3 py-2.5 text-xs text-amber-100">
+                Use uma senha forte combinando letras maiúsculas, minúsculas, números e caracteres especiais.
+              </div>
+
+              <!-- BOTÕES -->
+              <div class="flex flex-col sm:flex-row gap-3 mt-2">
+                <button
+                  type="submit"
+                  id="btnSubmitPassword"
+                  class="inline-flex justify-center items-center gap-2 rounded-2xl bg-indigo-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-400 shadow shadow-indigo-500/40 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  Salvar nova senha
+                </button>
+                <button
+                  type="button"
+                  id="btnCancelPassword"
+                  class="inline-flex justify-center items-center rounded-2xl border border-white/10 px-4 py-2.5 text-sm font-medium text-slate-100 hover:bg:white/10 transition"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
+
+            <p id="passwordChangeMsg" class="text-center text-sm mt-4"></p>
+          </div>
+        </div>
+
+        <!-- CARD AÇÕES RÁPIDAS / SESSÃO -->
+        <div class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-xl shadow-black/40 backdrop-blur space-y-4">
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <h2 class="text-base font-semibold text-slate-50">Sessão & Conta</h2>
+              <p class="text-sm text-slate-300 mt-1">
+                Controle rápido de sessão e visualização das informações principais da sua conta.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-3 text-sm">
+            <button
+              id="btnViewProfile"
+              class="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-2.5 font-medium text-slate-50 hover:bg-white/10 transition"
+            >
+              👤 Exibir informações da conta
+            </button>
+
+            <button
+              id="logout2"
+              class="inline-flex items-center justify-center gap-2 rounded-2xl bg-red-500/90 px-3 py-2.5 font-semibold text-white hover:bg-red-500 shadow-sm transition"
+            >
+              ⏻ Encerrar sessão
+            </button>
+          </div>
+        </div>
+
+        <!-- CARD CONFIGURAÇÕES AVANÇADAS -->
+        <div class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-xl shadow-black/40 backdrop-blur space-y-4">
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <h2 class="text-base font-semibold text-slate-50">Configurações avançadas</h2>
+              <p class="text-sm text-slate-300 mt-1">
+                Personalize os dados cadastrais e deixe sua conta alinhada ao seu perfil de uso.
+              </p>
+            </div>
+            <button
+              id="btnOpenEditModal2"
+              class="hidden sm:inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-xs font-medium text-slate-100 hover:bg-white/10 transition"
+            >
+              Editar dados
+            </button>
+          </div>
+
+          <ul class="text-xs text-slate-300 space-y-1.5">
+            <li>• Atualize nome de exibição e telefone.</li>
+            <li>• E-mail e CPF são exibidos como dados principais.</li>
+            <li>• Todas as alterações são salvas apenas neste dispositivo (localStorage).</li>
+          </ul>
+
+          <button
+            id="btnOpenEditModalMobile"
+            class="sm:hidden w-full inline-flex justify-center rounded-2xl border border-white/10 px-3 py-2.5 text-sm font-medium text-slate-50 hover:bg-white/10 transition"
+          >
+            Editar dados cadastrais
+          </button>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- MODAL EDIÇÃO DE DADOS CADASTRAIS -->
+  <div
+    id="editProfileModal"
+    class="fixed inset-0 z-40 hidden items-center justify-center bg-black/60 backdrop-blur-sm"
+  >
+    <div class="relative w-full max-w-md mx-4">
+      <div class="bg-slate-950/95 border border-white/10 rounded-3xl shadow-2xl shadow-black/60 p-6 space-y-4">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <h2 class="text-base font-semibold text-slate-50">Editar dados cadastrais</h2>
+            <p class="text-sm text-slate-300 mt-1">
+              Ajuste apenas as informações permitidas. E-mail e CPF são exibidos como somente leitura.
+            </p>
+          </div>
+          <button
+            id="btnCloseEditModal"
+            class="inline-flex items-center justify-center rounded-xl border border-white/10 w-8 h-8 text-slate-200 hover:bg-white/10 transition text-sm"
+          >
+            ✕
+          </button>
+        </div>
+
+        <form id="formEditProfile" class="space-y-4 text-sm">
+          <!-- Nome -->
+          <div>
+            <label for="editNome" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
+              Nome completo
+            </label>
+            <input
+              id="editNome"
+              type="text"
+              required
+              class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
+              placeholder="Digite seu nome"
+            />
+          </div>
+
+          <!-- Telefone -->
+          <div>
+            <label for="editTel" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
+              Telefone
+            </label>
+            <input
+              id="editTel"
+              type="tel"
+              class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
+              placeholder="(00) 00000-0000"
+            />
+          </div>
+
+          <!-- E-mail (somente leitura) -->
+          <div>
+            <label class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
+              E-mail (login)
+            </label>
+            <input
+              id="editEmail"
+              type="email"
+              disabled
+              class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 text-sm text-slate-400"
+            />
+          </div>
+
+          <!-- CPF (somente leitura) -->
+          <div>
+            <label class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
+              CPF
+            </label>
+            <input
+              id="editCPF"
+              type="text"
+              disabled
+              class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 text-sm text-slate-400"
+            />
+          </div>
+
+          <p id="editProfileMsg" class="text-xs mt-1"></p>
+
+          <div class="flex flex-col sm:flex-row gap-3 pt-2">
+            <button
+              type="submit"
+              id="btnSubmitEditProfile"
+              class="inline-flex justify-center items-center gap-2 rounded-2xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-400 shadow shadow-emerald-500/40 transition disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              Salvar alterações
+            </button>
+            <button
+              type="button"
+              id="btnCancelEditProfile"
+              class="inline-flex justify-center items-center rounded-2xl border border-white/10 px-4 py-2.5 text-sm font-medium text-slate-100 hover:bg-white/10 transition"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===================== UTILITÁRIOS =====================
+    function getSessionUser() {
+      try {
+        return JSON.parse(localStorage.getItem('sessionUser') || 'null');
+      } catch {
+        return null;
+      }
+    }
+
+    function saveSessionUser(user) {
+      localStorage.setItem('sessionUser', JSON.stringify(user));
+    }
+
+    function initials(nome) {
+      return (nome || '')
+        .split(' ')
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(s => s[0].toUpperCase())
+        .join('') || '??';
+    }
+
+    function formatCPF(cpf) {
+      const digits = (cpf || '').replace(/\D/g, '');
+      if (digits.length !== 11) return cpf || '—';
+      return digits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    }
+
+    function formatPhone(tel) {
+      const digits = (tel || '').replace(/\D/g, '');
+      if (digits.length === 11) {
+        return digits.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+      }
+      if (digits.length === 10) {
+        return digits.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+      }
+      return tel || '—';
+    }
+
+    function togglePassword(btnId, inputId) {
+      const btn = document.getElementById(btnId);
+      const input = document.getElementById(inputId);
+      if (!btn || !input) return;
+
+      btn.addEventListener('click', () => {
+        const visible = input.type === 'text';
+        input.type = visible ? 'password' : 'text';
+        btn.textContent = visible ? '👁️' : '🙈';
+      });
+    }
+
+    function setMessage(el, text, type) {
+      el.textContent = text || '';
+      el.classList.remove('text-red-400', 'text-green-400', 'text-emerald-300', 'text-amber-300');
+      if (type === 'error') el.classList.add('text-red-400');
+      if (type === 'success') el.classList.add('text-green-400');
+      if (type === 'info') el.classList.add('text-emerald-300');
+      if (type === 'warn') el.classList.add('text-amber-300');
+    }
+
+    // ====== NOVO: carregar chamados e contar os do usuário ======
+    function loadChamados() {
+      try {
+        return JSON.parse(localStorage.getItem('chamados') || '[]');
+      } catch {
+        return [];
+      }
+    }
+
+    function atualizarResumoChamadosUsuario(sess) {
+      const elCount = document.getElementById('userChamadosCount');
+      if (!elCount || !sess?.email) return;
+
+      const chamados = loadChamados();
+      const emailUsuario = (sess.email || '').toLowerCase();
+
+      const meusChamados = chamados.filter(c =>
+        (c.usuarioEmail || '').toLowerCase() === emailUsuario
+      );
+
+      const total = meusChamados.length;
+      elCount.textContent = total;
+    }
+    // =========================================================
+
+    // ===================== INICIALIZAÇÃO =====================
+    const sess = getSessionUser();
+    if (!sess) {
+      window.location.href = 'index.html';
+    }
+
+    const isAdmin = sess?.perfil === 'admin';
+
+    // Elementos principais
+    const avatarImg = document.getElementById('avatarImg');
+    const avatarInitials = document.getElementById('avatarInitials');
+    const pNome = document.getElementById('pNome');
+    const pEmail = document.getElementById('pEmail');
+    const pCPF = document.getElementById('pCPF');
+    const pTel = document.getElementById('pTel');
+    const perfilTexto = document.getElementById('perfilTexto');
+    const passwordChangeMsg = document.getElementById('passwordChangeMsg');
+
+    function renderAvatar(user) {
+      const avatarUrl = user?.avatar;
+      if (avatarUrl) {
+        avatarImg.src = avatarUrl;
+        avatarImg.classList.remove('hidden');
+        avatarInitials.classList.add('hidden');
+      } else {
+        avatarImg.src = '';
+        avatarImg.classList.add('hidden');
+        avatarInitials.textContent = initials(user?.nome);
+        avatarInitials.classList.remove('hidden');
+      }
+    }
+
+    function renderProfileInfo(user) {
+      pNome.textContent = user?.nome || '—';
+      pEmail.textContent = user?.email || '—';
+      pCPF.textContent = user?.cpf ? formatCPF(user.cpf) : '—';
+      pTel.textContent = user?.tel ? formatPhone(user.tel) : '—';
+      perfilTexto.textContent = user?.perfil === 'admin' ? 'Administrador' : 'Usuário Padrão';
+      renderAvatar(user);
+    }
+
+    renderProfileInfo(sess);
+    atualizarResumoChamadosUsuario(sess); // <-- conta e mostra quantidade de chamados
+
+    // ===================== LOGOUT =====================
+
+    function doLogout() {
+      localStorage.removeItem('sessionUser');
+      window.location.href = 'index.html';
+    }
+
+    document.getElementById('logout2').addEventListener('click', doLogout);
+    document.getElementById('logoutTop').addEventListener('click', doLogout);
+
+    // ===================== AVATAR (FOTO DO USUÁRIO) =====================
+    const btnChangeAvatar = document.getElementById('btnChangeAvatar');
+    const avatarInput = document.getElementById('avatarInput');
+
+    btnChangeAvatar.addEventListener('click', () => {
+      avatarInput.click();
+    });
+
+    avatarInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith('image/')) {
+        setMessage(passwordChangeMsg, 'Selecione um arquivo de imagem válido para o avatar.', 'error');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        sess.avatar = reader.result;
+        saveSessionUser(sess);
+        renderAvatar(sess);
+        setMessage(passwordChangeMsg, 'Foto atualizada com sucesso!', 'success');
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // ===================== EXIBIÇÃO DE SENHA =====================
+    togglePassword('toggleCurrentPassword', 'currentPassword');
+    togglePassword('toggleNewPassword', 'newPassword');
+    togglePassword('toggleConfirmPassword', 'confirmPassword');
+
+    // ===================== ABRIR/FECHAR SEÇÃO DE SENHA =====================
+    const changePasswordSection = document.getElementById('changePasswordSection');
+    const btnChangePassword = document.getElementById('btnChangePassword');
+    const btnChangePasswordMobile = document.getElementById('btnChangePasswordMobile');
+    const btnCancelPassword = document.getElementById('btnCancelPassword');
+
+    function toggleChangePasswordSection(show) {
+      if (show === true) {
+        changePasswordSection.classList.remove('hidden');
+      } else if (show === false) {
+        changePasswordSection.classList.add('hidden');
+      } else {
+        changePasswordSection.classList.toggle('hidden');
+      }
+      setMessage(passwordChangeMsg, '', null);
+    }
+
+    btnChangePassword.addEventListener('click', () => toggleChangePasswordSection());
+    btnChangePasswordMobile.addEventListener('click', () => toggleChangePasswordSection(true));
+    btnCancelPassword.addEventListener('click', () => toggleChangePasswordSection(false));
+
+    // ===================== ALTERAR SENHA =====================
+    document.getElementById('formChangePassword').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const btnSubmit = document.getElementById('btnSubmitPassword');
+
+      const currentPassword = document.getElementById('currentPassword').value.trim();
+      const newPassword = document.getElementById('newPassword').value.trim();
+      const confirmPassword = document.getElementById('confirmPassword').value.trim();
+
+      setMessage(passwordChangeMsg, '', null);
+
+      if (typeof sess.senha === 'string') {
+        if (currentPassword !== sess.senha) {
+          setMessage(passwordChangeMsg, 'A senha atual está incorreta.', 'error');
+          return;
+        }
+      } else {
+        setMessage(passwordChangeMsg, 'Não foi possível validar a senha atual. Faça login novamente se o problema persistir.', 'error');
+      }
+
+      if (newPassword.length < 6) {
+        setMessage(passwordChangeMsg, 'A nova senha deve ter pelo menos 6 caracteres.', 'error');
+        return;
+      }
+
+      if (newPassword === currentPassword) {
+        setMessage(passwordChangeMsg, 'A nova senha não pode ser igual à senha atual.', 'error');
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        setMessage(passwordChangeMsg, 'As senhas novas não coincidem.', 'error');
+        return;
+      }
+
+      btnSubmit.disabled = true;
+
+      sess.senha = newPassword;
+      saveSessionUser(sess);
+
+      document.getElementById('currentPassword').value = '';
+      document.getElementById('newPassword').value = '';
+      document.getElementById('confirmPassword').value = '';
+
+      setMessage(passwordChangeMsg, 'Senha alterada com sucesso!', 'success');
+      btnSubmit.disabled = false;
+    });
+
+    // ===================== BOTÃO EXIBIR INFORMAÇÕES =====================
+    document.getElementById('btnViewProfile').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ===================== MODAL EDIÇÃO DE DADOS =====================
+    const editProfileModal = document.getElementById('editProfileModal');
+    const btnOpenEditModal = document.getElementById('btnOpenEditModal');
+    const btnOpenEditModal2 = document.getElementById('btnOpenEditModal2');
+    const btnOpenEditModalMobile = document.getElementById('btnOpenEditModalMobile');
+    const btnCloseEditModal = document.getElementById('btnCloseEditModal');
+    const btnCancelEditProfile = document.getElementById('btnCancelEditProfile');
+    const formEditProfile = document.getElementById('formEditProfile');
+    const editNome = document.getElementById('editNome');
+    const editTel = document.getElementById('editTel');
+    const editEmail = document.getElementById('editEmail');
+    const editCPF = document.getElementById('editCPF');
+    const editProfileMsg = document.getElementById('editProfileMsg');
+    const btnSubmitEditProfile = document.getElementById('btnSubmitEditProfile');
+
+    function openEditModal() {
+      editNome.value = sess?.nome || '';
+      editTel.value = sess?.tel ? formatPhone(sess.tel) : '';
+      editEmail.value = sess?.email || '';
+      editCPF.value = sess?.cpf ? formatCPF(sess.cpf) : '';
+      setMessage(editProfileMsg, '', null);
+      editProfileModal.classList.remove('hidden');
+      editProfileModal.classList.add('flex');
+    }
+
+    function closeEditModal() {
+      editProfileModal.classList.add('hidden');
+      editProfileModal.classList.remove('flex');
+      setMessage(editProfileMsg, '', null);
+    }
+
+    [btnOpenEditModal, btnOpenEditModal2, btnOpenEditModalMobile].forEach(btn => {
+      if (btn) btn.addEventListener('click', openEditModal);
+    });
+
+    btnCloseEditModal.addEventListener('click', closeEditModal);
+    btnCancelEditProfile.addEventListener('click', closeEditModal);
+
+    // Fecha modal clicando no fundo
+    editProfileModal.addEventListener('click', (e) => {
+      if (e.target === editProfileModal) {
+        closeEditModal();
+      }
+    });
+
+    // Fecha modal com ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !editProfileModal.classList.contains('hidden')) {
+        closeEditModal();
+      }
+    });
+
+    // Formatar telefone digitando (simples)
+    editTel.addEventListener('blur', () => {
+      if (editTel.value.trim()) {
+        editTel.value = formatPhone(editTel.value);
+      }
+    });
+
+    // Salvar dados editados
+    formEditProfile.addEventListener('submit', (e) => {
+      e.preventDefault();
+      btnSubmitEditProfile.disabled = true;
+      setMessage(editProfileMsg, '', null);
+
+      const newNome = editNome.value.trim();
+      const newTelRaw = editTel.value.trim();
+
+      if (!newNome) {
+        setMessage(editProfileMsg, 'O nome não pode ficar vazio.', 'error');
+        btnSubmitEditProfile.disabled = false;
+        return;
+      }
+
+      const telDigits = (newTelRaw || '').replace(/\D/g, '');
+      if (newTelRaw && telDigits.length !== 10 && telDigits.length !== 11) {
+        setMessage(editProfileMsg, 'Telefone inválido. Use o formato (00) 00000-0000.', 'error');
+        btnSubmitEditProfile.disabled = false;
+        return;
+      }
+
+      sess.nome = newNome;
+      sess.tel = telDigits || sess.tel || '';
+
+      saveSessionUser(sess);
+      renderProfileInfo(sess);
+      atualizarResumoChamadosUsuario(sess); // reconta se quiser usar em outra regra
+
+      setMessage(editProfileMsg, 'Dados atualizados com sucesso!', 'success');
+
+      setTimeout(() => {
+        closeEditModal();
+        btnSubmitEditProfile.disabled = false;
+      }, 600);
+    });
+  </script>
+</body>
+</html>
