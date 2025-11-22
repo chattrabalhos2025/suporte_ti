@@ -9,58 +9,53 @@
     body {
       scroll-behavior: smooth;
     }
+
+    .animated-bg {
+      background:
+        radial-gradient(circle at top, rgba(56,189,248,0.18), transparent 55%),
+        radial-gradient(circle at bottom, rgba(129,140,248,0.2), transparent 55%),
+        #020617;
+    }
   </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-slate-50 flex items-center justify-center px-4">
+<body class="min-h-screen animated-bg text-slate-50 flex items-center justify-center px-4">
 
-  <main class="w-full max-w-5xl mx-auto grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] gap-8 items-center">
-    <!-- LADO ESQUERDO - INFO -->
-    <section class="hidden lg:flex flex-col gap-6">
-      <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-slate-900/60 px-3 py-1 text-xs text-slate-200">
-        <span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-amber-500/20 text-amber-300 text-[11px]">!</span>
-        Recuperação de acesso à plataforma HelpTech
+  <main class="w-full max-w-md mx-auto">
+    <!-- LOGO + TÍTULO SUPERIOR -->
+    <header class="flex flex-col items-center gap-3 mb-6 text-center">
+      <div class="relative">
+        <img
+          src="logo-helptech.png"
+          alt="Logo HelpTech"
+          class="h-12 w-auto rounded-2xl shadow-xl shadow-black/50"
+        />
+        <span class="absolute -bottom-1 -right-1 h-3 w-3 rounded-full bg-emerald-400 border border-slate-900"></span>
       </div>
+      <div>
+        <p class="text-[11px] uppercase tracking-[0.18em] text-slate-400">
+          Recuperação de acesso
+        </p>
+        <h1 class="text-xl font-semibold text-slate-50 mt-1">
+          Esqueci minha senha
+        </h1>
+        <p class="text-sm text-slate-300 mt-1 max-w-sm">
+          Informe seus dados de contato para simulamos o envio de um código de verificação.
+        </p>
+      </div>
+    </header>
 
-      <div class="flex items-center gap-3">
-        <div class="flex items-center">
-          <!-- Ajuste o src do logo se usar outro nome/arquivo -->
-          <img
-            src="logo-helptech.png"
-            alt="Logo HelpTech"
-            class="h-12 w-auto rounded-2xl shadow-xl shadow-black/40"
-          />
-        </div>
+    <!-- CARD ESQUECI SENHA CENTRALIZADO -->
+    <section class="bg-slate-950/80 border border-white/10 rounded-3xl shadow-2xl shadow-black/70 backdrop-blur p-6 sm:p-7 w-full">
+      <div class="flex items-center justify-between mb-3">
         <div>
-          <h1 class="text-2xl font-semibold text-slate-50">Esqueci minha senha</h1>
-          <p class="text-sm text-slate-300 mt-1">
-            Informe seus dados de contato para enviarmos um código de verificação por e-mail e/ou SMS.
-          </p>
-        </div>
-      </div>
-
-      <ul class="space-y-2 text-sm text-slate-200">
-        <li>• Envio de código de verificação para redefinição de senha.</li>
-        <li>• Todos os campos desta tela são obrigatórios.</li>
-        <li>• Ambiente de testes — não há envio real de e-mail/SMS.</li>
-      </ul>
-
-      <div class="mt-4 rounded-3xl border border-indigo-400/30 bg-indigo-900/20 px-4 py-3 text-xs text-indigo-100">
-        Em produção, este fluxo se integraria a um serviço seguro de envio de e-mails e SMS, com token de validação e expiração.
-      </div>
-    </section>
-
-    <!-- LADO DIREITO - CARD ESQUECI SENHA -->
-    <section class="bg-white/5 border border-white/10 rounded-3xl shadow-2xl shadow-black/60 backdrop-blur p-6 sm:p-8 w-full max-w-md mx-auto">
-      <div class="flex items-center justify-between mb-4">
-        <div>
-          <h2 class="text-xl font-semibold text-slate-50">Recuperar acesso</h2>
-          <p class="text-sm text-slate-300 mt-1">
+          <h2 class="text-base font-semibold text-slate-50">Recuperar acesso</h2>
+          <p class="text-xs text-slate-300 mt-1">
             Preencha os campos abaixo. Todos são obrigatórios.
           </p>
         </div>
       </div>
 
-      <form id="formEsqueciSenha" class="space-y-4 text-sm mt-4">
+      <form id="formEsqueciSenha" class="space-y-4 text-sm mt-3">
         <!-- E-mail -->
         <div>
           <label for="emailRec" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
@@ -71,7 +66,7 @@
             type="email"
             required
             autocomplete="email"
-            class="w-full rounded-2xl border border-white/15 bg-slate-900/70 px-3 py-2 text-sm text-slate-50 placeholder:text-slate-500 outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400"
+            class="w-full rounded-2xl border border-white/15 bg-slate-900/70 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400"
             placeholder="seu.email@empresa.com"
           />
         </div>
@@ -86,7 +81,7 @@
             type="tel"
             required
             autocomplete="tel"
-            class="w-full rounded-2xl border border-white/15 bg-slate-900/70 px-3 py-2 text-sm text-slate-50 placeholder:text-slate-500 outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400"
+            class="w-full rounded-2xl border border-white/15 bg-slate-900/70 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400"
             placeholder="(00) 00000-0000"
           />
         </div>
@@ -132,8 +127,8 @@
 
         <!-- Aviso -->
         <p class="text-[11px] text-amber-200 bg-amber-500/10 border border-amber-400/40 rounded-2xl px-3 py-2">
-          Todos os campos são obrigatórios. Em um ambiente real, o código teria tempo de expiração e seria necessário
-          informá-lo na próxima etapa para redefinir a senha.
+          Ambiente de simulação: nenhum e-mail ou SMS real será enviado. Em produção, o código teria tempo de expiração
+          e seria validado na etapa seguinte para redefinir a senha.
         </p>
 
         <!-- Mensagem -->
@@ -151,9 +146,9 @@
 
       <!-- Rodapé do card -->
       <div class="mt-6 border-t border-white/10 pt-4 text-[11px] text-slate-400 space-y-3">
-        <p>
-          Este é um ambiente de <span class="font-semibold text-slate-200">simulação</span>. Nenhum e-mail ou SMS
-          real será enviado — o objetivo é demonstrar o fluxo de recuperação de acesso.
+        <p class="text-xs">
+          Este é um ambiente de <span class="font-semibold text-slate-200">simulação</span>. O objetivo é apenas
+          demonstrar o fluxo de recuperação de acesso.
         </p>
 
         <div class="flex items-center justify-between gap-2 text-xs">
@@ -168,7 +163,6 @@
       </div>
     </section>
   </main>
-  
 
   <script>
     const formEsqueci = document.getElementById('formEsqueciSenha');
