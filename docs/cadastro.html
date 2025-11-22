@@ -4,63 +4,58 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Suporte Técnico — Cadastro</title>
+
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- THREE + VANTA.NET (arquivos locais) -->
+  <script src="three.r134.min.js"></script>
+  <script src="vanta.net.min.js"></script>
+
   <style>
     body { scroll-behavior: smooth; }
   </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-slate-50 flex items-center justify-center px-4">
+<body class="min-h-screen bg-[#020617] text-slate-50 flex flex-col relative">
 
-  <main class="w-full max-w-5xl mx-auto grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] gap-8 items-center">
-    <!-- LADO ESQUERDO - BRAND / TEXTO -->
-    <section class="hidden lg:flex flex-col gap-6">
-      <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-slate-900/60 px-3 py-1 text-xs text-slate-200">
-        <span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-300 text-[11px]">●</span>
-        Crie sua conta na HelpTech
-      </div>
+  <!-- FUNDO ANIMADO VANTA.NET (IGUAL TELA DE LOGIN) -->
+  <div
+    id="vanta-bg"
+    class="fixed inset-0 -z-10"
+  ></div>
 
-      <div class="flex items-center gap-3">
+  <!-- MAIN CENTRALIZADO -->
+  <main class="flex-1 flex items-center justify-center px-4 pt-12">
+    <!-- CARD CADASTRO -->
+    <section class="bg-white/5 border border-white/10 rounded-3xl shadow-2xl shadow-black/60 backdrop-blur p-6 sm:p-8 w-full max-w-md mx-auto">
+      <!-- LOGO + TÍTULO -->
+      <div class="flex flex-col items-center gap-3 mb-4">
         <img
           src="logo-helptech.png"
           alt="Logo HelpTech"
-          class="h-12 w-auto rounded-2xl shadow-xl shadow-black/40"
+          class="h-16 w-auto rounded-3xl shadow-xl shadow-black/60"
         />
-        <div>
-          <h1 class="text-2xl font-semibold text-slate-50">Cadastro de usuário</h1>
-          <p class="text-sm text-slate-300 mt-1">
-            Informe seus dados para acessar o painel de chamados e acompanhar o suporte técnico.
-          </p>
-        </div>
-      </div>
-
-      <ul class="space-y-2 text-sm text-slate-200">
-        <li>• Nome, e-mail e CPF identificam sua conta.</li>
-        <li>• Telefone ajuda o suporte a contatar você.</li>
-        <li>• Senha com no mínimo 6 caracteres.</li>
-      </ul>
-
-      <div class="mt-4 rounded-3xl border border-indigo-400/30 bg-indigo-900/20 px-4 py-3 text-xs text-indigo-100">
-        Em um ambiente real, esses dados seriam enviados para o servidor da HelpTech com criptografia e armazenamento seguro.
-      </div>
-    </section>
-
-    <!-- LADO DIREITO - CARD CADASTRO -->
-    <section class="bg-white/5 border border-white/10 rounded-3xl shadow-2xl shadow-black/60 backdrop-blur p-6 sm:p-8 w-full max-w-md mx-auto">
-      <div class="flex items-center justify-between mb-4">
-        <div>
-          <h2 class="text-xl font-semibold text-slate-50">Criar nova conta</h2>
-          <p class="text-sm text-slate-300 mt-1">
+        <div class="text-center">
+          <h1 class="text-2xl font-semibold text-slate-50">
+            Criar nova conta
+          </h1>
+          <p class="text-xs text-slate-300 mt-1">
             Preencha seus dados abaixo. Campos com * são obrigatórios.
           </p>
         </div>
+      </div>
+
+      <!-- LINK VOLTAR AO LOGIN (TOPO) -->
+      <div class="flex justify-end mb-2">
         <a
           href="index.html"
-          class="inline-flex items-center gap-1 rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-[11px] font-medium text-slate-100 hover:bg-white/10 transition"
+          class="inline-flex items-center gap-1 rounded-xl border border-white/20 bg-white/5 px-3 py-1 text-[11px] font-medium text-slate-100 hover:bg-white/10 transition"
         >
           ⬅ Voltar ao login
         </a>
       </div>
 
+      <!-- FORM CADASTRO -->
       <form id="formCadastro" class="space-y-4 text-sm mt-4">
         <!-- Nome -->
         <div>
@@ -93,115 +88,98 @@
           />
         </div>
 
-        <!-- Telefone + CPF -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label for="telefone" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
-              Telefone
-            </label>
-            <input
-              id="telefone"
-              type="tel"
-              maxlength="15"
-              class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
-              placeholder="(00) 00000-0000"
-            />
-          </div>
-
-          <div>
-            <label for="cpf" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
-              CPF *
-            </label>
-            <input
-              id="cpf"
-              type="text"
-              required
-              maxlength="14"
-              class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
-              placeholder="000.000.000-00"
-            />
-          </div>
-        </div>
-
-        <!-- Senha + Confirmar -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="relative">
-            <label for="senha" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
-              Senha *
-            </label>
-            <input
-              id="senha"
-              type="password"
-              required
-              minlength="6"
-              maxlength="32"
-              autocomplete="new-password"
-              class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 pr-10 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
-              placeholder="Mínimo 6 caracteres"
-            />
-            <button
-              type="button"
-              id="toggleSenhaCad"
-              class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-100 text-xs mt-6"
-              aria-label="Mostrar ou ocultar senha"
-            >
-              👁️
-            </button>
-          </div>
-
-          <div class="relative">
-            <label for="confirmarSenha" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
-              Confirmar senha *
-            </label>
-            <input
-              id="confirmarSenha"
-              type="password"
-              required
-              minlength="6"
-              maxlength="32"
-              autocomplete="new-password"
-              class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 pr-10 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
-              placeholder="Repita a senha"
-            />
-            <button
-              type="button"
-              id="toggleConfirmarSenhaCad"
-              class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-100 text-xs mt-6"
-              aria-label="Mostrar ou ocultar confirmação de senha"
-            >
-              👁️
-            </button>
-          </div>
-        </div>
-
-        <!-- Termos -->
-        <div class="flex items-start gap-2 text-xs text-slate-300 mt-1">
-          <input
-            id="aceite"
-            type="checkbox"
-            class="mt-0.5 h-3.5 w-3.5 rounded border-white/20 bg-slate-900/80 text-indigo-500 focus:ring-indigo-400"
-            required
-          />
-          <label for="aceite">
-            Confirmo que este é um ambiente de testes e que os dados são armazenados apenas no meu navegador (localStorage).
+        <!-- Telefone -->
+        <div>
+          <label for="telefone" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
+            Telefone (com DDD)
           </label>
+          <input
+            id="telefone"
+            type="tel"
+            maxlength="20"
+            class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
+            placeholder="(11) 99999-9999"
+          />
+        </div>
+
+        <!-- CPF -->
+        <div>
+          <label for="cpf" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
+            CPF *
+          </label>
+          <input
+            id="cpf"
+            type="text"
+            required
+            maxlength="14"
+            class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
+            placeholder="000.000.000-00"
+          />
+        </div>
+
+        <!-- Senha -->
+        <div class="relative">
+          <label for="senha" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
+            Senha *
+          </label>
+          <input
+            id="senha"
+            type="password"
+            required
+            minlength="6"
+            maxlength="32"
+            class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 pr-10 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
+            placeholder="Crie uma senha"
+          />
+          <button
+            type="button"
+            id="toggleSenha"
+            class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-100 text-xs mt-6"
+            aria-label="Mostrar ou ocultar senha"
+          >
+            👁️
+          </button>
+        </div>
+
+        <!-- Confirmar Senha -->
+        <div class="relative">
+          <label for="confirmarSenha" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
+            Confirmar senha *
+          </label>
+          <input
+            id="confirmarSenha"
+            type="password"
+            required
+            minlength="6"
+            maxlength="32"
+            class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 pr-10 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
+            placeholder="Repita a senha"
+          />
+          <button
+            type="button"
+            id="toggleConfirmarSenha"
+            class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-100 text-xs mt-6"
+            aria-label="Mostrar ou ocultar confirmação de senha"
+          >
+            👁️
+          </button>
         </div>
 
         <!-- Mensagem -->
         <p id="cadMsg" class="text-xs mt-1"></p>
 
-        <!-- Botões -->
+        <!-- BOTÕES -->
         <div class="flex flex-col sm:flex-row gap-3 pt-2">
           <button
             type="submit"
             id="btnSubmitCadastro"
-            class="w-full sm:w-auto inline-flex justify-center items-center gap-2 rounded-2xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-400 shadow shadow-emerald-500/40 transition disabled:opacity-60 disabled:cursor-not-allowed"
+            class="w-full sm:w-auto inline-flex justify-center items-center gap-2 rounded-2xl bg-indigo-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-400 shadow shadow-indigo-500/40 transition disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            ✨ Criar conta
+             Criar conta
           </button>
           <a
             href="index.html"
-            class="w-full sm:w-auto inline-flex justify-center items-center rounded-2xl border border-white/10 px-4 py-2.5 text-sm font-medium text-slate-100 hover:bg-white/10 transition"
+            class="w-full sm:w-auto inline-flex justify-center items-center gap-2 rounded-2xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-medium text-slate-100 hover:bg-white/10 transition"
           >
             Já tenho conta
           </a>
@@ -211,6 +189,27 @@
   </main>
 
   <script>
+    // ===================== INICIALIZA VANTA.NET (MESMO PADRÃO DO LOGIN) =====================
+    let vantaEffect = null;
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.VANTA && window.VANTA.NET) {
+        vantaEffect = VANTA.NET({
+          el: "#vanta-bg",
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          color: 0x818cf8,          // linhas em indigo mais claro (igual login)
+          backgroundColor: 0x020617, // fundo #020617 (igual login)
+          maxDistance: 26.00,
+          spacing: 20.00
+        });
+      }
+    });
+
     // ===== UTILITÁRIOS =====
     function getUsuariosCadastrados() {
       try {
@@ -238,25 +237,28 @@
       if (type === 'info') el.classList.add('text-slate-300');
     }
 
-    function limparMascara(str) {
-      return (str || '').replace(/\D/g, '');
+    function limparMascara(value) {
+      return (value || '').replace(/\D/g, '');
     }
 
-    function formatPhoneBR(tel) {
-      const digits = limparMascara(tel);
-      if (digits.length === 11) {
-        return digits.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    function formatPhoneBR(value) {
+      const digits = limparMascara(value).slice(0, 11);
+      if (digits.length <= 2) return digits;
+      if (digits.length <= 6) {
+        return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
       }
-      if (digits.length === 10) {
-        return digits.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+      if (digits.length <= 10) {
+        return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
       }
-      return tel;
+      return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
     }
 
-    function formatCPF(cpf) {
-      const digits = limparMascara(cpf);
-      if (digits.length !== 11) return cpf;
-      return digits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    function formatCPF(value) {
+      const digits = limparMascara(value).slice(0, 11);
+      if (digits.length <= 3) return digits;
+      if (digits.length <= 6) return `${digits.slice(0, 3)}.${digits.slice(3)}`;
+      if (digits.length <= 9) return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6)}`;
+      return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6, 9)}-${digits.slice(9)}`;
     }
 
     // ===== ELEMENTOS =====
@@ -290,10 +292,10 @@
       });
     }
 
-    togglePassword('toggleSenhaCad', inputSenha);
-    togglePassword('toggleConfirmarSenhaCad', inputConfirmarSenha);
+    togglePassword('toggleSenha', inputSenha);
+    togglePassword('toggleConfirmarSenha', inputConfirmarSenha);
 
-    // ===== SUBMIT CADASTRO =====
+    // ===== SUBMIT DO FORM =====
     formCadastro.addEventListener('submit', (e) => {
       e.preventDefault();
       setCadMsg('', null);
@@ -304,7 +306,6 @@
       const cpf = document.getElementById('cpf').value.trim();
       const senha = inputSenha.value.trim();
       const confirmarSenha = inputConfirmarSenha.value.trim();
-      const aceite = document.getElementById('aceite').checked;
 
       if (!nome || !email || !cpf || !senha || !confirmarSenha) {
         setCadMsg('Preencha todos os campos obrigatórios (*).', 'error');
@@ -339,59 +340,51 @@
       }
 
       if (senha !== confirmarSenha) {
-        setCadMsg('As senhas não coincidem.', 'error');
+        setCadMsg('As senhas não conferem. Verifique.', 'error');
         return;
       }
 
-      if (!aceite) {
-        setCadMsg('Você precisa aceitar o aviso de ambiente de testes.', 'error');
-        return;
-      }
-
+      // Verificar se já existe usuário com esse e-mail
       const usuarios = getUsuariosCadastrados();
+      const jaExiste = usuarios.some(u => (u.email || '').toLowerCase() === email.toLowerCase());
 
-      const emailJaExiste = usuarios.some(u => (u.email || '').toLowerCase() === email.toLowerCase());
-      if (emailJaExiste) {
-        setCadMsg('Já existe um usuário cadastrado com esse e-mail.', 'error');
+      if (jaExiste) {
+        setCadMsg('Já existe uma conta cadastrada com este e-mail.', 'error');
         return;
       }
 
-      const cpfJaExiste = usuarios.some(u => limparMascara(u.cpf || '') === cpfDigits);
-      if (cpfJaExiste) {
-        setCadMsg('Já existe um usuário cadastrado com esse CPF.', 'error');
-        return;
-      }
-
-      btnSubmitCadastro.disabled = true;
-
+      // Monta objeto de usuário
       const novoUsuario = {
         nome,
         email,
-        tel: telDigits,
-        cpf: cpfDigits,
+        tel: telefone,
+        cpf,
         senha,
         avatar: null,
-        perfil: 'usuario' // PERFIL PADRÃO
+        perfil: 'usuario'
       };
 
       usuarios.push(novoUsuario);
       saveUsuarios(usuarios);
 
+      // Cria sessão
       const sessionUser = {
         nome,
         email,
-        tel: telDigits,
-        cpf: cpfDigits,
+        cpf,
+        tel: telefone,
         senha,
         avatar: null,
         perfil: 'usuario'
       };
       saveSessionUser(sessionUser);
 
-      setCadMsg('Cadastro realizado com sucesso! Redirecionando para o painel...', 'success');
+      setCadMsg('Cadastro realizado com sucesso! Redirecionando...', 'success');
+
+      btnSubmitCadastro.disabled = true;
 
       setTimeout(() => {
-        window.location.href = 'dashboard.html';
+        window.location.href = 'index.html';
       }, 800);
     });
   </script>
