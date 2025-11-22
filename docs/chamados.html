@@ -7,21 +7,30 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { scroll-behavior: smooth; }
+
+    .animated-bg {
+      background: radial-gradient(circle at top, rgba(56,189,248,0.18), transparent 55%),
+                  radial-gradient(circle at bottom, rgba(129,140,248,0.2), transparent 55%),
+                  #020617;
+    }
   </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-slate-50">
+<body class="min-h-screen animated-bg text-slate-50">
 
   <!-- TOP NAV -->
-  <header class="border-b border-white/10 bg-slate-900/60 backdrop-blur">
+  <header class="border-b border-white/10 bg-slate-950/70 backdrop-blur">
     <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
       <div class="flex items-center gap-3">
-        <img
-          src="logo-helptech.png"
-          alt="Logo HelpTech"
-          class="h-8 w-auto rounded-xl shadow"
-        />
+        <div class="relative">
+          <img
+            src="logo-helptech.png"
+            alt="Logo HelpTech"
+            class="h-8 w-auto rounded-xl shadow shadow-sky-500/40"
+          />
+          <span class="absolute -bottom-1 -right-1 h-3 w-3 rounded-full bg-emerald-400 border border-slate-900"></span>
+        </div>
         <div class="flex flex-col leading-tight">
-          <span class="text-xs uppercase tracking-[0.18em] text-slate-400">
+          <span class="text-[11px] uppercase tracking-[0.18em] text-slate-400">
             Painel do Usuário
           </span>
           <h1 class="text-lg font-semibold text-slate-50" id="tituloPagina">
@@ -31,31 +40,31 @@
       </div>
 
       <div class="flex items-center gap-3">
-        <!-- Só faz sentido para usuário comum -->
+        <!-- Botão abrir novo chamado (apenas usuário comum) -->
         <a href="dashboard.html"
-           class="hidden sm:inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-xs font-medium text-slate-200 hover:bg-white/10 transition"
+           class="hidden sm:inline-flex items-center gap-2 rounded-2xl border border-white/10 px-3 py-2 text-xs font-medium text-slate-200 hover:bg-white/10 hover:-translate-y-[1px] transition"
            id="btnNovoChamado">
           ➕ Abrir novo chamado
         </a>
 
-        <!-- Atalho mobile para novo chamado (só usuário) -->
+        <!-- Atalho mobile -->
         <a href="dashboard.html"
            id="btnNovoChamadoMobile"
-           class="sm:hidden inline-flex items-center justify-center rounded-xl border border-white/10 px-2.5 py-1.5 text-xs text-slate-100 hover:bg-white/10 transition">
+           class="sm:hidden inline-flex items-center justify-center rounded-2xl border border-white/10 px-2.5 py-1.5 text-xs text-slate-100 hover:bg-white/10 transition">
           ➕
         </a>
 
-        <!-- Botão para perfil (iniciais) -->
+        <!-- Perfil -->
         <a id="btnProfileCircle"
            href="profile.html"
-           class="w-9 h-9 rounded-full bg-slate-800 border border-white/15 text-xs font-semibold text-slate-50 flex items-center justify-center hover:bg-slate-700 transition"
+           class="w-9 h-9 rounded-full bg-slate-800 border border-white/15 text-xs font-semibold text-slate-50 flex items-center justify-center hover:bg-slate-700 hover:-translate-y-[1px] transition"
            title="Minha conta">
           ??
         </a>
 
         <!-- Logout -->
         <button id="logoutTop"
-                class="hidden sm:inline-flex items-center gap-2 rounded-xl bg-red-500/90 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500 shadow-sm transition">
+                class="hidden sm:inline-flex items-center gap-2 rounded-2xl bg-red-500/90 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500 hover:-translate-y-[1px] shadow-sm transition">
           Sair
         </button>
       </div>
@@ -67,7 +76,7 @@
 
     <!-- EMPTY STATE -->
     <section id="emptyState" class="hidden">
-      <div class="bg-white/5 border border-dashed border-white/20 rounded-3xl p-8 text-center shadow-xl shadow-black/40 backdrop-blur">
+      <div class="bg-slate-950/70 border border-dashed border-white/20 rounded-3xl p-8 text-center shadow-2xl shadow-black/50 backdrop-blur">
         <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-slate-900/80 border border-white/10 text-xl mb-3">
           📭
         </div>
@@ -77,36 +86,39 @@
         </p>
         <a href="dashboard.html"
            id="linkAbrirChamadoEmpty"
-           class="mt-5 inline-flex rounded-2xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-medium text-slate-50 hover:bg-white/10 transition">
+           class="mt-5 inline-flex rounded-2xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-medium text-slate-50 hover:bg-white/10 hover:-translate-y-[1px] transition">
           ➕ Abrir chamado
         </a>
       </div>
     </section>
 
     <!-- CARD PRINCIPAL: LISTA DE CHAMADOS -->
-    <section id="tableWrap" class="bg-white/5 border border-white/10 rounded-3xl shadow-xl shadow-black/40 backdrop-blur overflow-hidden">
-      <div class="px-6 py-4 border-b border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+    <section id="tableWrap" class="bg-slate-950/75 border border-white/10 rounded-3xl shadow-2xl shadow-black/50 backdrop-blur overflow-hidden">
+      <!-- Cabeçalho -->
+      <div class="px-6 py-4 border-b border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 class="text-base font-semibold text-slate-50" id="tituloListaChamados">Chamados</h2>
+          <h2 class="text-base font-semibold text-slate-50 flex items-center gap-2" id="tituloListaChamados">
+            Meus Chamados
+          </h2>
           <p class="text-xs text-slate-300 mt-1" id="subTituloLista">
-            Status disponíveis: <span class="font-medium text-slate-100">Em aberto</span>, <span class="font-medium text-slate-100">Em andamento</span>, <span class="font-medium text-slate-100">Resolvido</span>.
+            Status disponíveis: <span class="font-medium text-slate-100">Em aberto</span>, <span class="font-medium text-slate-100">Em andamento</span>, <span class="font-medium text-slate-100">Resolvido</span>.  
           </p>
         </div>
 
         <div class="flex items-center gap-2">
           <span id="totalChamadosBadge"
-                class="inline-flex items-center rounded-full bg-slate-900/80 border border-white/10 px-3 py-1 text-[11px] font-semibold text-slate-100">
+                class="inline-flex items-center gap-1 rounded-full bg-slate-900/80 border border-white/10 px-3 py-1 text-[11px] font-semibold text-slate-100">
             0 chamados
           </span>
           <button id="limpar"
-                  class="inline-flex items-center gap-1 rounded-2xl border border-white/15 bg-white/5 px-3 py-2 text-xs font-medium text-slate-100 hover:bg-red-500/10 hover:border-red-400/40 hover:text-red-100 transition">
+                  class="inline-flex items-center gap-1 rounded-2xl border border-white/15 bg-white/5 px-3 py-2 text-xs font-medium text-slate-100 hover:bg-red-500/10 hover:border-red-400/40 hover:text-red-100 hover:-translate-y-[1px] transition">
             🧹 Limpar todos (local)
           </button>
         </div>
       </div>
 
       <!-- BARRA DE FILTROS (SOMENTE ADMIN) -->
-      <div id="adminFilters" class="hidden px-6 py-3 border-b border-white/10 text-xs text-slate-200 bg-slate-950/40">
+      <div id="adminFilters" class="hidden px-6 py-3 border-b border-white/10 text-xs text-slate-200 bg-slate-950/90">
         <div class="flex flex-col lg:flex-row gap-3 lg:items-end lg:justify-between">
           <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 w-full lg:max-w-4xl">
             <!-- Status -->
@@ -116,7 +128,7 @@
               </label>
               <select
                 id="filtroStatusAdmin"
-                class="w-full rounded-2xl border border-white/15 bg-slate-950/70 px-3 py-2 text-xs text-slate-50 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-400 outline-none"
+                class="w-full rounded-2xl border border-white/15 bg-slate-950/70 px-3 py-2 text-xs text-slate-50 focus:ring-1 focus:ring-sky-400 focus:border-sky-400 outline-none"
               >
                 <option value="todos">Todos</option>
                 <option value="Em aberto">Em aberto</option>
@@ -132,7 +144,7 @@
               </label>
               <select
                 id="filtroPeriodoAdmin"
-                class="w-full rounded-2xl border border-white/15 bg-slate-950/70 px-3 py-2 text-xs text-slate-50 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-400 outline-none"
+                class="w-full rounded-2xl border border-white/15 bg-slate-950/70 px-3 py-2 text-xs text-slate-50 focus:ring-1 focus:ring-sky-400 focus:border-sky-400 outline-none"
               >
                 <option value="todos">Todos os períodos</option>
                 <option value="hoje">Hoje</option>
@@ -149,9 +161,9 @@
               <input
                 type="date"
                 id="filtroDataAdmin"
-                class="w-full rounded-2xl border border-white/15 bg-slate-950/70 px-3 py-2 text-xs text-slate-50 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-400 outline-none"
+                class="w-full rounded-2xl border border-white/15 bg-slate-950/70 px-3 py-2 text-xs text-slate-50 focus:ring-1 focus:ring-sky-400 focus:border-sky-400 outline-none"
               />
-              <span class="text-[10px] text-slate-400 mt-0.5">
+              <span class="text-[10px] text-slate-500 mt-0.5">
                 Se preencher a data, o período é ignorado.
               </span>
             </div>
@@ -169,7 +181,7 @@
                   type="text"
                   id="filtroBuscaIdAdmin"
                   placeholder="Ex: CH-0001"
-                  class="w-full rounded-2xl border border-white/15 bg-slate-950/70 px-3 pl-7 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-400 outline-none"
+                  class="w-full rounded-2xl border border-white/15 bg-slate-950/70 px-3 pl-7 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:ring-1 focus:ring-sky-400 focus:border-sky-400 outline-none"
                 />
               </div>
             </div>
@@ -178,23 +190,24 @@
           <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
             <button
               id="btnLimparFiltros"
-              class="inline-flex items-center justify-center rounded-2xl border border-white/15 bg-white/5 px-3 py-2 text-[11px] font-medium text-slate-100 hover:bg-white/10 transition w-full sm:w-auto"
+              class="inline-flex items-center justify-center rounded-2xl border border-white/15 bg-white/5 px-3 py-2 text-[11px] font-medium text-slate-100 hover:bg-white/10 hover:-translate-y-[1px] transition w-full sm:w-auto"
             >
               Limpar filtros
             </button>
             <button
               id="btnIrParaChamados"
-              class="inline-flex items-center justify-center rounded-2xl border border-white/15 bg-white/5 px-3 py-2 text-[11px] font-medium text-slate-100 hover:bg-white/10 transition w-full sm:w-auto"
+              class="inline-flex items-center justify-center rounded-2xl border border-white/15 bg-white/5 px-3 py-2 text-[11px] font-medium text-slate-100 hover:bg-white/10 hover:-translate-y-[1px] transition w-full sm:w-auto"
             >
-              📋 Abrir tela de chamados (admin)
+              📋 Atualizar listagem
             </button>
           </div>
         </div>
       </div>
 
+      <!-- TABELA -->
       <div class="overflow-x-auto">
         <table class="min-w-full text-xs md:text-sm">
-          <thead class="bg-slate-900/70 border-b border-white/10">
+          <thead class="bg-slate-950/80 border-b border-white/10">
             <tr class="text-left text-slate-200">
               <th class="px-6 py-3 font-medium">ID</th>
               <th class="px-6 py-3 font-medium">Categoria</th>
@@ -320,31 +333,31 @@
 
     const isAdmin = sess?.perfil === 'admin';
 
-    const btnProfileCircle = document.getElementById('btnProfileCircle');
+    const btnProfileCircle      = document.getElementById('btnProfileCircle');
+    const tituloPagina          = document.getElementById('tituloPagina');
+    const tituloListaChamados   = document.getElementById('tituloListaChamados');
+    const subTituloLista        = document.getElementById('subTituloLista');
+    const btnNovoChamado        = document.getElementById('btnNovoChamado');
+    const btnNovoChamadoMobile  = document.getElementById('btnNovoChamadoMobile');
+    const emptyText             = document.getElementById('emptyText');
+    const linkAbrirChamadoEmpty = document.getElementById('linkAbrirChamadoEmpty');
+    const adminFilters          = document.getElementById('adminFilters');
+
     btnProfileCircle.textContent = initials(sess?.nome);
 
-    const tituloPagina = document.getElementById('tituloPagina');
-    const tituloListaChamados = document.getElementById('tituloListaChamados');
-    const subTituloLista = document.getElementById('subTituloLista');
-    const btnNovoChamado = document.getElementById('btnNovoChamado');
-    const btnNovoChamadoMobile = document.getElementById('btnNovoChamadoMobile');
-    const emptyText = document.getElementById('emptyText');
-    const linkAbrirChamadoEmpty = document.getElementById('linkAbrirChamadoEmpty');
-    const adminFilters = document.getElementById('adminFilters');
-
     if (isAdmin) {
-      // Admin vê todos os chamados, filtros e não precisa abrir novo chamado
-      tituloPagina.textContent = 'Listagem de Chamados (Admin)';
+      // Admin vê todos os chamados, filtros e não pode abrir novo chamado
+      tituloPagina.textContent        = 'Listagem de Chamados (Admin)';
       tituloListaChamados.textContent = 'Todos os Chamados';
-      subTituloLista.textContent = 'Somente administradores podem alterar o status, situação e visualizar detalhes de todos os chamados.';
-      if (btnNovoChamado) btnNovoChamado.classList.add('hidden');
+      subTituloLista.textContent      = 'Somente administradores podem alterar o status e a situação dos chamados listados abaixo.';
+      if (btnNovoChamado)       btnNovoChamado.classList.add('hidden');
       if (btnNovoChamadoMobile) btnNovoChamadoMobile.classList.add('hidden');
       emptyText.textContent = 'Ainda não há chamados registrados. Assim que os usuários abrirem chamados, eles aparecerão aqui.';
       linkAbrirChamadoEmpty.classList.add('hidden');
 
       adminFilters.classList.remove('hidden');
     } else {
-      tituloPagina.textContent = 'Meus Chamados';
+      tituloPagina.textContent        = 'Meus Chamados';
       tituloListaChamados.textContent = 'Meus Chamados';
     }
 
@@ -546,8 +559,8 @@
 
     // ===================== RENDER TABELA =====================
     function render() {
-      const tbody = document.getElementById('tbody');
-      const empty = document.getElementById('emptyState');
+      const tbody     = document.getElementById('tbody');
+      const empty     = document.getElementById('emptyState');
       const tableWrap = document.getElementById('tableWrap');
 
       const todosChamados = loadChamados();
@@ -555,7 +568,6 @@
 
       if (isAdmin) {
         lista = todosChamados.slice();
-        // aplica filtros de admin
         lista = aplicarFiltrosAdmin(lista);
       } else {
         lista = todosChamados.filter(c =>
@@ -586,20 +598,20 @@
 
       lista.forEach((c, idx) => {
         const tr = document.createElement('tr');
-        tr.className = idx % 2 === 0 ? 'bg-slate-900/40' : 'bg-slate-900/20';
+        tr.className = idx % 2 === 0 ? 'bg-slate-950/60' : 'bg-slate-950/40';
 
         const prioridade = c.prioridade || 'Aguardando triagem';
 
         const tdId = document.createElement('td');
-        tdId.className = 'px-6 py-3 font-mono text-[11px] text-slate-200';
+        tdId.className = 'px-6 py-3 font-mono text-[11px] text-slate-200 align-top';
         tdId.textContent = c.id;
 
         const tdCat = document.createElement('td');
-        tdCat.className = 'px-6 py-3 text-slate-50';
+        tdCat.className = 'px-6 py-3 text-slate-50 align-top';
         tdCat.textContent = c.categoria || '—';
 
         const tdDesc = document.createElement('td');
-        tdDesc.className = 'px-6 py-3 max-w-[26rem] text-slate-100 align-top';
+        tdDesc.className = 'px-6 py-3 max-w-[22rem] text-slate-100 align-top';
         tdDesc.innerHTML = `<p class="line-clamp-3 text-xs md:text-sm text-slate-100/90">${c.descricao || '—'}</p>`;
 
         const tdCriado = document.createElement('td');
@@ -634,7 +646,7 @@
         if (isAdmin) {
           const selectStatus = document.createElement('select');
           selectStatus.className =
-            'rounded-xl border border-white/15 bg-slate-950/60 px-2 py-1 text-[11px] text-slate-50 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-400 outline-none';
+            'rounded-xl border border-white/15 bg-slate-950/70 px-2 py-1 text-[11px] text-slate-50 focus:ring-1 focus:ring-sky-400 focus:border-sky-400 outline-none';
 
           ['Em aberto', 'Em andamento', 'Resolvido'].forEach(opt => {
             const o = document.createElement('option');
@@ -659,7 +671,7 @@
           // Select de situação (prioridade)
           const selectPri = document.createElement('select');
           selectPri.className =
-            'rounded-xl border border-white/15 bg-slate-950/60 px-2 py-1 text-[11px] text-slate-50 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-400 outline-none';
+            'rounded-xl border border-white/15 bg-slate-950/70 px-2 py-1 text-[11px] text-slate-50 focus:ring-1 focus:ring-sky-400 focus:border-sky-400 outline-none';
 
           ['Aguardando triagem', 'Baixa', 'Média', 'Alta', 'Crítica'].forEach(opt => {
             const o = document.createElement('option');
@@ -696,7 +708,7 @@
         const btnDetalhes = document.createElement('button');
         btnDetalhes.textContent = 'Ver detalhes';
         btnDetalhes.className =
-          'inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] font-medium text-slate-100 hover:bg-white/10 transition self-start';
+          'inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] font-medium text-slate-100 hover:bg-white/10 hover:-translate-y-[1px] transition self-start';
         btnDetalhes.addEventListener('click', () => abrirModalDetalhe(c));
 
         wrap.appendChild(btnDetalhes);
@@ -756,7 +768,6 @@
         render();
       });
 
-      // "📋 Abrir tela de chamados (admin)" -> recarrega lista e foca na tabela
       btnIrParaChamados.addEventListener('click', () => {
         render();
         document.getElementById('tableWrap').scrollIntoView({ behavior: 'smooth' });
@@ -768,4 +779,3 @@
   </script>
 </body>
 </html>
-

@@ -7,45 +7,57 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { scroll-behavior: smooth; }
+
+    .animated-bg {
+      background: radial-gradient(circle at top, rgba(56,189,248,0.18), transparent 55%),
+                  radial-gradient(circle at bottom, rgba(129,140,248,0.2), transparent 55%),
+                  #020617;
+    }
   </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-slate-50">
+<body class="min-h-screen animated-bg text-slate-50">
 
   <!-- TOP NAV -->
-  <header class="border-b border-white/10 bg-slate-900/60 backdrop-blur">
+  <header class="border-b border-white/10 bg-slate-950/70 backdrop-blur">
     <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
       <div class="flex items-center gap-3">
-        <img
-          src="logo-helptech.png"
-          alt="Logo HelpTech"
-          class="h-8 w-auto rounded-xl shadow"
-        />
+        <div class="relative">
+          <img
+            src="logo-helptech.png"
+            alt="Logo HelpTech"
+            class="h-8 w-auto rounded-xl shadow shadow-sky-500/40"
+          />
+          <span class="absolute -bottom-1 -right-1 h-3 w-3 rounded-full bg-emerald-400 border border-slate-900"></span>
+        </div>
         <div class="flex flex-col leading-tight">
-          <span class="text-xs uppercase tracking-[0.18em] text-slate-400">
+          <span class="text-[11px] uppercase tracking-[0.18em] text-slate-400">
             Área Administrativa
           </span>
-          <h1 class="text-lg font-semibold text-slate-50">
+          <h1 class="text-lg font-semibold text-slate-50 flex items-center gap-2">
             Dashboard de Chamados
+            <span class="inline-flex items-center rounded-full bg-emerald-500/15 border border-emerald-400/40 px-2 py-[2px] text-[10px] font-semibold text-emerald-200">
+              Admin
+            </span>
           </h1>
         </div>
       </div>
 
       <div class="flex items-center gap-3">
-        <!-- Admin não precisa do "abrir chamado" -->
+        <!-- Admin não abre chamado, só vai para listagem -->
         <a href="chamados.html"
-           class="hidden sm:inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-xs font-medium text-slate-200 hover:bg-white/10 transition">
+           class="hidden sm:inline-flex items-center gap-2 rounded-2xl border border-white/10 px-3 py-2 text-xs font-medium text-slate-200 hover:bg-white/10 hover:-translate-y-[1px] transition">
           📋 Listagem de chamados
         </a>
 
         <a id="btnProfileCircle"
            href="profile.html"
-           class="w-9 h-9 rounded-full bg-slate-800 border border-white/15 text-xs font-semibold text-slate-50 flex items-center justify-center hover:bg-slate-700 transition"
+           class="w-9 h-9 rounded-full bg-slate-800 border border-white/15 text-xs font-semibold text-slate-50 flex items-center justify-center hover:bg-slate-700 hover:-translate-y-[1px] transition"
            title="Minha conta">
           ??
         </a>
 
         <button id="logoutTop"
-                class="inline-flex items-center gap-2 rounded-xl bg-red-500/90 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500 shadow-sm transition">
+                class="inline-flex items-center gap-2 rounded-2xl bg-red-500/90 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500 hover:-translate-y-[1px] shadow-sm transition">
           Sair
         </button>
       </div>
@@ -60,64 +72,71 @@
       <div>
         <h2 class="text-base font-semibold text-slate-50 flex items-center gap-2">
           Visão geral dos chamados
-          <span class="inline-flex items-center rounded-full bg-emerald-500/15 border border-emerald-400/40 px-2 py-[2px] text-[10px] font-semibold text-emerald-200">
-            Admin
-          </span>
         </h2>
         <p class="text-sm text-slate-300 mt-1 max-w-xl">
-          Acompanhe o volume de chamados por status e prioridade. Esses dados são lidos diretamente do armazenamento local do navegador (localStorage).
+          Acompanhe o volume de chamados por status e situação. Os dados abaixo são lidos diretamente do
+          <span class="font-semibold text-slate-100">localStorage</span>, simulando a integração com a API da HelpTech.
         </p>
       </div>
-      <p class="text-xs text-slate-400" id="ultimaAtualizacao">Última atualização: —</p>
+      <p class="text-xs text-slate-400 flex items-center gap-2" id="ultimaAtualizacao">
+        <span class="inline-flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        Última atualização: —
+      </p>
     </section>
 
     <!-- RESUMO PRINCIPAL -->
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="rounded-3xl border border-white/15 bg-slate-900/60 p-4 shadow-xl shadow-black/40">
+      <div class="rounded-3xl border border-white/15 bg-slate-950/70 p-4 shadow-xl shadow-black/40 relative overflow-hidden">
+        <div class="pointer-events-none absolute -top-10 -right-10 h-28 w-28 rounded-full bg-sky-500/15 blur-3xl"></div>
         <p class="text-[11px] uppercase tracking-[0.16em] text-slate-400 mb-1">Total de chamados</p>
         <p id="cardTotalChamados" class="text-2xl font-semibold text-slate-50">0</p>
-        <p class="text-xs text-slate-400 mt-1">Todos os chamados registrados.</p>
+        <p class="text-xs text-slate-400 mt-1">Todos os chamados registrados no sistema.</p>
       </div>
 
-      <div class="rounded-3xl border border-sky-400/40 bg-sky-900/25 p-4 shadow-xl shadow-black/40">
+      <div class="rounded-3xl border border-sky-400/50 bg-sky-900/25 p-4 shadow-xl shadow-black/40">
         <p class="text-[11px] uppercase tracking-[0.16em] text-sky-200 mb-1">Em aberto</p>
         <p id="cardAbertos" class="text-2xl font-semibold text-slate-50">0</p>
-        <p class="text-xs text-sky-100/80 mt-1">Ainda aguardando atendimento inicial.</p>
+        <p class="text-xs text-sky-100/80 mt-1">Aguardando atendimento inicial.</p>
       </div>
 
-      <div class="rounded-3xl border border-amber-400/40 bg-amber-900/25 p-4 shadow-xl shadow-black/40">
+      <div class="rounded-3xl border border-amber-400/50 bg-amber-900/25 p-4 shadow-xl shadow-black/40">
         <p class="text-[11px] uppercase tracking-[0.16em] text-amber-200 mb-1">Em andamento</p>
         <p id="cardAndamento" class="text-2xl font-semibold text-slate-50">0</p>
         <p class="text-xs text-amber-100/80 mt-1">Sendo tratados pela equipe.</p>
       </div>
 
-      <div class="rounded-3xl border border-emerald-400/40 bg-emerald-900/25 p-4 shadow-xl shadow-black/40">
+      <div class="rounded-3xl border border-emerald-400/50 bg-emerald-900/25 p-4 shadow-xl shadow-black/40">
         <p class="text-[11px] uppercase tracking-[0.16em] text-emerald-200 mb-1">Resolvidos</p>
         <p id="cardResolvidos" class="text-2xl font-semibold text-slate-50">0</p>
-        <p class="text-xs text-emerald-100/80 mt-1">Chamados encerrados com solução.</p>
+        <p class="text-xs text-emerald-100/80 mt-1">Encerrados com solução.</p>
       </div>
     </section>
 
-    <!-- RESUMO POR PRIORIDADE -->
+    <!-- RESUMO POR SITUAÇÃO / PRIORIDADE -->
     <section class="grid grid-cols-1 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.1fr)] gap-6">
-      <div class="bg-white/5 border border-white/10 rounded-3xl p-5 shadow-xl shadow-black/40 backdrop-blur space-y-3">
-        <div class="flex items-center justify-between gap-3">
+      <div class="bg-slate-950/80 border border-white/10 rounded-3xl p-5 shadow-xl shadow-black/40 backdrop-blur space-y-4 relative overflow-hidden">
+        <div class="pointer-events-none absolute -bottom-24 -left-10 h-40 w-40 rounded-full bg-indigo-500/15 blur-3xl"></div>
+        <div class="flex items-center justify-between gap-3 relative">
           <div>
-            <h3 class="text-sm font-semibold text-slate-50">Chamados por prioridade</h3>
-            <p class="text-xs text-slate-300 mt-1">Distribuição de chamados considerando o nível de criticidade.</p>
+            <h3 class="text-sm font-semibold text-slate-50">Chamados por situação/prioridade</h3>
+            <p class="text-xs text-slate-300 mt-1">Distribuição considerando triagem e criticidade.</p>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm mt-3">
-          <div class="rounded-2xl border border-slate-500/40 bg-slate-900/40 px-3 py-3">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm mt-2 relative">
+          <div class="rounded-2xl border border-slate-500/40 bg-slate-900/50 px-3 py-3">
+            <p class="text-[11px] uppercase tracking-[0.16em] text-slate-300 mb-1">Aguardando triagem</p>
+            <p id="prioTriagem" class="text-xl font-semibold text-slate-50">0</p>
+          </div>
+          <div class="rounded-2xl border border-slate-500/40 bg-slate-900/50 px-3 py-3">
             <p class="text-[11px] uppercase tracking-[0.16em] text-slate-300 mb-1">Baixa</p>
             <p id="prioBaixa" class="text-xl font-semibold text-slate-50">0</p>
           </div>
-          <div class="rounded-2xl border border-slate-500/40 bg-slate-900/40 px-3 py-3">
+          <div class="rounded-2xl border border-slate-500/40 bg-slate-900/50 px-3 py-3">
             <p class="text-[11px] uppercase tracking-[0.16em] text-slate-300 mb-1">Média</p>
             <p id="prioMedia" class="text-xl font-semibold text-slate-50">0</p>
           </div>
-          <div class="rounded-2xl border border-slate-500/40 bg-slate-900/40 px-3 py-3">
+          <div class="rounded-2xl border border-slate-500/40 bg-slate-900/50 px-3 py-3">
             <p class="text-[11px] uppercase tracking-[0.16em] text-slate-300 mb-1">Alta / Crítica</p>
             <p id="prioAltaCritica" class="text-xl font-semibold text-slate-50">0</p>
           </div>
@@ -125,18 +144,18 @@
       </div>
 
       <!-- FILTRO STATUS + RESUMO -->
-      <div class="bg-white/5 border border-white/10 rounded-3xl p-5 shadow-xl shadow-black/40 backdrop-blur space-y-3">
+      <div class="bg-slate-950/80 border border-white/10 rounded-3xl p-5 shadow-xl shadow-black/40 backdrop-blur space-y-4">
         <div class="flex items-center justify-between gap-3">
           <div>
             <h3 class="text-sm font-semibold text-slate-50">Filtrar últimos chamados</h3>
-            <p class="text-xs text-slate-300 mt-1">Selecione um status para visualizar os últimos registros.</p>
+            <p class="text-xs text-slate-300 mt-1">Selecione um status para ver os registros recentes.</p>
           </div>
         </div>
 
-        <div class="flex flex-col sm:flex-row gap-3 mt-3 text-xs">
+        <div class="flex flex-col sm:flex-row gap-3 mt-1 text-xs">
           <select
             id="filtroStatus"
-            class="w-full sm:max-w-xs rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
+            class="w-full sm:max-w-xs rounded-2xl border border-white/15 bg-slate-900/70 px-3 py-2 text-xs text-slate-50 focus:ring-2 focus:ring-sky-400 focus:border-transparent outline-none"
           >
             <option value="todos">Todos os status</option>
             <option value="Em aberto">Em aberto</option>
@@ -146,21 +165,26 @@
 
           <button
             id="btnIrParaChamados"
-            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-slate-100 hover:bg-white/10 transition"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-slate-100 hover:bg-white/10 hover:-translate-y-[1px] transition"
           >
             📋 Abrir tela de chamados
           </button>
+        </div>
+
+        <div class="mt-3 text-[11px] text-slate-400">
+          <p>Ideal para mostrar, no PIM, como o administrador acompanha a saúde da operação HelpTech em tempo real.</p>
         </div>
       </div>
     </section>
 
     <!-- LISTA DE ÚLTIMOS CHAMADOS -->
-    <section class="bg-white/5 border border-white/10 rounded-3xl shadow-xl shadow-black/40 backdrop-blur overflow-hidden">
+    <section class="bg-slate-950/80 border border-white/10 rounded-3xl shadow-xl shadow-black/40 backdrop-blur overflow-hidden">
       <div class="px-6 py-4 border-b border-white/10 flex items-center justify-between gap-3">
         <div>
           <h3 class="text-sm font-semibold text-slate-50">Últimos chamados registrados</h3>
           <p class="text-xs text-slate-300 mt-1">
-            Visualização compacta dos chamados mais recentes. Para mudar status, use a tela de <span class="font-semibold text-slate-100">Listagem de chamados</span>.
+            Visualização compacta dos chamados mais recentes. Para mudar status/situação, utilize a tela de
+            <span class="font-semibold text-slate-100">Listagem de chamados (admin)</span>.
           </p>
         </div>
         <span id="badgeTotalLista"
@@ -175,12 +199,12 @@
 
       <div class="overflow-x-auto" id="wrapTabelaChamados">
         <table class="min-w-full text-xs md:text-sm">
-          <thead class="bg-slate-900/70 border-b border-white/10">
+          <thead class="bg-slate-950/90 border-b border-white/10">
             <tr class="text-left text-slate-200">
               <th class="px-6 py-3 font-medium whitespace-nowrap">ID</th>
               <th class="px-6 py-3 font-medium">Título / Descrição</th>
               <th class="px-6 py-3 font-medium whitespace-nowrap">Status</th>
-              <th class="px-6 py-3 font-medium whitespace-nowrap">Prioridade</th>
+              <th class="px-6 py-3 font-medium whitespace-nowrap">Situação</th>
               <th class="px-6 py-3 font-medium whitespace-nowrap">Solicitante</th>
               <th class="px-6 py-3 font-medium whitespace-nowrap">Criado em</th>
               <th class="px-6 py-3 font-medium whitespace-nowrap">Ações</th>
@@ -220,19 +244,19 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-          <div class="rounded-2xl border border-white/10 bg-slate-900/60 px-3 py-2.5">
+          <div class="rounded-2xl border border-white/10 bg-slate-900/70 px-3 py-2.5">
             <p class="text-[10px] uppercase tracking-[0.16em] text-slate-400 mb-1">Categoria</p>
             <p class="font-semibold text-slate-50" id="detCategoria">—</p>
           </div>
-          <div class="rounded-2xl border border-white/10 bg-slate-900/60 px-3 py-2.5">
-            <p class="text-[10px] uppercase tracking-[0.16em] text-slate-400 mb-1">Prioridade</p>
+          <div class="rounded-2xl border border-white/10 bg-slate-900/70 px-3 py-2.5">
+            <p class="text-[10px] uppercase tracking-[0.16em] text-slate-400 mb-1">Situação / Prioridade</p>
             <p class="font-semibold text-slate-50" id="detPrioridade">—</p>
           </div>
-          <div class="rounded-2xl border border-white/10 bg-slate-900/60 px-3 py-2.5">
+          <div class="rounded-2xl border border-white/10 bg-slate-900/70 px-3 py-2.5">
             <p class="text-[10px] uppercase tracking-[0.16em] text-slate-400 mb-1">Solicitante</p>
             <p class="font-semibold text-slate-50" id="detSolicitante">—</p>
           </div>
-          <div class="rounded-2xl border border-white/10 bg-slate-900/60 px-3 py-2.5">
+          <div class="rounded-2xl border border-white/10 bg-slate-900/70 px-3 py-2.5">
             <p class="text-[10px] uppercase tracking-[0.16em] text-slate-400 mb-1">Criado em</p>
             <p class="font-semibold text-slate-50" id="detCriadoEm">—</p>
           </div>
@@ -242,7 +266,7 @@
           <p class="text-[10px] uppercase tracking-[0.16em] text-slate-400">
             Descrição completa
           </p>
-          <div class="rounded-2xl border border-white/10 bg-slate-900/70 px-3 py-3 max-h-64 overflow-auto text-sm text-slate-100 whitespace-pre-wrap" id="detDescricao">
+          <div class="rounded-2xl border border-white/10 bg-slate-900/80 px-3 py-3 max-h-64 overflow-auto text-sm text-slate-100 whitespace-pre-wrap" id="detDescricao">
             —
           </div>
         </div>
@@ -327,6 +351,7 @@
     const cardAbertos         = document.getElementById('cardAbertos');
     const cardAndamento       = document.getElementById('cardAndamento');
     const cardResolvidos      = document.getElementById('cardResolvidos');
+    const prioTriagem         = document.getElementById('prioTriagem');
     const prioBaixa           = document.getElementById('prioBaixa');
     const prioMedia           = document.getElementById('prioMedia');
     const prioAltaCritica     = document.getElementById('prioAltaCritica');
@@ -350,18 +375,26 @@
       cardAndamento.textContent = andamento;
       cardResolvidos.textContent = resolvidos;
 
+      const triagem = chamados.filter(c => {
+        const p = (c.prioridade || '').toLowerCase();
+        return p === 'aguardando triagem';
+      }).length;
+
       const baixa = chamados.filter(c => (c.prioridade || '').toLowerCase() === 'baixa').length;
+
       const media = chamados.filter(c => {
         const p = (c.prioridade || '').toLowerCase();
         return p === 'média' || p === 'media';
       }).length;
+
       const altaCritica = chamados.filter(c => {
         const p = (c.prioridade || '').toLowerCase();
         return p === 'alta' || p === 'crítica' || p === 'critica';
       }).length;
 
-      prioBaixa.textContent = baixa;
-      prioMedia.textContent = media;
+      prioTriagem.textContent     = triagem;
+      prioBaixa.textContent       = baixa;
+      prioMedia.textContent       = media;
       prioAltaCritica.textContent = altaCritica;
 
       if (chamados.length) {
@@ -400,7 +433,7 @@
       detTituloCabecalho.textContent = titulo;
       detIdStatus.textContent = `${chamado.id || '—'} — ${chamado.status || 'Em aberto'}`;
       detCategoria.textContent = chamado.categoria || '—';
-      detPrioridade.textContent = chamado.prioridade || '—';
+      detPrioridade.textContent = chamado.prioridade || 'Aguardando triagem';
       detSolicitante.textContent = chamado.usuarioNome || chamado.usuarioEmail || '—';
       detCriadoEm.textContent = formatDate(chamado.criadoEm);
       detDescricao.textContent = chamado.descricao || '—';
@@ -463,7 +496,7 @@
 
       lista.slice(0, 20).forEach((c, idx) => {
         const tr = document.createElement('tr');
-        tr.className = idx % 2 === 0 ? 'bg-slate-900/40' : 'bg-slate-900/20';
+        tr.className = idx % 2 === 0 ? 'bg-slate-950/70' : 'bg-slate-950/50';
 
         const tdId = document.createElement('td');
         tdId.className = 'px-6 py-3 font-mono text-[11px] text-slate-200 whitespace-nowrap';
@@ -487,7 +520,7 @@
 
         const tdPrioridade = document.createElement('td');
         tdPrioridade.className = 'px-6 py-3 align-top whitespace-nowrap text-slate-100';
-        tdPrioridade.textContent = c.prioridade || '—';
+        tdPrioridade.textContent = c.prioridade || 'Aguardando triagem';
 
         const tdSolicitante = document.createElement('td');
         tdSolicitante.className = 'px-6 py-3 align-top whitespace-nowrap text-slate-100';
@@ -505,7 +538,7 @@
         btnDetalhes.type = 'button';
         btnDetalhes.textContent = 'Ver detalhes';
         btnDetalhes.className =
-          'inline-flex items-center justify-center rounded-2xl border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] font-medium text-slate-100 hover:bg-white/10 transition';
+          'inline-flex items-center justify-center rounded-2xl border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] font-medium text-slate-100 hover:bg-white/10 hover:-translate-y-[1px] transition';
         btnDetalhes.addEventListener('click', () => abrirModalDetalhes(c));
 
         tdAcoes.appendChild(btnDetalhes);

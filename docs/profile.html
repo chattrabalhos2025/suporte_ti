@@ -9,32 +9,54 @@
     body {
       scroll-behavior: smooth;
     }
+
+    .animated-bg {
+      background:
+        radial-gradient(circle at top, rgba(56,189,248,0.18), transparent 55%),
+        radial-gradient(circle at bottom, rgba(129,140,248,0.2), transparent 55%),
+        #020617;
+    }
   </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-slate-50">
+<body class="min-h-screen animated-bg text-slate-50">
 
   <!-- TOP NAV -->
-  <header class="border-b border-white/10 bg-slate-900/60 backdrop-blur">
+  <header class="border-b border-white/10 bg-slate-950/70 backdrop-blur">
     <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
       <div class="flex items-center gap-3">
-        <img
-          src="logo-helptech.png"
-          alt="Logo HelpTech"
-          class="h-8 w-auto rounded-xl shadow"
-        />
+        <div class="relative">
+          <img
+            src="logo-helptech.png"
+            alt="Logo HelpTech"
+            class="h-8 w-auto rounded-xl shadow shadow-sky-500/40"
+          />
+          <span class="absolute -bottom-1 -right-1 h-3 w-3 rounded-full bg-emerald-400 border border-slate-900"></span>
+        </div>
         <div class="flex flex-col leading-tight">
-          <span class="text-sm uppercase tracking-[0.18em] text-slate-400">Painel do Usuário</span>
-          <h1 class="text-lg font-semibold text-slate-50">Minha Conta</h1>
+          <span
+            id="headerSubtitle"
+            class="text-[11px] uppercase tracking-[0.18em] text-slate-400"
+          >
+            Painel do Usuário
+          </span>
+          <h1 id="headerTitle" class="text-lg font-semibold text-slate-50">
+            Minha Conta
+          </h1>
         </div>
       </div>
 
       <div class="flex items-center gap-3">
-        <a href="dashboard.html"
-           class="hidden sm:inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-xs font-medium text-slate-200 hover:bg-white/10 transition">
+        <a
+          id="linkPainelChamados"
+          href="dashboard.html"
+          class="hidden sm:inline-flex items-center gap-2 rounded-2xl border border-white/10 px-3 py-2 text-xs font-medium text-slate-200 hover:bg-white/10 hover:-translate-y-[1px] transition"
+        >
           ⬅ Voltar para o sistema
         </a>
-        <button id="logoutTop"
-                class="inline-flex items-center gap-2 rounded-xl bg-red-500/90 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500 shadow-sm transition">
+        <button
+          id="logoutTop"
+          class="inline-flex items-center gap-2 rounded-2xl bg-red-500/90 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500 hover:-translate-y-[1px] shadow-sm transition"
+        >
           Sair
         </button>
       </div>
@@ -46,13 +68,15 @@
     <div class="grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1.2fr)] gap-6">
 
       <!-- COLUNA ESQUERDA - PERFIL / SIDEBAR -->
-      <aside class="bg-white/5 border border-white/10 rounded-3xl p-6 space-y-6 shadow-xl shadow-black/40 backdrop-blur">
+      <aside class="bg-slate-950/70 border border-white/10 rounded-3xl p-6 space-y-6 shadow-2xl shadow-black/50 backdrop-blur">
 
         <!-- AVATAR E NOME -->
         <section class="flex items-center gap-4">
           <div class="relative">
-            <div id="avatarWrapper"
-                 class="w-20 h-20 rounded-2xl bg-slate-800 border border-white/10 overflow-hidden flex items-center justify-center shadow-xl shadow-black/50">
+            <div
+              id="avatarWrapper"
+              class="w-20 h-20 rounded-2xl bg-slate-800 border border-white/10 overflow-hidden flex items-center justify-center shadow-xl shadow-black/60"
+            >
               <img id="avatarImg" alt="Foto do usuário" class="w-full h-full object-cover hidden">
               <span id="avatarInitials" class="text-slate-100 font-semibold text-xl">??</span>
             </div>
@@ -71,7 +95,15 @@
             <p class="text-xs uppercase tracking-[0.16em] text-slate-400">
               Usuário autenticado
             </p>
-            <h2 class="text-xl font-semibold" id="pNome">—</h2>
+            <div class="flex items-center gap-2">
+              <h2 class="text-xl font-semibold" id="pNome">—</h2>
+              <span
+                id="chipPerfil"
+                class="inline-flex items-center rounded-full bg-slate-800 border border-white/15 px-2 py-[2px] text-[10px] font-semibold text-slate-200"
+              >
+                —
+              </span>
+            </div>
             <p class="text-sm text-slate-300 flex items-center gap-1" id="pEmail">—</p>
           </div>
         </section>
@@ -81,7 +113,7 @@
           <div class="rounded-2xl border border-emerald-400/30 bg-emerald-900/20 px-3 py-2.5">
             <p class="text-[11px] uppercase tracking-[0.16em] text-emerald-300 mb-1">Status</p>
             <p class="font-semibold text-emerald-100 flex items-center gap-1">
-              ● Ativo
+              <span class="text-xs">●</span> Ativo
             </p>
           </div>
           <div class="rounded-2xl border border-slate-500/40 bg-slate-900/40 px-3 py-2.5">
@@ -90,7 +122,6 @@
           </div>
           <div class="rounded-2xl border border-indigo-400/30 bg-indigo-900/20 px-3 py-2.5">
             <p class="text-[11px] uppercase tracking-[0.16em] text-indigo-300 mb-1">Chamados</p>
-            <!-- AQUI: adicionamos o id para preencher via JS -->
             <p class="font-semibold text-indigo-100" id="userChamadosCount">—</p>
           </div>
         </section>
@@ -126,13 +157,19 @@
             Navegação
           </h3>
           <div class="flex flex-col gap-2 text-sm">
-            <a href="profile.html"
-               class="inline-flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-3 py-2 hover:bg-white/10 transition">
-              <span>Resumo da conta</span>
-              <span class="text-xs text-slate-300">Atual</span>
-            </a>
-            <a href="dashboard.html"
-               class="inline-flex items-center justify-between rounded-2xl border border-white/5 px-3 py-2 hover:bg-white/10 transition">
+            <button
+              type="button"
+              id="btnAtualResumo"
+              class="inline-flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-3 py-2 hover:bg-white/10 transition"
+            >
+              <span>Resumo da conta (atual)</span>
+              <span class="text-xs text-slate-300">Dashboard</span>
+            </button>
+            <a
+              href="dashboard.html"
+              id="linkPainelChamadosSidebar"
+              class="inline-flex items-center justify-between rounded-2xl border border-white/5 px-3 py-2 hover:bg-white/10 transition"
+            >
               <span>Ir para painel de chamados</span>
               <span class="text-xs text-slate-300">Home</span>
             </a>
@@ -144,7 +181,7 @@
       <section class="space-y-6">
 
         <!-- CARD SEGURANÇA DA CONTA -->
-        <div class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-xl shadow-black/40 backdrop-blur space-y-5">
+        <div class="bg-slate-950/70 border border-white/10 rounded-3xl p-6 shadow-2xl shadow-black/50 backdrop-blur space-y-5">
           <div class="flex items-center justify-between gap-3">
             <div>
               <h2 class="text-base font-semibold text-slate-50 flex items-center gap-2">
@@ -261,7 +298,7 @@
                 <button
                   type="button"
                   id="btnCancelPassword"
-                  class="inline-flex justify-center items-center rounded-2xl border border-white/10 px-4 py-2.5 text-sm font-medium text-slate-100 hover:bg:white/10 transition"
+                  class="inline-flex justify-center items-center rounded-2xl border border-white/10 px-4 py-2.5 text-sm font-medium text-slate-100 hover:bg-white/10 transition"
                 >
                   Cancelar
                 </button>
@@ -272,36 +309,188 @@
           </div>
         </div>
 
-        <!-- CARD AÇÕES RÁPIDAS / SESSÃO -->
-        <div class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-xl shadow-black/40 backdrop-blur space-y-4">
-          <div class="flex items-center justify-between gap-3">
+        <!-- CARD SESSÃO & CONTA (RESUMO + PIZZA + SESSÃO) -->
+        <div
+          id="cardSessaoConta"
+          class="bg-slate-950/80 border border-white/10 rounded-3xl p-6 shadow-2xl shadow-black/50 backdrop-blur space-y-4 relative overflow-hidden"
+        >
+          <div class="pointer-events-none absolute -bottom-16 -right-20 h-40 w-40 rounded-full bg-sky-500/15 blur-3xl"></div>
+
+          <div class="relative flex items-center justify-between gap-3">
             <div>
               <h2 class="text-base font-semibold text-slate-50">Sessão & Conta</h2>
               <p class="text-sm text-slate-300 mt-1">
-                Controle rápido de sessão e visualização das informações principais da sua conta.
+                Veja um resumo visual dos chamados e gerencie a sessão atual.
               </p>
+            </div>
+
+            <!-- Abas desktop -->
+            <div class="hidden sm:inline-flex rounded-2xl bg-slate-900/60 p-1 text-[11px]">
+              <button
+                type="button"
+                id="tabResumo"
+                class="px-3 py-1.5 rounded-2xl font-medium bg-slate-800 text-slate-50 shadow"
+              >
+                Resumo
+              </button>
+              <button
+                type="button"
+                id="tabSessao"
+                class="px-3 py-1.5 rounded-2xl font-medium text-slate-300 hover:text-slate-50 hover:bg-slate-800/60 transition"
+              >
+                Sessão
+              </button>
             </div>
           </div>
 
-          <div class="grid sm:grid-cols-2 gap-3 text-sm">
+          <!-- Abas mobile -->
+          <div class="sm:hidden relative mt-3 grid grid-cols-2 gap-2 text-xs">
             <button
-              id="btnViewProfile"
-              class="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-2.5 font-medium text-slate-50 hover:bg-white/10 transition"
+              type="button"
+              id="tabResumoMobile"
+              class="px-3 py-2 rounded-2xl font-medium bg-slate-800 text-slate-50 shadow border border-white/10"
             >
-              👤 Exibir informações da conta
+              Resumo da conta
             </button>
+            <button
+              type="button"
+              id="tabSessaoMobile"
+              class="px-3 py-2 rounded-2xl font-medium text-slate-200 bg-slate-900/70 border border-white/10"
+            >
+              Sessão atual
+            </button>
+          </div>
 
-            <button
-              id="logout2"
-              class="inline-flex items-center justify-center gap-2 rounded-2xl bg-red-500/90 px-3 py-2.5 font-semibold text-white hover:bg-red-500 shadow-sm transition"
+          <!-- CONTEÚDO: RESUMO DA CONTA (USUÁRIO E ADMIN, COM PIZZA) -->
+          <div id="resumoContaUsuario" class="relative mt-4 space-y-4">
+            <div class="grid sm:grid-cols-2 gap-3 text-sm">
+              <div class="rounded-2xl border border-sky-400/40 bg-sky-900/25 px-3 py-3 shadow-inner">
+                <p class="text-[11px] uppercase tracking-[0.16em] text-sky-200 mb-1">
+                  Chamados registrados
+                </p>
+                <p id="resumoTotal" class="text-2xl font-semibold text-slate-50">0</p>
+                <p class="text-[11px] text-sky-100/80 mt-1">
+                  Total de chamados considerados neste resumo.
+                </p>
+              </div>
+              <div class="rounded-2xl border border-emerald-400/40 bg-emerald-900/25 px-3 py-3 shadow-inner">
+                <p class="text-[11px] uppercase tracking-[0.16em] text-emerald-200 mb-1">
+                  Hoje
+                </p>
+                <p id="resumoHoje" class="text-2xl font-semibold text-slate-50">0</p>
+                <p class="text-[11px] text-emerald-100/80 mt-1">
+                  Chamados criados na data de hoje.
+                </p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 text-xs">
+              <div class="rounded-2xl border border-slate-500/40 bg-slate-900/40 px-3 py-2">
+                <p class="text-[10px] uppercase tracking-[0.16em] text-slate-300 mb-1">
+                  Em aberto
+                </p>
+                <p id="resumoAbertos" class="text-lg font-semibold text-slate-50">0</p>
+              </div>
+              <div class="rounded-2xl border border-amber-400/40 bg-amber-900/25 px-3 py-2">
+                <p class="text-[10px] uppercase tracking-[0.16em] text-amber-200 mb-1">
+                  Em andamento
+                </p>
+                <p id="resumoAndamento" class="text-lg font-semibold text-amber-50">0</p>
+              </div>
+              <div class="rounded-2xl border border-emerald-400/40 bg-emerald-900/25 px-3 py-2">
+                <p class="text-[10px] uppercase tracking-[0.16em] text-emerald-200 mb-1">
+                  Resolvidos
+                </p>
+                <p id="resumoResolvidos" class="text-lg font-semibold text-emerald-50">0</p>
+              </div>
+            </div>
+
+            <!-- PIZZA -->
+            <div class="flex flex-col sm:flex-row items-center gap-4 pt-1">
+              <div class="relative h-28 w-28 sm:h-32 sm:w-32 flex items-center justify-center">
+                <div
+                  id="pieChart"
+                  class="h-full w-full rounded-full bg-slate-800"
+                ></div>
+                <div class="absolute inset-4 rounded-full bg-slate-950 flex items-center justify-center">
+                  <span id="pieCenter" class="text-[11px] text-slate-200 text-center leading-tight whitespace-pre-line">
+                    0 chamados
+                  </span>
+                </div>
+              </div>
+
+              <div class="flex-1 space-y-1 text-[11px] text-slate-300">
+                <p class="font-semibold text-slate-100 mb-1">
+                  Distribuição por status
+                </p>
+                <div class="flex items-center gap-2">
+                  <span class="inline-block h-2.5 w-2.5 rounded-full bg-sky-400"></span>
+                  <span>Em aberto</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="inline-block h-2.5 w-2.5 rounded-full bg-amber-400"></span>
+                  <span>Em andamento</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="inline-block h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
+                  <span>Resolvidos</span>
+                </div>
+                <p id="resumoUltimo" class="mt-2">
+                  Último chamado considerado:
+                  <span id="resumoUltimoData" class="text-slate-100">—</span>
+                </p>
+              </div>
+            </div>
+
+            <a
+              id="linkFilaChamadosCard"
+              href="chamados.html"
+              class="inline-flex items-center gap-2 text-[11px] font-medium text-sky-300 hover:text-sky-200 hover:underline"
             >
-              ⏻ Encerrar sessão
-            </button>
+              📋 Ver minha fila de chamados
+            </a>
+          </div>
+
+          <!-- CONTEÚDO: SESSÃO ATUAL -->
+          <div id="sessaoAtual" class="relative mt-4 space-y-4 hidden">
+            <div class="rounded-2xl border border-white/10 bg-slate-900/70 px-3 py-3 text-sm">
+              <p class="text-slate-300">
+                Você está conectado como
+                <span id="sessaoEmail" class="font-semibold text-slate-50">—</span>
+                com perfil
+                <span id="sessaoPerfil" class="font-semibold text-slate-100">—</span>.
+              </p>
+              <p class="text-[11px] text-slate-400 mt-1">
+                Sua sessão é mantida apenas neste navegador (localStorage). Para sair em segurança, encerre a sessão abaixo.
+              </p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-3 text-sm">
+              <button
+                id="btnViewProfile"
+                type="button"
+                class="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-2.5 font-medium text-slate-50 hover:bg-white/10 hover:-translate-y-[1px] transition"
+              >
+                👤 Exibir detalhes do perfil
+              </button>
+
+              <button
+                id="logout2"
+                class="inline-flex items-center justify-center gap-2 rounded-2xl bg-red-500/90 px-3 py-2.5 font-semibold text-white hover:bg-red-500 shadow-sm hover:-translate-y-[1px] transition"
+              >
+                ⏻ Encerrar sessão
+              </button>
+            </div>
+
+            <p class="text-[11px] text-slate-400">
+              Dica: altere sua senha periodicamente na seção de
+              <span class="font-semibold text-slate-100">Segurança da Conta</span>.
+            </p>
           </div>
         </div>
 
         <!-- CARD CONFIGURAÇÕES AVANÇADAS -->
-        <div class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-xl shadow-black/40 backdrop-blur space-y-4">
+        <div class="bg-slate-950/70 border border-white/10 rounded-3xl p-6 shadow-2xl shadow-black/50 backdrop-blur space-y-4">
           <div class="flex items-center justify-between gap-3">
             <div>
               <h2 class="text-base font-semibold text-slate-50">Configurações avançadas</h2>
@@ -474,6 +663,12 @@
       return tel || '—';
     }
 
+    function formatDateTime(iso) {
+      const d = new Date(iso);
+      if (Number.isNaN(d.getTime())) return '—';
+      return d.toLocaleString('pt-BR');
+    }
+
     function togglePassword(btnId, inputId) {
       const btn = document.getElementById(btnId);
       const input = document.getElementById(inputId);
@@ -487,6 +682,7 @@
     }
 
     function setMessage(el, text, type) {
+      if (!el) return;
       el.textContent = text || '';
       el.classList.remove('text-red-400', 'text-green-400', 'text-emerald-300', 'text-amber-300');
       if (type === 'error') el.classList.add('text-red-400');
@@ -495,13 +691,31 @@
       if (type === 'warn') el.classList.add('text-amber-300');
     }
 
-    // ====== NOVO: carregar chamados e contar os do usuário ======
+    function badgeClass(status) {
+      switch (status) {
+        case 'Em andamento':
+          return 'bg-amber-100 text-amber-900 ring-1 ring-amber-300';
+        case 'Resolvido':
+          return 'bg-emerald-100 text-emerald-900 ring-1 ring-emerald-300';
+        case 'Em aberto':
+        default:
+          return 'bg-sky-100 text-sky-900 ring-1 ring-sky-300';
+      }
+    }
+
+    // CHAMADOS
     function loadChamados() {
       try {
         return JSON.parse(localStorage.getItem('chamados') || '[]');
       } catch {
         return [];
       }
+    }
+
+    function normalizarDataLocal(dateObj) {
+      const offsetMs = dateObj.getTimezoneOffset() * 60000;
+      const local = new Date(dateObj.getTime() - offsetMs);
+      return local.toISOString().slice(0, 10); // YYYY-MM-DD
     }
 
     function atualizarResumoChamadosUsuario(sess) {
@@ -516,9 +730,89 @@
       );
 
       const total = meusChamados.length;
-      elCount.textContent = total;
+      elCount.textContent = total === 1 ? '1 chamado' : `${total} chamados`;
     }
-    // =========================================================
+
+    // Preenche resumo (para usuário: só dele; para admin: todos)
+    function preencherResumoConta(isAdmin, sess) {
+      const chamados = loadChamados();
+
+      let listaBase;
+      if (isAdmin) {
+        listaBase = chamados; // todos os chamados (visão dashboard)
+      } else {
+        const emailUsuario = (sess.email || '').toLowerCase();
+        listaBase = chamados.filter(c =>
+          (c.usuarioEmail || '').toLowerCase() === emailUsuario
+        );
+      }
+
+      const hojeLocal = normalizarDataLocal(new Date());
+
+      const total = listaBase.length;
+      const hoje = listaBase.filter(c => {
+        const d = new Date(c.criadoEm);
+        if (Number.isNaN(d.getTime())) return false;
+        return normalizarDataLocal(d) === hojeLocal;
+      }).length;
+
+      const abertos = listaBase.filter(c => c.status === 'Em aberto').length;
+      const andamento = listaBase.filter(c => c.status === 'Em andamento').length;
+      const resolvidos = listaBase.filter(c => c.status === 'Resolvido').length;
+
+      const datasValidas = listaBase
+        .map(c => new Date(c.criadoEm))
+        .filter(d => !Number.isNaN(d.getTime()))
+        .sort((a, b) => b - a);
+
+      const resumoTotal = document.getElementById('resumoTotal');
+      const resumoHoje = document.getElementById('resumoHoje');
+      const resumoAbertos = document.getElementById('resumoAbertos');
+      const resumoAndamento = document.getElementById('resumoAndamento');
+      const resumoResolvidos = document.getElementById('resumoResolvidos');
+      const resumoUltimoData = document.getElementById('resumoUltimoData');
+      const pieChart = document.getElementById('pieChart');
+      const pieCenter = document.getElementById('pieCenter');
+
+      if (resumoTotal) resumoTotal.textContent = total;
+      if (resumoHoje) resumoHoje.textContent = hoje;
+      if (resumoAbertos) resumoAbertos.textContent = abertos;
+      if (resumoAndamento) resumoAndamento.textContent = andamento;
+      if (resumoResolvidos) resumoResolvidos.textContent = resolvidos;
+      if (resumoUltimoData) {
+        resumoUltimoData.textContent = datasValidas.length
+          ? formatDateTime(datasValidas[0].toISOString())
+          : '—';
+      }
+
+      if (!pieChart || !pieCenter) return;
+
+      const totalStatus = abertos + andamento + resolvidos;
+
+      if (totalStatus === 0) {
+        pieChart.style.backgroundImage = 'radial-gradient(circle at 30% 30%, #1e293b, #020617)';
+        pieCenter.textContent = 'Sem dados';
+        return;
+      }
+
+      const degAbertos = (abertos / totalStatus) * 360;
+      const degAndamento = (andamento / totalStatus) * 360;
+      const degResolvidos = (resolvidos / totalStatus) * 360;
+
+      const aEnd = degAbertos;
+      const bEnd = degAbertos + degAndamento;
+
+      pieChart.style.backgroundImage =
+        `conic-gradient(
+          rgb(56,189,248) 0deg ${aEnd}deg,
+          rgb(250,204,21) ${aEnd}deg ${bEnd}deg,
+          rgb(34,197,94) ${bEnd}deg 360deg
+        )`;
+
+      pieCenter.textContent = totalStatus === 1
+        ? '1 chamado\npor status'
+        : `${totalStatus} chamados\npor status`;
+    }
 
     // ===================== INICIALIZAÇÃO =====================
     const sess = getSessionUser();
@@ -536,7 +830,25 @@
     const pCPF = document.getElementById('pCPF');
     const pTel = document.getElementById('pTel');
     const perfilTexto = document.getElementById('perfilTexto');
+    const chipPerfil = document.getElementById('chipPerfil');
     const passwordChangeMsg = document.getElementById('passwordChangeMsg');
+
+    const headerSubtitle = document.getElementById('headerSubtitle');
+    const headerTitle = document.getElementById('headerTitle');
+    const linkPainelChamados = document.getElementById('linkPainelChamados');
+    const linkPainelChamadosSidebar = document.getElementById('linkPainelChamadosSidebar');
+    const linkFilaChamadosCard = document.getElementById('linkFilaChamadosCard');
+
+    if (isAdmin) {
+      if (headerSubtitle) headerSubtitle.textContent = 'Área Administrativa';
+      if (headerTitle) headerTitle.textContent = 'Minha Conta (Admin)';
+      if (linkPainelChamados) linkPainelChamados.href = 'admin.html';
+      if (linkPainelChamadosSidebar) linkPainelChamadosSidebar.href = 'admin.html';
+      if (linkFilaChamadosCard) {
+        linkFilaChamadosCard.href = 'admin.html';
+        linkFilaChamadosCard.textContent = '📋 Ver painel de chamados';
+      }
+    }
 
     function renderAvatar(user) {
       const avatarUrl = user?.avatar;
@@ -557,22 +869,32 @@
       pEmail.textContent = user?.email || '—';
       pCPF.textContent = user?.cpf ? formatCPF(user.cpf) : '—';
       pTel.textContent = user?.tel ? formatPhone(user.tel) : '—';
-      perfilTexto.textContent = user?.perfil === 'admin' ? 'Administrador' : 'Usuário Padrão';
+
+      const perfilLabel = user?.perfil === 'admin' ? 'Administrador' : 'Usuário Padrão';
+      perfilTexto.textContent = perfilLabel;
+      if (chipPerfil) chipPerfil.textContent = perfilLabel;
+
+      const sessaoEmailEl = document.getElementById('sessaoEmail');
+      const sessaoPerfilEl = document.getElementById('sessaoPerfil');
+      if (sessaoEmailEl) sessaoEmailEl.textContent = user?.email || '—';
+      if (sessaoPerfilEl) sessaoPerfilEl.textContent = perfilLabel;
+
       renderAvatar(user);
     }
 
     renderProfileInfo(sess);
-    atualizarResumoChamadosUsuario(sess); // <-- conta e mostra quantidade de chamados
+    atualizarResumoChamadosUsuario(sess);
+    preencherResumoConta(isAdmin, sess);
 
     // ===================== LOGOUT =====================
-
     function doLogout() {
       localStorage.removeItem('sessionUser');
       window.location.href = 'index.html';
     }
 
-    document.getElementById('logout2').addEventListener('click', doLogout);
     document.getElementById('logoutTop').addEventListener('click', doLogout);
+    const logout2Btn = document.getElementById('logout2');
+    if (logout2Btn) logout2Btn.addEventListener('click', doLogout);
 
     // ===================== AVATAR (FOTO DO USUÁRIO) =====================
     const btnChangeAvatar = document.getElementById('btnChangeAvatar');
@@ -623,12 +945,19 @@
       setMessage(passwordChangeMsg, '', null);
     }
 
-    btnChangePassword.addEventListener('click', () => toggleChangePasswordSection());
-    btnChangePasswordMobile.addEventListener('click', () => toggleChangePasswordSection(true));
-    btnCancelPassword.addEventListener('click', () => toggleChangePasswordSection(false));
+    if (btnChangePassword) {
+      btnChangePassword.addEventListener('click', () => toggleChangePasswordSection());
+    }
+    if (btnChangePasswordMobile) {
+      btnChangePasswordMobile.addEventListener('click', () => toggleChangePasswordSection(true));
+    }
+    if (btnCancelPassword) {
+      btnCancelPassword.addEventListener('click', () => toggleChangePasswordSection(false));
+    }
 
     // ===================== ALTERAR SENHA =====================
-    document.getElementById('formChangePassword').addEventListener('submit', (e) => {
+    const formChangePassword = document.getElementById('formChangePassword');
+    formChangePassword.addEventListener('submit', (e) => {
       e.preventDefault();
       const btnSubmit = document.getElementById('btnSubmitPassword');
 
@@ -645,6 +974,7 @@
         }
       } else {
         setMessage(passwordChangeMsg, 'Não foi possível validar a senha atual. Faça login novamente se o problema persistir.', 'error');
+        return;
       }
 
       if (newPassword.length < 6) {
@@ -675,10 +1005,89 @@
       btnSubmit.disabled = false;
     });
 
-    // ===================== BOTÃO EXIBIR INFORMAÇÕES =====================
-    document.getElementById('btnViewProfile').addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    // ===================== ABAS DO CARD SESSÃO & CONTA =====================
+    const cardSessaoConta = document.getElementById('cardSessaoConta');
+    const tabResumo = document.getElementById('tabResumo');
+    const tabSessao = document.getElementById('tabSessao');
+    const tabResumoMobile = document.getElementById('tabResumoMobile');
+    const tabSessaoMobile = document.getElementById('tabSessaoMobile');
+    const resumoContaUsuarioEl = document.getElementById('resumoContaUsuario');
+    const sessaoAtualEl = document.getElementById('sessaoAtual');
+
+    function ativarTab(tab) {
+      const isResumo = tab === 'resumo';
+
+      if (isResumo) {
+        if (sessaoAtualEl) sessaoAtualEl.classList.add('hidden');
+        if (resumoContaUsuarioEl) resumoContaUsuarioEl.classList.remove('hidden');
+        preencherResumoConta(isAdmin, sess);
+      } else {
+        if (sessaoAtualEl) sessaoAtualEl.classList.remove('hidden');
+        if (resumoContaUsuarioEl) resumoContaUsuarioEl.classList.add('hidden');
+      }
+
+      // Estilo abas desktop
+      if (tabResumo && tabSessao) {
+        if (isResumo) {
+          tabResumo.classList.add('bg-slate-800', 'text-slate-50', 'shadow');
+          tabSessao.classList.remove('bg-slate-800', 'text-slate-50', 'shadow');
+          tabSessao.classList.add('text-slate-300');
+        } else {
+          tabSessao.classList.add('bg-slate-800', 'text-slate-50', 'shadow');
+          tabResumo.classList.remove('bg-slate-800', 'text-slate-50', 'shadow');
+          tabResumo.classList.add('text-slate-300');
+        }
+      }
+
+      // Estilo abas mobile
+      if (tabResumoMobile && tabSessaoMobile) {
+        if (isResumo) {
+          tabResumoMobile.classList.add('bg-slate-800', 'text-slate-50');
+          tabResumoMobile.classList.remove('bg-slate-900/70');
+          tabSessaoMobile.classList.remove('bg-slate-800', 'text-slate-50');
+          tabSessaoMobile.classList.add('bg-slate-900/70');
+        } else {
+          tabSessaoMobile.classList.add('bg-slate-800', 'text-slate-50');
+          tabSessaoMobile.classList.remove('bg-slate-900/70');
+          tabResumoMobile.classList.remove('bg-slate-800', 'text-slate-50');
+          tabResumoMobile.classList.add('bg-slate-900/70');
+        }
+      }
+    }
+
+    function destacarCardSessao() {
+      if (!cardSessaoConta) return;
+      cardSessaoConta.classList.add('ring-2', 'ring-sky-400/70');
+      setTimeout(() => {
+        cardSessaoConta.classList.remove('ring-2', 'ring-sky-400/70');
+      }, 1000);
+    }
+
+    if (tabResumo) tabResumo.addEventListener('click', () => ativarTab('resumo'));
+    if (tabSessao) tabSessao.addEventListener('click', () => ativarTab('sessao'));
+    if (tabResumoMobile) tabResumoMobile.addEventListener('click', () => ativarTab('resumo'));
+    if (tabSessaoMobile) tabSessaoMobile.addEventListener('click', () => ativarTab('sessao'));
+
+    // Botão da sidebar "Resumo da conta (atual)"
+    const btnAtualResumo = document.getElementById('btnAtualResumo');
+    if (btnAtualResumo) {
+      btnAtualResumo.addEventListener('click', () => {
+        ativarTab('resumo');
+        cardSessaoConta?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        destacarCardSessao();
+      });
+    }
+
+    // Botão "👤 Exibir detalhes do perfil"
+    const btnViewProfile = document.getElementById('btnViewProfile');
+    if (btnViewProfile) {
+      btnViewProfile.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    // Aba padrão: Resumo
+    ativarTab('resumo');
 
     // ===================== MODAL EDIÇÃO DE DADOS =====================
     const editProfileModal = document.getElementById('editProfileModal');
@@ -732,7 +1141,7 @@
       }
     });
 
-    // Formatar telefone digitando (simples)
+    // Formatar telefone ao sair do campo
     editTel.addEventListener('blur', () => {
       if (editTel.value.trim()) {
         editTel.value = formatPhone(editTel.value);
@@ -766,7 +1175,8 @@
 
       saveSessionUser(sess);
       renderProfileInfo(sess);
-      atualizarResumoChamadosUsuario(sess); // reconta se quiser usar em outra regra
+      atualizarResumoChamadosUsuario(sess);
+      preencherResumoConta(isAdmin, sess);
 
       setMessage(editProfileMsg, 'Dados atualizados com sucesso!', 'success');
 
