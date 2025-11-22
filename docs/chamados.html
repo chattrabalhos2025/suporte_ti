@@ -168,7 +168,7 @@
                 <input
                   type="text"
                   id="filtroBuscaIdAdmin"
-                  placeholder="Ex: 123, CHAM-001"
+                  placeholder="Ex: CH-0001"
                   class="w-full rounded-2xl border border-white/15 bg-slate-950/70 px-3 pl-7 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-400 outline-none"
                 />
               </div>
@@ -200,7 +200,7 @@
               <th class="px-6 py-3 font-medium">Categoria</th>
               <th class="px-6 py-3 font-medium">Descrição</th>
               <th class="px-6 py-3 font-medium whitespace-nowrap">Criado em</th>
-              <th class="px-6 py-3 font-medium">Status / Ações</th>
+              <th class="px-6 py-3 font-medium">Status / Situação</th>
             </tr>
           </thead>
           <tbody id="tbody" class="divide-y divide-white/5"></tbody>
@@ -264,7 +264,7 @@
               <p class="text-slate-50 text-sm" id="detStatusTexto">—</p>
             </div>
             <div>
-              <p class="text-[11px] uppercase tracking-[0.16em] text-slate-400">Prioridade</p>
+              <p class="text-[11px] uppercase tracking-[0.16em] text-slate-400">Situação</p>
               <p class="text-slate-50 text-sm" id="detPrioridade">—</p>
             </div>
           </div>
@@ -336,7 +336,7 @@
       // Admin vê todos os chamados, filtros e não precisa abrir novo chamado
       tituloPagina.textContent = 'Listagem de Chamados (Admin)';
       tituloListaChamados.textContent = 'Todos os Chamados';
-      subTituloLista.textContent = 'Somente administradores podem alterar o status, prioridade, filtrar e visualizar detalhes dos chamados.';
+      subTituloLista.textContent = 'Somente administradores podem alterar o status, situação e visualizar detalhes de todos os chamados.';
       if (btnNovoChamado) btnNovoChamado.classList.add('hidden');
       if (btnNovoChamadoMobile) btnNovoChamadoMobile.classList.add('hidden');
       emptyText.textContent = 'Ainda não há chamados registrados. Assim que os usuários abrirem chamados, eles aparecerão aqui.';
@@ -392,6 +392,8 @@
           return 'bg-orange-100 text-orange-900 ring-1 ring-orange-300';
         case 'Crítica':
           return 'bg-red-100 text-red-900 ring-1 ring-red-300';
+        case 'Aguardando triagem':
+          return 'bg-slate-100 text-slate-900 ring-1 ring-slate-300';
         default: // Média ou qualquer outro
           return 'bg-indigo-100 text-indigo-900 ring-1 ring-indigo-300';
       }
@@ -493,7 +495,7 @@
     const detUltimaStatusEm = document.getElementById('detUltimaStatusEm');
 
     function abrirModalDetalhe(chamado) {
-      const prioridade = chamado.prioridade || 'Média';
+      const prioridade = chamado.prioridade || 'Aguardando triagem';
 
       detId.textContent           = chamado.id || '—';
       detCategoria.textContent    = chamado.categoria || '—';
@@ -586,7 +588,7 @@
         const tr = document.createElement('tr');
         tr.className = idx % 2 === 0 ? 'bg-slate-900/40' : 'bg-slate-900/20';
 
-        const prioridade = c.prioridade || 'Média';
+        const prioridade = c.prioridade || 'Aguardando triagem';
 
         const tdId = document.createElement('td');
         tdId.className = 'px-6 py-3 font-mono text-[11px] text-slate-200';
@@ -620,15 +622,15 @@
         badge.textContent = c.status || 'Em aberto';
         linhaStatus.appendChild(badge);
 
-        // Badge de prioridade
+        // Badge de situação (baseado na prioridade)
         const badgePri = document.createElement('span');
         badgePri.className =
           'inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold ' +
           prioridadeClass(prioridade);
-        badgePri.textContent = 'Prioridade: ' + prioridade;
+        badgePri.textContent = 'Situação: ' + prioridade;
         linhaStatus.appendChild(badgePri);
 
-        // ======= SÓ ADMIN pode mudar o status e prioridade =======
+        // ======= SÓ ADMIN pode mudar o status e a situação (prioridade) =======
         if (isAdmin) {
           const selectStatus = document.createElement('select');
           selectStatus.className =
@@ -654,12 +656,12 @@
             }
           });
 
-          // Select de prioridade
+          // Select de situação (prioridade)
           const selectPri = document.createElement('select');
           selectPri.className =
             'rounded-xl border border-white/15 bg-slate-950/60 px-2 py-1 text-[11px] text-slate-50 focus:ring-1 focus:ring-indigo-400 focus:border-indigo-400 outline-none';
 
-          ['Baixa', 'Média', 'Alta', 'Crítica'].forEach(opt => {
+          ['Aguardando triagem', 'Baixa', 'Média', 'Alta', 'Crítica'].forEach(opt => {
             const o = document.createElement('option');
             o.value = opt;
             o.textContent = opt;
@@ -685,6 +687,7 @@
           wrap.appendChild(linhaStatus);
           wrap.appendChild(linhaEdicao);
         } else {
+          // Usuário comum: só vê os badges (status + situação), sem selects
           wrap.appendChild(linhaStatus);
         }
         // ============================================
@@ -765,3 +768,4 @@
   </script>
 </body>
 </html>
+

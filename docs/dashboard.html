@@ -7,51 +7,64 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { scroll-behavior: smooth; }
+
+    /* Fundo com leve animação de gradiente */
+    .animated-bg {
+      background: radial-gradient(circle at top, rgba(56,189,248,0.18), transparent 55%),
+                  radial-gradient(circle at bottom, rgba(129,140,248,0.2), transparent 55%),
+                  #020617;
+    }
   </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-slate-50">
+<body class="min-h-screen animated-bg text-slate-50">
 
   <!-- TOP NAV -->
-  <header class="border-b border-white/10 bg-slate-900/60 backdrop-blur">
+  <header class="border-b border-white/10 bg-slate-950/70 backdrop-blur">
     <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
       <div class="flex items-center gap-3">
-        <img
-          src="logo-helptech.png"
-          alt="Logo HelpTech"
-          class="h-8 w-auto rounded-xl shadow"
-        />
+        <div class="relative">
+          <img
+            src="logo-helptech.png"
+            alt="Logo HelpTech"
+            class="h-8 w-auto rounded-xl shadow shadow-sky-500/40"
+          />
+          <span class="absolute -bottom-1 -right-1 h-3 w-3 rounded-full bg-emerald-400 border border-slate-900"></span>
+        </div>
         <div class="flex flex-col leading-tight">
-          <span class="text-xs uppercase tracking-[0.18em] text-slate-400">
+          <span class="text-[11px] uppercase tracking-[0.18em] text-slate-400">
             Painel do Usuário
           </span>
-          <h1 class="text-lg font-semibold text-slate-50">
+          <h1 class="text-lg font-semibold text-slate-50 flex items-center gap-2">
             Abrir novo chamado
+            <span class="inline-flex items-center rounded-full bg-emerald-500/10 border border-emerald-400/40 px-2 py-[2px] text-[10px] font-semibold text-emerald-200">
+              Online
+            </span>
           </h1>
         </div>
       </div>
 
       <div class="flex items-center gap-3">
         <a href="chamados.html"
-           class="hidden sm:inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-xs font-medium text-slate-200 hover:bg-white/10 transition">
+           class="hidden sm:inline-flex items-center gap-2 rounded-2xl border border-white/10 px-3 py-2 text-xs font-medium text-slate-200 hover:bg-white/10 hover:-translate-y-[1px] transition">
           📋 Meus chamados
         </a>
 
         <a href="chamados.html"
-           class="sm:hidden inline-flex items-center justify-center rounded-xl border border-white/10 px-2.5 py-1.5 text-xs text-slate-100 hover:bg-white/10 transition">
+           class="sm:hidden inline-flex items-center justify-center rounded-2xl border border-white/10 px-2.5 py-1.5 text-xs text-slate-100 hover:bg-white/10 transition">
           📋
         </a>
 
         <!-- Perfil -->
         <a id="btnProfileCircle"
            href="profile.html"
-           class="w-9 h-9 rounded-full bg-slate-800 border border-white/15 text-xs font-semibold text-slate-50 flex items-center justify-center hover:bg-slate-700 transition"
+           class="w-9 h-9 rounded-full bg-slate-800 border border-white/15 text-xs font-semibold text-slate-50 flex items-center justify-center hover:bg-slate-700 hover:-translate-y-[1px] transition"
            title="Minha conta">
           ??
         </a>
 
         <!-- Logout -->
         <button id="logoutTop"
-                class="hidden sm:inline-flex items-center gap-2 rounded-xl bg-red-500/90 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500 shadow-sm transition">
+                class="hidden sm:inline-flex items-center gap-2 rounded-2xl bg-red-500/90 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500 hover:-translate-y-[1px] shadow-sm transition">
           Sair
         </button>
       </div>
@@ -60,32 +73,68 @@
 
   <!-- MAIN -->
   <main class="max-w-5xl mx-auto px-4 py-8">
-    <div class="grid lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.9fr)] gap-6">
+    <div class="grid lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.95fr)] gap-6 items-start">
 
       <!-- FORMULÁRIO NOVO CHAMADO -->
-      <section class="bg-white/5 border border-white/10 rounded-3xl shadow-xl shadow-black/40 backdrop-blur p-6 space-y-5">
-        <div>
-          <h2 class="text-base font-semibold text-slate-50 flex items-center gap-2">
-            Detalhes do chamado
-            <span class="inline-flex items-center rounded-full bg-indigo-500/15 border border-indigo-400/40 px-2 py-[2px] text-[10px] font-semibold text-indigo-200">
-              Obrigatório
-            </span>
-          </h2>
-          <p class="text-sm text-slate-300 mt-1">
-            Quanto mais detalhes você fornecer, mais fácil será para o suporte entender e resolver seu problema.
-          </p>
+      <section
+        class="bg-slate-950/70 border border-white/10 rounded-3xl shadow-2xl shadow-black/50 backdrop-blur p-6 space-y-6 relative overflow-hidden"
+      >
+        <!-- glow decorativo -->
+        <div class="pointer-events-none absolute -top-20 -right-24 h-56 w-56 rounded-full bg-sky-500/20 blur-3xl"></div>
+
+        <!-- Cabeçalho do card -->
+        <div class="relative flex flex-col gap-3">
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <h2 class="text-base font-semibold text-slate-50 flex items-center gap-2">
+                Detalhes do chamado
+                <span class="inline-flex items-center rounded-full bg-indigo-500/20 border border-indigo-400/40 px-2 py-[2px] text-[10px] font-semibold text-indigo-100">
+                  Passo 1 de 2
+                </span>
+              </h2>
+              <p class="text-sm text-slate-300 mt-1">
+                Preencha as informações abaixo para que o suporte consiga entender rapidamente sua solicitação.
+              </p>
+            </div>
+
+            <!-- Barra de progresso -->
+            <div class="hidden sm:flex flex-col items-end gap-1">
+              <span class="text-[11px] text-slate-400" id="progressLabel">0% preenchido</span>
+              <div class="w-32 h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                <div
+                  id="progressBar"
+                  class="h-full rounded-full bg-gradient-to-r from-sky-400 to-indigo-400 transition-all duration-300"
+                  style="width: 0%;"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Etapas em linha -->
+          <div class="flex items-center gap-3 text-[11px] text-slate-400 mt-1">
+            <div class="flex items-center gap-2">
+              <span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/20 border border-sky-400/60 text-[11px] text-sky-100">1</span>
+              <span>Preencher dados</span>
+            </div>
+            <span class="h-px w-6 bg-slate-600"></span>
+            <div class="flex items-center gap-2">
+              <span class="flex h-5 w-5 items-center justify-center rounded-full bg-slate-800 border border-slate-600 text-[11px] text-slate-400">2</span>
+              <span>Revisar e enviar</span>
+            </div>
+          </div>
         </div>
 
-        <form id="formChamado" class="space-y-4 text-sm">
+        <form id="formChamado" class="space-y-5 text-sm relative">
+
           <!-- Categoria -->
-          <div>
-            <label for="categoria" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
-              Categoria
+          <div class="space-y-1.5">
+            <label for="categoria" class="block text-[11px] font-semibold tracking-[0.16em] uppercase text-slate-300">
+              Categoria do problema
             </label>
             <select
               id="categoria"
               required
-              class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
+              class="w-full rounded-2xl border border-white/15 bg-slate-900/70 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-sky-400 focus:border-transparent outline-none transition"
             >
               <option value="">Selecione uma categoria</option>
               <option>Problema de acesso</option>
@@ -95,104 +144,135 @@
               <option>Solicitação de melhoria</option>
               <option>Outro</option>
             </select>
+            <p class="text-[11px] text-slate-400">
+              Exemplo: não consegue logar, erro ao abrir tela, falha em relatório, etc.
+            </p>
           </div>
 
-          <!-- Prioridade + Título -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label for="prioridade" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
-                Prioridade
-              </label>
-              <select
-                id="prioridade"
-                required
-                class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 text-sm text-slate-50 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
-              >
-                <option value="">Selecione a prioridade</option>
-                <option>Baixa</option>
-                <option>Média</option>
-                <option>Alta</option>
-                <option>Crítica</option>
-              </select>
-            </div>
-
-            <div>
-              <label for="titulo" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
+          <!-- Título (opcional) -->
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between gap-2">
+              <label for="titulo" class="block text-[11px] font-semibold tracking-[0.16em] uppercase text-slate-300">
                 Título (opcional)
               </label>
-              <input
-                id="titulo"
-                type="text"
-                maxlength="120"
-                class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
-                placeholder="Ex: Não consigo acessar o sistema da agência"
-              />
+              <span class="text-[11px] text-slate-500">
+                Máx. 120 caracteres
+              </span>
             </div>
+            <input
+              id="titulo"
+              type="text"
+              maxlength="120"
+              class="w-full rounded-2xl border border-white/15 bg-slate-900/70 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-sky-400 focus:border-transparent outline-none transition"
+              placeholder="Ex: Erro ao acessar o sistema de chamados da agência"
+            />
           </div>
 
           <!-- Descrição -->
-          <div>
-            <label for="descricao" class="block text-xs font-semibold tracking-[0.16em] uppercase mb-1 text-slate-300">
-              Descrição detalhada
-            </label>
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between gap-2">
+              <label for="descricao" class="block text-[11px] font-semibold tracking-[0.16em] uppercase text-slate-300">
+                Descrição detalhada
+              </label>
+              <span id="descricaoCount" class="text-[11px] text-slate-500">
+                0 / 2000
+              </span>
+            </div>
             <textarea
               id="descricao"
               required
               rows="5"
               maxlength="2000"
-              class="w-full rounded-2xl border border-white/15 bg-slate-900/60 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none"
-              placeholder="Descreva o passo a passo do problema, mensagens de erro, horário aproximado em que ocorreu, impacto no atendimento, etc."
+              class="w-full rounded-2xl border border-white/15 bg-slate-900/70 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 focus:ring-2 focus:ring-sky-400 focus:border-transparent outline-none transition resize-none"
+              placeholder="Descreva o passo a passo do problema, mensagens de erro, horário aproximado, impacto no atendimento e qualquer outro detalhe importante."
             ></textarea>
+            <p class="text-[11px] text-slate-400">
+              Dica: informe se o problema impede o atendimento ao cliente ou se há alternativa temporária.
+            </p>
           </div>
 
           <!-- Mensagem -->
           <p id="formMsg" class="text-xs mt-1"></p>
 
           <!-- AÇÕES -->
-          <div class="flex flex-col sm:flex-row gap-3 pt-2">
+          <div class="flex flex-col sm:flex-row gap-3 pt-3">
             <button
               type="submit"
               id="btnSubmitChamado"
-              class="inline-flex justify-center items-center gap-2 rounded-2xl bg-indigo-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-400 shadow shadow-indigo-500/40 transition disabled:opacity-60 disabled:cursor-not-allowed"
+              class="inline-flex justify-center items-center gap-2 rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-500 px-4 py-2.5 text-sm font-semibold text-white hover:from-sky-400 hover:to-indigo-400 hover:-translate-y-[1px] shadow shadow-sky-500/40 transition disabled:opacity-60 disabled:cursor-not-allowed"
             >
               🚀 Enviar chamado
             </button>
 
-            <a
-              href="chamados.html"
-              class="inline-flex justify-center items-center rounded-2xl border border-white/10 px-4 py-2.5 text-sm font-medium text-slate-100 hover:bg-white/10 transition"
+            <button
+              type="button"
+              id="btnLimparCampos"
+              class="inline-flex justify-center items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-medium text-slate-100 hover:bg-white/10 hover:-translate-y-[1px] transition"
             >
-              Ver meus chamados
+              🧹 Limpar campos
+            </button>
+          </div>
+
+          <div class="flex items-center justify-between gap-2 pt-1 text-[11px] text-slate-400">
+            <span>
+              Situação inicial do chamado: <span class="font-semibold text-slate-100">Aguardando triagem do suporte</span>.
+            </span>
+            <a href="chamados.html" class="hidden sm:inline text-sky-300 hover:text-sky-200 hover:underline">
+              Ver minha fila de chamados →
             </a>
           </div>
         </form>
       </section>
 
-      <!-- LATERAL: RESUMO & DICAS -->
+      <!-- LATERAL: PRÉ-VISUALIZAÇÃO & DICAS -->
       <aside class="space-y-4">
-        <section class="bg-white/5 border border-white/10 rounded-3xl shadow-xl shadow-black/40 backdrop-blur p-5 space-y-3">
-          <h2 class="text-sm font-semibold text-slate-50">Resumo do registro</h2>
-          <p class="text-xs text-slate-300">
-            O chamado será salvo localmente no seu navegador e listado na tela
-            <span class="font-semibold text-slate-100">Meus Chamados</span>. Em produção, ele seria enviado à API da HelpTech.
+
+        <!-- Card de pré-visualização -->
+        <section class="bg-slate-950/70 border border-sky-500/30 rounded-3xl shadow-xl shadow-black/50 backdrop-blur p-5 space-y-3">
+          <div class="flex items-center justify-between gap-2">
+            <h2 class="text-sm font-semibold text-sky-100 flex items-center gap-2">
+              Pré-visualização do chamado
+              <span class="inline-flex items-center justify-center h-5 px-2 rounded-full bg-sky-500/15 border border-sky-400/40 text-[10px] font-semibold text-sky-100">
+                Em rascunho
+              </span>
+            </h2>
+          </div>
+
+          <div class="rounded-2xl border border-white/5 bg-slate-900/70 px-3 py-3 space-y-2">
+            <div class="flex items-center justify-between gap-2 text-[11px] text-slate-400">
+              <span id="previewCategoria">Categoria: —</span>
+              <span class="inline-flex items-center gap-1 text-[11px]">
+                Situação:
+                <span class="inline-flex items-center rounded-full bg-slate-100/90 text-slate-900 px-2 py-[1px] font-semibold">
+                  Aguardando triagem
+                </span>
+              </span>
+            </div>
+            <h3 id="previewTitulo" class="text-sm font-semibold text-slate-50">
+              Título do chamado aparecerá aqui
+            </h3>
+            <p id="previewDescricao" class="text-xs text-slate-200 line-clamp-4">
+              A descrição resumida do chamado será exibida aqui conforme você digita, ajudando a visualizar como o suporte enxergará sua solicitação.
+            </p>
+          </div>
+
+          <p class="text-[11px] text-slate-400">
+            Após enviar, o chamado aparecerá em <span class="font-semibold text-slate-100">“Meus Chamados”</span> com status
+            <span class="font-semibold text-slate-100">Em aberto</span> e aguardando análise do suporte.
           </p>
-          <ul class="text-xs text-slate-300 space-y-1.5">
-            <li>• Status inicial: <span class="font-semibold text-slate-100">Em aberto</span>.</li>
-            <li>• Data e hora são registradas automaticamente.</li>
-            <li>• Seu e-mail é associado ao chamado.</li>
-          </ul>
         </section>
 
-        <section class="bg-slate-900/70 border border-indigo-400/30 rounded-3xl shadow-xl shadow-black/40 backdrop-blur p-5 space-y-3">
-          <h2 class="text-sm font-semibold text-indigo-100">Dica para descrição</h2>
-          <p class="text-xs text-slate-200">
-            Sempre que possível, inclua:
-          </p>
+        <!-- Card de boas práticas -->
+        <section class="bg-slate-950/70 border border-white/10 rounded-3xl shadow-xl shadow-black/50 backdrop-blur p-5 space-y-3">
+          <h2 class="text-sm font-semibold text-slate-50 flex items-center gap-2">
+            Como abrir um bom chamado?
+          </h2>
           <ul class="text-xs text-slate-200 space-y-1.5 list-disc list-inside">
-            <li>O que você estava fazendo quando o erro aconteceu;</li>
-            <li>Print ou texto da mensagem de erro;</li>
-            <li>Se outras pessoas também foram afetadas;</li>
-            <li>Qual sistema, agência ou ambiente foi impactado.</li>
+            <li>Informe o sistema, agência ou ambiente impactado.</li>
+            <li>Descreva o que você fez antes do erro aparecer.</li>
+            <li>Cole mensagens de erro ou códigos que aparecerem na tela.</li>
+            <li>Diga se outras pessoas também estão com o mesmo problema.</li>
+            <li>Indique se o problema impede o atendimento ao cliente.</li>
           </ul>
         </section>
       </aside>
@@ -222,7 +302,7 @@
     if (!sess) {
       window.location.href = 'index.html';
     } else if (sess.perfil === 'admin') {
-      // Admin não abre chamado → vai direto para o dashboard
+      // Admin não abre chamado → vai direto para o dashboard admin
       window.location.href = 'admin.html';
     }
 
@@ -253,7 +333,7 @@
       el.textContent = text || '';
       el.className = 'text-xs mt-1';
       if (type === 'error') el.classList.add('text-red-400');
-      if (type === 'success') el.classList.add('text-green-400');
+      if (type === 'success') el.classList.add('text-emerald-400');
       if (type === 'info') el.classList.add('text-slate-300');
     }
 
@@ -271,27 +351,98 @@
     }
 
     // ===== FORM NOVO CHAMADO =====
-    const formChamado = document.getElementById('formChamado');
+    const formChamado      = document.getElementById('formChamado');
     const btnSubmitChamado = document.getElementById('btnSubmitChamado');
+    const btnLimparCampos  = document.getElementById('btnLimparCampos');
+    const campoCategoria   = document.getElementById('categoria');
+    const campoTitulo      = document.getElementById('titulo');
+    const campoDescricao   = document.getElementById('descricao');
+    const descricaoCount   = document.getElementById('descricaoCount');
+
+    // Preview
+    const previewCategoria = document.getElementById('previewCategoria');
+    const previewTitulo    = document.getElementById('previewTitulo');
+    const previewDescricao = document.getElementById('previewDescricao');
+
+    // Progresso
+    const progressBar   = document.getElementById('progressBar');
+    const progressLabel = document.getElementById('progressLabel');
+
+    function atualizarPreview() {
+      const cat = campoCategoria.value || '—';
+      const tit = campoTitulo.value.trim() ||
+        'Título do chamado aparecerá aqui';
+      const desc = campoDescricao.value.trim() ||
+        'A descrição resumida do chamado será exibida aqui conforme você digita, ajudando a visualizar como o suporte enxergará sua solicitação.';
+
+      previewCategoria.textContent = 'Categoria: ' + cat;
+      previewTitulo.textContent = tit;
+      previewDescricao.textContent = desc;
+    }
+
+    function atualizarContadorDescricao() {
+      const atual = campoDescricao.value.length;
+      descricaoCount.textContent = `${atual} / 2000`;
+    }
+
+    function calcularProgresso() {
+      let pontos = 0;
+      if (campoCategoria.value) pontos += 1;
+      if (campoDescricao.value.trim().length > 10) pontos += 1;
+      if (campoTitulo.value.trim().length > 0) pontos += 1;
+
+      // 3 "steps" simples -> 0, 33, 66, 100
+      const porcentagem = [0, 33, 66, 100][pontos];
+      progressBar.style.width = porcentagem + '%';
+      progressLabel.textContent = `${porcentagem}% preenchido`;
+    }
+
+    campoCategoria.addEventListener('change', () => {
+      atualizarPreview();
+      calcularProgresso();
+    });
+
+    campoTitulo.addEventListener('input', () => {
+      atualizarPreview();
+      calcularProgresso();
+    });
+
+    campoDescricao.addEventListener('input', () => {
+      atualizarPreview();
+      atualizarContadorDescricao();
+      calcularProgresso();
+    });
+
+    btnLimparCampos.addEventListener('click', () => {
+      campoCategoria.value = '';
+      campoTitulo.value = '';
+      campoDescricao.value = '';
+      atualizarPreview();
+      atualizarContadorDescricao();
+      calcularProgresso();
+      setFormMsg('', null);
+    });
 
     formChamado.addEventListener('submit', (e) => {
       e.preventDefault();
       setFormMsg('', null);
 
-      const categoria = document.getElementById('categoria').value.trim();
-      const prioridade = document.getElementById('prioridade').value.trim();
-      const titulo = document.getElementById('titulo').value.trim();
-      const descricao = document.getElementById('descricao').value.trim();
+      const categoria = campoCategoria.value.trim();
+      const titulo    = campoTitulo.value.trim();
+      const descricao = campoDescricao.value.trim();
 
-      if (!categoria || !prioridade || !descricao) {
-        setFormMsg('Preencha todos os campos obrigatórios.', 'error');
+      if (!categoria || !descricao) {
+        setFormMsg('Preencha categoria e descrição para continuar.', 'error');
         return;
       }
+
+      // Situação / prioridade definida apenas pelo administrador
+      const prioridade = 'Aguardando triagem';
 
       btnSubmitChamado.disabled = true;
 
       const lista = loadChamados();
-      const id = gerarIdChamado(lista);
+      const id    = gerarIdChamado(lista);
       const agora = new Date().toISOString();
 
       const novoChamado = {
@@ -312,11 +463,19 @@
 
       setFormMsg('Chamado criado com sucesso! Redirecionando para Meus Chamados...', 'success');
       formChamado.reset();
+      atualizarPreview();
+      atualizarContadorDescricao();
+      calcularProgresso();
 
       setTimeout(() => {
         window.location.href = 'chamados.html';
-      }, 700);
+      }, 800);
     });
+
+    // Inicializar estado visual
+    atualizarPreview();
+    atualizarContadorDescricao();
+    calcularProgresso();
   </script>
 </body>
 </html>
